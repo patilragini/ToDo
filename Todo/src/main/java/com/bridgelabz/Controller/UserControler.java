@@ -34,13 +34,14 @@ public class UserControler{
 			int id=userService.createUser(user);
 			System.out.println("ID Status:"+id);
 			System.out.println(" user: "+user.getName());
-			if(id==1){
+			if(id>0){
 				String url="http://localhost:8080/Todo/activate/1";
 				String from="tryjava2110@gmail.com";//do not change for now
 				String to="patilrag21@gmail.com";
 				String msg="Click here    link";
 				String subject="Subject abc";				
 				SendMail.sendMail(from, to, subject, msg);
+				System.out.println("mail send!!!");
 				}	
 			return new ResponseEntity<String>(HttpStatus.OK);
 		}		
@@ -60,7 +61,7 @@ public class UserControler{
 			return new ResponseEntity<String>(HttpStatus.CONFLICT);
 	}
 	
-	
+	//to activate
 	@RequestMapping(value="/activate/{id}", method= RequestMethod.GET)
 	public void activate(@PathVariable int id ){
 		

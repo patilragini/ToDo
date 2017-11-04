@@ -54,21 +54,22 @@ public class UserDaoImpl implements UserDao{
 		Criteria criteria = session.createCriteria(UserDetails.class);
 		criteria.add(Restrictions.eq("email", userDetails.getEmail()));
 		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
-		UserDetails user=(UserDetails) criteria.uniqueResult();
-		System.out.println(user.getEmail());
-		System.out.println(user.getName());
-		System.out.println(user.getPhoneNumber());
-		System.out.println(user.getPassword());
+		UserDetails user=(UserDetails) criteria.uniqueResult();	
 		if(user!=null)
 		{
+			System.out.println(user.getEmail());
+			System.out.println(user.getName());
+			System.out.println(user.getPhoneNumber());
+			System.out.println(user.getPassword());
 			return user;
 			
 		}
 		else return null;
 	}
-
+//logic for existing email 
 	public UserDetails emailValidation(String email) {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

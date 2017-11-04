@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		int id = userDao.registration(user);
 		if (id != 0)
-			return 1;
+			return id;
 		else
 			return 0;
 

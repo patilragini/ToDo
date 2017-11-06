@@ -1,5 +1,7 @@
 package com.bridgelabz.Service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Dao.UserDao;
@@ -43,9 +45,22 @@ public class UserServiceImpl implements UserService {
 		return userDao.login(user);
 	}
 
-	public UserDetails emailValidation(String email) {
+	public List<UserDetails> emailValidation(String email) {
 		// TODO Auto-generated method stub
-		return null;
+		return userDao.emailValidation(email);
 	}
+
+	public UserDetails getUserById(int id) {
+		// TODO Auto-generated method stub
+		return userDao.getUserById(id);
+	}
+
+	@Override
+	public Boolean updateActivation(int id) {
+		// TODO Auto-generated method stub
+		return userDao.updateActivation(id);
+	} 
+	
+	
 
 }

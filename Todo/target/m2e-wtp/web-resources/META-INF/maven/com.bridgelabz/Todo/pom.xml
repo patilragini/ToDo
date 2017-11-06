@@ -19,6 +19,12 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+<dependency>
+    <groupId>javax.mail</groupId>
+    <artifactId>mail</artifactId>
+    <version>1.4.7</version>
+</dependency>
 
 		<!-- https://mvnrepository.com/artifact/javax/javaee-api -->
 		<dependency>
@@ -137,17 +143,6 @@
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
-		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>javax.mail-api</artifactId>
-			<version>1.5.6</version>
-		</dependency>
-
-
-
-
 
 
 

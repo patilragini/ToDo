@@ -1,4 +1,4 @@
-//monday
+//Tuesday
 package com.bridgelabz.Controller;
 
 import java.util.List;
@@ -29,51 +29,39 @@ public class UserControler {
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
 	public ResponseEntity<String> registrationUser(@RequestBody UserDetails user) {
-		System.out.println("in registerration User post:" + user.getEmail() + "" + user.getName() + " "
-				+ user.getPassword() + "  " + user.getPhoneNumber());
 		if (user.getEmail() != null && user.getName() != null && user.getPhoneNumber() != null
 				&& user.getPassword() != null) {
-			System.out.println("all data fields recived !!!");
-			// add if register exists or not
 			int id = userService.createUser(user);
 			System.out.println("ID Status:" + id);
-			System.out.println("user: " + user.getName());
 			if (id > 0) {
 				String url = "http://localhost:8080/Todo/activate/" + id;
 				String from = "tryjava2110@gmail.com";// do not change for now
 				String to = "patilrag21@gmail.com";
-				String msg = "Click here  " + url;
+				String msg = "Click on link to activate account  " + url;
 				String subject = "Subject abc";
 				SendMail.sendMail(from, to, subject, msg);
 				return new ResponseEntity<String>("Mail send", HttpStatus.OK);
 			}
+			return new ResponseEntity<String>("Email Exists", HttpStatus.CONFLICT);
+
 		}
 		return new ResponseEntity<String>("Error in Input", HttpStatus.CONFLICT);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> loginUser(@RequestBody UserDetails user, HttpServletRequest request,
-			HttpSession session) {
+	public ResponseEntity<String> loginUser(@RequestBody UserDetails user, HttpServletRequest request) {
 		System.out.println("email: " + user.getEmail() + " password: " + user.getPassword() + "Activattion:"
 				+ user.getActivated());
 		String email = user.getEmail();
 		System.out.println("email: " + email);
-		/*
-		 * List<UserDetails> check = userService.emailValidation(email);
-		 * System.out.println("check@#:" + check); System.out.println("123 :" +
-		 * check ); System.out.println("dfd SIZE:"+check.size()); int
-		 * size=check.size(); if(size==0) return new
-		 * ResponseEntity<String>("User not Activated !!!",
-		 * HttpStatus.CONFLICT); if (size==1) { user =
-		 * userService.loginUser(user); if (user != null) {
-		 * System.out.println("login successful!!!"); return new
-		 * ResponseEntity<String>(HttpStatus.OK); } else
-		 * System.out.println("login unsuccessful!!!"); }
-		 */
 		user = userService.loginUser(user);
 		if (user != null) {
+			HttpSession session = request.getSession();
+			session.setAttribute(session.getId(), user);
+			session.setAttribute("user", user);
+			UserDetails u = (UserDetails) session.getAttribute("user");
 			System.out.println("login successful!!!");
-			return new ResponseEntity<String>(HttpStatus.OK);
+			return new ResponseEntity<String>("Login Scussfull!!!",HttpStatus.OK);
 		} else {
 			System.out.println("login unsuccessful!!!");
 			return new ResponseEntity<String>("User not Activated !!!", HttpStatus.CONFLICT);
@@ -94,4 +82,15 @@ public class UserControler {
 		return new ResponseEntity<String>("Activation failed!!!", HttpStatus.CONFLICT);
 
 	}
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ResponseEntity<String> logout(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		System.out.println("before" + session.getAttribute("user"));
+		session.removeAttribute("user");
+		System.out.println("after" + session.getAttribute("user"));
+		return new ResponseEntity<String>("Logout done", HttpStatus.OK);
+
+	}
+
 }

@@ -9,9 +9,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "Notes_Detail")
 public class Notes {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "note_id")
@@ -20,11 +23,28 @@ public class Notes {
 	private String title;
 	
 	private String description;
+	
+	private String color;
+	
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
+	@JsonIgnore
 	@ManyToOne
-    //@JoinColumn(foreignKey="userDetails")
-private UserDetails userDetails;
+    @JoinColumn(name="user_id")
+	private UserDetails userDetails;
+
 	
-	
+	public UserDetails getUserDetails() {
+		return userDetails;
+	}
+	public void setUserDetails(UserDetails userDetails) {
+		this.userDetails = userDetails;
+	}
+		
 	public int getId() {
 		return id;
 	}

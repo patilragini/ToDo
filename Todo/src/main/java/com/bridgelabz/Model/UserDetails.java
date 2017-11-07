@@ -7,11 +7,14 @@ import org.hibernate.annotations.ColumnDefault;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
@@ -32,19 +35,18 @@ public class UserDetails {
 
 	@Column(unique = true)
 	private String email;
+	@OneToMany(mappedBy = "userDetails")
+	private Set<Notes> notes;
 
 	public Set<Notes> getNotes() {
 		return notes;
 	}
 
-	@OneToMany(mappedBy = "User_Details")
 	public void setNotes(Set<Notes> notes) {
 		this.notes = notes;
 	}
 
 	private String password;
-
-	private Set<Notes> notes = new HashSet<Notes>();
 
 	public int getActivated() {
 		return activated;
@@ -57,7 +59,6 @@ public class UserDetails {
 	@Column(name = "activated", updatable = true)
 	private int activated;
 
-	// id,name,phonenumber,password
 	public int getId() {
 		return id;
 	}

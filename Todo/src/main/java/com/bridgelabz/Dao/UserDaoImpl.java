@@ -31,14 +31,14 @@ public class UserDaoImpl implements UserDao {
 		int id;
 		try {
 			transaction = session.beginTransaction();
-			System.out.println("in transaction");
+			//System.out.println("in transaction");
 			id = (Integer) session.save(userDetails);
 			System.out.println(id);
 			transaction.commit();
 			return id;
 		} catch (Exception e) {
-			System.out.println("registration error!!!");
-			e.printStackTrace();
+			System.out.println("Email Exist!!!");
+		//	e.printStackTrace();
 			return 0;
 		} finally {
 			if (session != null)

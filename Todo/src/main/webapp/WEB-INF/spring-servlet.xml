@@ -23,18 +23,19 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.bridgelabz.Model.UserDetails</value>
+				<value>com.bridgelabz.Model.Notes</value>
 			</list>
-		</property> 
+		</property>
 
 		<property name="hibernateProperties">
-			<props>	
+			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
@@ -42,18 +43,21 @@
 		<property name="password" value="intel1994" />
 		<property name="javaMailProperties">
 			<props>
-			<!-- <prop key="mail.transport.protocol">smtp</prop> -->
+				<!-- <prop key="mail.transport.protocol">smtp</prop> -->
 				<prop key="mail.smtp.auth">true</prop>
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
 	</bean>
-	
+
 	<bean id="sendMail" class="com.bridgelabz.utility.SendMail">
 		<property name="mailSender" ref="mailSender"></property>
 	</bean>
+	
+		<bean id="userService" class="com.bridgelabz.Service.UserServiceImpl" />
+		<bean id="userDao" class="com.bridgelabz.Dao.UserDaoImpl" />
+		
+		<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
+		<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl"/>
 
-	<bean id="userservice" class="com.bridgelabz.Service.UserServiceImpl"/>
-
-	<bean id="userdao" class="com.bridgelabz.Dao.UserDaoImpl" />
-</beans>
+ </beans>

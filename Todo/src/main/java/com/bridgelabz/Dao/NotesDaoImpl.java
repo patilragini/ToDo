@@ -81,21 +81,19 @@ public class NotesDaoImpl implements NoteDao {
 
 	@Override
 	public int updateNotes(Notes note) {		
-		Session session = sessionFactory.openSession();
-		Transaction transaction = session.beginTransaction();
-		System.out.println("Before:"+note.getDescription()+" "+note.getTitle());
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
 		session.update(note);
-		try {
-			transaction.commit();
-			System.out.println("Before:"+note.getDescription()+" "+note.getTitle());
-			return 1;
-		} catch (HibernateException e) {
+		transaction.commit();
+		}catch(HibernateException e){
 			e.printStackTrace();
 			transaction.rollback();
-		} finally {
+			return 0;
+		}finally{
 			session.close();
 		}
-		return 0;
+		return 1;
 		
 	}
 

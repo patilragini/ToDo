@@ -1,4 +1,4 @@
-//tue
+//tue night
 package com.bridgelabz.Controller;
 
 import java.util.Set;
@@ -89,17 +89,18 @@ public class NoteController {
 			@PathVariable("updateId") int updateId) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
 		System.out.println("here:user" + user);
-		System.out.println("here:"+note);
-		if (user != null) {
+		System.out.println("here:" + note);
+		if (user != null) {			
 			String description = note.getDescription();
-			String title = note.getTitle();
+			String title = note.getTitle();			
 			System.out.println("New Description n title" + description + title);
-
+			notesService.updateNotes(note);
 			int updateStatus = notesService.updateNotes(note);
+			System.out.println("status update :"+updateStatus);
 			if (updateStatus == 1)
 				return new ResponseEntity<String>("Note updated", HttpStatus.OK);
 			else
-				return new ResponseEntity<String>("NOte not updated", HttpStatus.OK);
+				return new ResponseEntity<String>("Note not updated", HttpStatus.OK);
 
 		} else
 			return new ResponseEntity<String>("User not login", HttpStatus.OK);

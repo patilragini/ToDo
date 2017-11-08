@@ -88,12 +88,11 @@ public class NoteController {
 	public ResponseEntity<String> updateNote(HttpSession session, @RequestBody Notes note,
 			@PathVariable("updateId") int updateId) {
 		UserDetails user = (UserDetails) session.getAttribute("user");
-		System.out.println("here:user" + user);
-		System.out.println("here:" + note);
 		if (user != null) {			
-			String description = note.getDescription();
-			String title = note.getTitle();			
-			System.out.println("New Description n title" + description + title);
+			note.setDescription(note.getDescription());
+			note.setTitle(note.getTitle());	
+			note.setColor(note.getColor());
+			note.setUserDetails(user);
 			notesService.updateNotes(note);
 			int updateStatus = notesService.updateNotes(note);
 			System.out.println("status update :"+updateStatus);

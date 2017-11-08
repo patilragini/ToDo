@@ -1,4 +1,4 @@
-//Tuesday
+//wed night
 package com.bridgelabz.Controller;
 
 import java.util.List;
@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.Service.UserService;
+import com.bridgelabz.utility.MD5Encrypt;
 import com.bridgelabz.utility.SendMail;
+import com.bridgelabz.utility.Token;
 
 @RestController
 public class UserControler {
@@ -31,6 +33,12 @@ public class UserControler {
 	public ResponseEntity<String> registrationUser(@RequestBody UserDetails user) {
 		if (user.getEmail() != null && user.getName() != null && user.getPhoneNumber() != null
 				&& user.getPassword() != null) {
+			//validation***** if
+			
+			String encryptedPassword = MD5Encrypt.encrypt(user.getPassword());
+			user.setPassword(encryptedPassword);
+			
+			
 			int id = userService.createUser(user);
 			System.out.println("ID Status:" + id);
 			if (id > 0) {
@@ -39,6 +47,9 @@ public class UserControler {
 				String to = "patilrag21@gmail.com";
 				String msg = "Click on link to activate account  " + url;
 				String subject = "Subject abc";
+				
+				String token=Token.generateToken("RegisterationActivation",user.getEmail(), id);
+
 				SendMail.sendMail(from, to, subject, msg);
 				return new ResponseEntity<String>("Mail send", HttpStatus.OK);
 			}
@@ -46,6 +57,9 @@ public class UserControler {
 
 		}
 		return new ResponseEntity<String>("Error in Input", HttpStatus.CONFLICT);
+	
+	
+	
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -54,12 +68,17 @@ public class UserControler {
 				+ user.getActivated());
 		String email = user.getEmail();
 		System.out.println("email: " + email);
+		
+		String encryptedPassword = MD5Encrypt.encrypt(user.getPassword());
+		user.setPassword(encryptedPassword);		
 		user = userService.loginUser(user);
+		
 		if (user != null) {
+			String token=Token.generateToken("Login",user.getEmail(), user.getId());
+
 			HttpSession session = request.getSession();
 			session.setAttribute(session.getId(), user);
 			session.setAttribute("user", user);
-			UserDetails u = (UserDetails) session.getAttribute("user");
 			System.out.println("login successful!!!");
 			return new ResponseEntity<String>("Login Scussfull!!!",HttpStatus.OK);
 		} else {

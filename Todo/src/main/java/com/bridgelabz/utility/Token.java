@@ -25,6 +25,7 @@ public class Token {
                     .signWith(SignatureAlgorithm.HS256,key)
                     .setExpiration(expireDate)
                     .compact();
+		    System.out.println("Token :: "+token+ "Type:: " +type);
 		}  catch (JWTCreationException exception){
 		    //Invalid Signing configuration / Couldn't convert Claims.
 		}

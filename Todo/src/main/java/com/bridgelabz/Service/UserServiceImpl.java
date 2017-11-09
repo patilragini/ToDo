@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		return userDao.login(user);
 	}
 
-	public List<UserDetails> emailValidation(String email) {
+	public UserDetails emailValidation(String email) {
 		// TODO Auto-generated method stub
 		return userDao.emailValidation(email);
 	}
@@ -56,9 +56,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean updateActivation(int id) {
+	public boolean updateActivation(int id) {
 		// TODO Auto-generated method stub
 		return userDao.updateActivation(id);
+	}
+
+	@Override
+	public boolean updateUser(UserDetails user) {
+		// TODO Auto-generated method stub
+		return false;
 	} 
 	
 	

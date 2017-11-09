@@ -14,9 +14,8 @@ public class SendMail {
 		this.mailSender = mailSender;
 	}
 
-	public static void sendMail(String from, String to, String subject, String msg) {
-		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom(from);
+	public static void sendMail(String to, String subject, String msg) {
+		SimpleMailMessage message = new SimpleMailMessage();	
 		message.setTo(to);
 		message.setSubject(subject);
 		message.setText(msg);

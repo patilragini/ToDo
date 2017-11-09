@@ -14,6 +14,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Model.UserDetails;
+import com.bridgelabz.utility.MD5Encryption;
 
 public class UserDaoImpl implements UserDao {
 
@@ -31,14 +32,14 @@ public class UserDaoImpl implements UserDao {
 		int id;
 		try {
 			transaction = session.beginTransaction();
-			//System.out.println("in transaction");
+			// System.out.println("in transaction");
 			id = (Integer) session.save(userDetails);
 			System.out.println(id);
 			transaction.commit();
 			return id;
 		} catch (Exception e) {
 			System.out.println("Email Exist!!!");
-		//	e.printStackTrace();
+			// e.printStackTrace();
 			return 0;
 		} finally {
 			if (session != null)
@@ -55,39 +56,35 @@ public class UserDaoImpl implements UserDao {
 		Session session = sessionFactory.openSession();
 		String email = userDetails.getEmail();
 		String password = userDetails.getPassword();
-		System.out.println("in login" + email);
 		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(UserDetails.class);
 		criteria.add(Restrictions.eq("email", userDetails.getEmail()));
 		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
 		UserDetails user = (UserDetails) criteria.uniqueResult();
 		if (user != null) {
-			System.out.println(user.getEmail());
-			System.out.println(user.getName());
-			System.out.println(user.getPhoneNumber());
-			System.out.println(user.getPassword());
+			System.out.println("FOUND:: " + user.getActivated() + user.getEmail() + user.getId() + user.getPassword());
 			return user;
 
 		} else
 			return null;
 	}
 
-	// logic for existing email
-	public List emailValidation(String email) {
+	// logic for existing email && get user by email
+	/**
+	 * Accepts email and returns user
+	 */
+	public UserDetails emailValidation(String email) {// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
-		TypedQuery<UserDetails> query = session.createQuery("select U.activated from UserDetails U where email=:email");
-		query.setParameter("email", email);
-//		query.setParameter("password", password);
-		List<UserDetails> list = query.getResultList();	
-		System.out.println("list:"+list+"list value:"+list.get(0));
-		if (list.isEmpty()) {
+		@SuppressWarnings("deprecation")
+		Criteria criteria = session.createCriteria(UserDetails.class);
+		criteria.add(Restrictions.eq("email", email));		
+		UserDetails user = (UserDetails) criteria.uniqueResult();
+		if (user != null) {
+			//System.out.println("FOUND:: "+user.getActivated()+user.getEmail()+user.getId()+user.getPassword());
+				return user;
+
+		} else
 			return null;
-		} else {
-			session.close();
-			String a = list.toString();
-			System.out.println("here" + a);
-			return list;
-		}
 	}
 
 	/*
@@ -110,17 +107,38 @@ public class UserDaoImpl implements UserDao {
 			System.out.println("id found");
 			Session session = sessionFactory.openSession();
 			Transaction transaction = null;
-			transaction = session.beginTransaction();
-			System.out.println(UserDetails.class);
-			System.out.println("1");
+			transaction = session.beginTransaction();			
 			UserDetails active = session.get(UserDetails.class, id);
 			active.setActivated(id);
 			session.update(active);
-			System.out.println("2");
 			transaction.commit();
 			return true;
 		}
 		return false;
 
+	}
+
+	@Override
+	public boolean updateUser(UserDetails user) {
+		// TODO Auto-generated method stub
+		Session session = sessionFactory.openSession();
+		Transaction transaction = null;
+		int id;
+		try {
+			System.out.println(user);
+
+			transaction = session.beginTransaction();
+			// System.out.println("in transaction");
+			session.saveOrUpdate(user);
+			System.out.println(user);
+			transaction.commit();
+			return true;
+		} catch (Exception e) {
+			System.out.println("CANNOT UPDATE USER");
+			return false;
+		} finally {
+			if (session != null)
+				session.close();
+		}
 	}
 }

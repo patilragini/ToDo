@@ -41,7 +41,6 @@ public class NotesDaoImpl implements NoteDao {
 		if (user != null) {
 			Set<Notes> notes = user.getNotes();
 			notes.size();
-			System.out.println("Size of Notes:" + notes.size());
 			session.close();
 			return notes;
 		}
@@ -61,12 +60,10 @@ public class NotesDaoImpl implements NoteDao {
 	public boolean deleteNote(int deleteNodeId) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
-		if (deleteNodeId >0) {
-			System.out.println("in delete fun before"+deleteNodeId);		
+		if (deleteNodeId > 0) {
 			session.delete(getNoteById(deleteNodeId));
 			try {
 				transaction.commit();
-				System.out.println("in delete fun after"+deleteNodeId);
 
 			} catch (HibernateException e) {
 				e.printStackTrace();
@@ -80,21 +77,21 @@ public class NotesDaoImpl implements NoteDao {
 	}
 
 	@Override
-	public int updateNotes(Notes note) {		
-		Session session=sessionFactory.openSession();
-		Transaction transaction=session.beginTransaction();
-		try{
-		session.update(note);
-		transaction.commit();
-		}catch(HibernateException e){
+	public int updateNotes(Notes note) {
+		Session session = sessionFactory.openSession();
+		Transaction transaction = session.beginTransaction();
+		//session.update(note);
+		session.saveOrUpdate(note);
+		try {			
+			transaction.commit();
+		} catch (HibernateException e) {
 			e.printStackTrace();
 			transaction.rollback();
 			return 0;
-		}finally{
+		} finally {
 			session.close();
 		}
 		return 1;
-		
 	}
 
 }

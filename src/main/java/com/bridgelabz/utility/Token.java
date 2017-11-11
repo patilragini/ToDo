@@ -19,38 +19,19 @@ public class Token {
 	private static String Key = "mykey";
 
 	public static String generateToken(String email, int id) {
-		id=2;
-		String token="";
-		long currentTime=System.currentTimeMillis();
-			//2 days
-			long expireTime=currentTime+(60000*60*24*2);
-			Date date=new Date(currentTime);
-			Date expireDate=new Date(expireTime);
-		  
-		    token =Jwts.builder().setId(String.valueOf(id))
-                    .setIssuedAt(date)
-                    .signWith(SignatureAlgorithm.HS256,Key)
-                    .setExpiration(expireDate)
-                    .compact();
-		    System.out.println("Token :: "+token);		
+		String token = "";
+		long currentTime = System.currentTimeMillis();
+		// 2 days
+		long expireTime = currentTime + (60000 * 60 * 24 * 2);
+		Date date = new Date(currentTime);
+		Date expireDate = new Date(expireTime);
+
+		token = Jwts.builder().setId(String.valueOf(id)).setIssuedAt(date).signWith(SignatureAlgorithm.HS256, Key)
+				.setExpiration(expireDate).compact();
+		System.out.println("Token :: " + token);
 		return token;
-	
+
 	}
-	
-	
-/*	 public static String createToken( UserDetails user)
-	  {
-		 int mail=user.getId();
-	      Claims claims = Jwts.claims().setSubject( String.valueOf( mail ) );
-	        claims.put( "mailId", mail );
-	        Date currentTime = new Date();
-	        currentTime.setTime( currentTime.getTime() + 60000*24);
-	        return Jwts.builder()
-	          .setClaims( claims )
-	          .setExpiration( currentTime )
-              .signWith(SignatureAlgorithm.HS256,Key)
-	          .compact();
-	  }*/
 
 	public static int verify(String jwt) throws ExpiredJwtException {
 		// This line will throw an exception if it is not a signed JWS (as
@@ -72,14 +53,11 @@ public class Token {
 		}
 	}
 
-		
-	/*public static void main(String[] args) {		
-		UserDetails user = null;
-		String token=Token.generateToken("ragini@gmail.com", 2);
-		System.out.println(token);
-		System.out.println("HERE"+token);		
-		System.out.println(verify(token));
-	}
+	/*
+	 * public static void main(String[] args) { UserDetails user = null; String
+	 * token=Token.generateToken("ragini@gmail.com", 2);
+	 * System.out.println(token); System.out.println("HERE"+token);
+	 * System.out.println(verify(token)); }
 	 */
 
 }

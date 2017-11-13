@@ -53,6 +53,7 @@ public class UserDaoImpl implements UserDao {
 	 */
 	public UserDetails login(UserDetails userDetails) {
 		// TODO Auto-generated method stub
+		System.out.println("in login");
 		Session session = sessionFactory.openSession();
 		String email = userDetails.getEmail();
 		String password = userDetails.getPassword();
@@ -73,16 +74,14 @@ public class UserDaoImpl implements UserDao {
 	/**
 	 * Accepts email and returns user
 	 */
-	public UserDetails emailValidation(String email) {// TODO Auto-generated method stub
+	public UserDetails getUserByEmail(String email) {// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		@SuppressWarnings("deprecation")
 		Criteria criteria = session.createCriteria(UserDetails.class);
 		criteria.add(Restrictions.eq("email", email));		
 		UserDetails user = (UserDetails) criteria.uniqueResult();
 		if (user != null) {
-			//System.out.println("FOUND:: "+user.getActivated()+user.getEmail()+user.getId()+user.getPassword());
 				return user;
-
 		} else
 			return null;
 	}

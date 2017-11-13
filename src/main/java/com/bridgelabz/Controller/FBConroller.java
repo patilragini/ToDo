@@ -1,4 +1,4 @@
-//saturday
+//NOv 13/17
 package com.bridgelabz.Controller;
 
 import java.io.IOException;
@@ -40,44 +40,51 @@ public class FBConroller {
 	}
 
 	@RequestMapping(value = "/connectFB")
-	public void connectFacebook(HttpServletRequest request, HttpServletResponse response) {
+	public void connectFacebook(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String error = request.getParameter("error");
 		System.out.println("::::::::::::::::::FACE BOOK DATA:::::::::::::::::::::");
-		System.out.println(error);
+		
+		if (error != null ) {
+			System.out.println(error);
+			response.sendRedirect("userlogin");
+		}
+		
 		String code = request.getParameter("code");
 		System.out.println("CODE::" + code);
 		String fbAccessToken = fbConnection.getAccessToken(code);
-		System.out.println("FB TOKEN\n" + fbAccessToken);
-
+		System.out.println("TOKEN ::\n ---> " + fbAccessToken);
 		JsonNode profileData = fbConnection.getUserProfile(fbAccessToken);
 		System.out.println(profileData);
-		String googleEmail = profileData.get("email").asText();
-		String googleName = profileData.get("name").asText();
-		UserDetails user = userService.emailValidation(googleEmail);
-		System.out.println("USER:"+user);
+		String fbEmail = profileData.get("email").asText();
+		String fbName = profileData.get("name").asText();
+		UserDetails user = userService.getUserByEmail(fbEmail);
+		System.out.println("USER:" + user);
 		if (user == null) {
-			UserDetails googleUser = new UserDetails();
-			googleUser.setName(googleName);
-			googleUser.setEmail(profileData.get("email").asText());
-			googleUser.setActivated(1);
-			String password = "123456";
-			googleUser.setPassword(password);
-			System.out.println("GOOGLE PAS::"+googleUser.getPassword());
-			int id = userService.createUser(googleUser);
-			System.out.println("SCUSSES REGISTRATION OG GOOGLE USE:" + id);
-			UserDetails s=userService.loginUser(googleUser);
-			System.out.println("fb reg::"+s);
-			String token = Token.generateToken(googleEmail, id);
+			UserDetails fbUser = new UserDetails();
+			fbUser.setName(fbName);
+			fbUser.setEmail(profileData.get("email").asText());
+			fbUser.setActivated(1);
+			int id = userService.createUser(fbUser);
+			System.out.println("SCUSSES REGISTRATION FB USE:" + id);
+//			UserDetails s = userService.loginUser(fbUser);
+	//		System.out.println("fb reg::" + s);
+			String token = Token.generateToken(fbEmail, id);
 			response.setHeader("login", token);
+			System.out.println("Login with FB done!!");
+			//ADD REDIRECCT TO HOME PAGE i.e TODO PAGE
+
 		} else {
-			System.out.println("USER IS REGISTERED!!!");
-			userService.loginUser(user);
+			System.out.println("********USER IS REGISTERED!!!****************");
+			System.out.println(user.getPassword());
+//			userService.loginUser(user);
+			//ADD REDIRECCT TO LOGIN PAGE i.e TODO LOGIN PAGE *******
 		}
 		String profileImage = profileData.get("picture").get("data").get("url").asText();
 		System.out.println("EMAIL: " + profileData.get("email").asText());
 		System.out.println("NAME: " + profileData.get("name").asText());
 		System.out.println(profileImage);
 		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::");
+		response.sendRedirect("http://localhost:8081/Todo/#!/home");
 
 	}
 }

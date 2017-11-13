@@ -37,7 +37,7 @@ public interface UserDao {
 	 * @param email
 	 * @return UserDetails interface method
 	 */
-	public UserDetails emailValidation(String email);
+	public UserDetails getUserByEmail(String email);
 
 	UserDetails getUserById(int id);
 	

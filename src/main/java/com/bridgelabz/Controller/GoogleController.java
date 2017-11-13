@@ -1,3 +1,5 @@
+//NOv 13/17
+
 package com.bridgelabz.Controller;
 
 import java.io.IOException;
@@ -10,13 +12,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.bridgelabz.Dao.UserDao;
+import com.bridgelabz.Model.UserDetails;
+import com.bridgelabz.Service.UserService;
 import com.bridgelabz.utility.GoogleConnection;
+import com.bridgelabz.utility.Token;
 import com.fasterxml.jackson.databind.JsonNode;
 
 @Controller
 public class GoogleController {
 	@Autowired
 	GoogleConnection googleConnection;
+	@Autowired
+	UserService userService;
+
+	@Autowired
+	UserDao userDao;
 
 	@RequestMapping(value = "loginWithGoogle")
 	public void googleConnection(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -38,20 +49,50 @@ public class GoogleController {
 		}
 
 		String error = request.getParameter("error");
-		if (error != null && error.trim().isEmpty()) {
+		if (error != null ) {
 			response.sendRedirect("userlogin");
 		}
 		System.out.println(":::::::::::::GOOGLE ACCOUNT DATA::::::::::::::::::");
 		String authCode = request.getParameter("code");
 		String googleaccessToken = googleConnection.getAccessToken(authCode);
+		System.out.println("TOKEN googleaccessToken " +googleaccessToken);
 		System.out.println("ACCESS TOKEN COPY THIS TO GET DATA!!!\n" + googleaccessToken);
-		JsonNode profile = googleConnection.getUserProfile(googleaccessToken);
-		System.out.println("google profile :" + profile);
-		System.out.println("google profile :" + profile.get("displayName"));
-		System.out.println("user email in google login :" + profile.get("emails").get(0).get("value").asText()); // asText()
-		System.out.println("google profile :" + profile.get("image").get("url"));
+		JsonNode profileData = googleConnection.getUserProfile(googleaccessToken);
+
+		System.out.println(profileData);
+
+		String googleEmail = profileData.get("emails").get(0).get("value").asText();
+		String googleName = profileData.get("displayName").asText();
+		System.out.println("here::"+googleName);
+		UserDetails user = userService.getUserByEmail(googleEmail);
+		System.out.println("USER:" + user);
+		if (user == null) {
+			UserDetails googleUser = new UserDetails();
+			googleUser.setName(googleName);
+			googleUser.setEmail(googleEmail);
+			googleUser.setActivated(1);
+			int id = userService.createUser(googleUser);
+			System.out.println("SCUSSES REGISTRATION  of googleUser:" + id);
+			// UserDetails s = userService.loginUser(fbUser);
+			// System.out.println("fb reg::" + s);
+			String token = Token.generateToken(googleEmail, id);
+			System.out.println("TOKEN ::\n ---> " +token);
+			response.setHeader("login", token);
+			System.out.println("Login with Google done!!");
+			// ADD REDIRECCT TO HOME PAGE i.e TODO PAGE 
+
+		} else {
+			System.out.println("********USER IS REGISTERED!!!****************");
+			// ADD REDIRECCT TO LOGIN PAGE i.e TODO LOGIN PAGE *******
+		}
+
+		System.out.println("google profile :" + profileData);
+		System.out.println("google profile :" + profileData.get("displayName"));
+		System.out.println("user email in google login :" + profileData.get("emails").get(0).get("value").asText()); // asText()
+		System.out.println("google profile :" + profileData.get("image").get("url"));
 		response.sendRedirect("http://localhost:8081/Todo/#!/home");
 		System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::");
+		
 
 	}
 }

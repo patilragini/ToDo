@@ -13,6 +13,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MissingClaimException;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class Token {
@@ -50,6 +51,12 @@ public class Token {
 		} catch (ExpiredJwtException e) {
 			System.out.println("Token expired!!!");
 			return 0;
+		}catch (MissingClaimException e) {
+			e.printStackTrace();
+		    return  0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			 return 0;
 		}
 	}
 

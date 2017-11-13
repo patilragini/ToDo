@@ -45,9 +45,9 @@ public class UserServiceImpl implements UserService {
 		return userDao.login(user);
 	}
 
-	public UserDetails emailValidation(String email) {
+	public UserDetails getUserByEmail(String email) {
 		// TODO Auto-generated method stub
-		return userDao.emailValidation(email);
+		return userDao.getUserByEmail(email);
 	}
 
 	public UserDetails getUserById(int id) {
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public boolean updateUser(UserDetails user) {
 		// TODO Auto-generated method stub
-		return false;
+		return userDao.updateUser(user);
 	} 
 	
 	

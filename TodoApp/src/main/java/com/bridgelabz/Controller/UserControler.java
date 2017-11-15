@@ -33,7 +33,7 @@ public class UserControler {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = { MediaType.APPLICATION_JSON_VALUE,
 			MediaType.APPLICATION_XML_VALUE })
-	public ResponseEntity<String> registrationUser(@RequestBody UserDetails user, HttpServletRequest request,
+	public ResponseEntity<Void> registrationUser(@RequestBody UserDetails user, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
 		if (user.getEmail() != null && user.getName() != null && user.getPhoneNumber() != null
 				&& user.getPassword() != null) {
@@ -61,18 +61,19 @@ public class UserControler {
 					 * user.getId()); response.setHeader("Activation", token);
 					 */
 					SendMail.sendMail(to, subject, msg);
-					return new ResponseEntity<String>("Mail send", HttpStatus.OK);
+					System.out.println("mail send");
+					return new ResponseEntity<Void>(HttpStatus.OK);
 				}
-				return new ResponseEntity<String>("Email Exists", HttpStatus.CONFLICT);
+				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 
 			} else
-				return new ResponseEntity<String>("Invalid data", HttpStatus.CONFLICT);
+				return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
-		return new ResponseEntity<String>("Error in Input", HttpStatus.CONFLICT);
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> loginUser(@RequestBody UserDetails user, HttpServletRequest request,
+	public ResponseEntity<Void> loginUser(@RequestBody UserDetails user, HttpServletRequest request,
 			HttpSession session, HttpServletResponse response) {
 		String email = user.getEmail();
 		String password = user.getPassword();
@@ -85,9 +86,11 @@ public class UserControler {
 			user = userService.loginUser(user);
 			
 			UserDetails user1=userService.getUserByEmail(email);
-			System.out.println(user1);
+			System.out.println("dDSSD::"+user1);
 			
-			if(user1!=null){
+			if(user1!=null)
+			{
+				System.out.println(user1.getActivated());
 			if (user1.getActivated() > 0) {
 				System.out.println("HERE:" + user1 + "\n ACTIVATED::" + user1.getActivated());
 				//session temperoty remove session use when token remove and invalidate done scussfully
@@ -99,15 +102,17 @@ public class UserControler {
 				response.setHeader("login", token);
 				System.out.println(Token.verify(token));
 				System.out.println("login successful!!!");
-				return new ResponseEntity<String>("Login Done!!!", HttpStatus.OK);
+				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
-			return new ResponseEntity<String>("User Not Activated !!!", HttpStatus.CONFLICT);
+			else{
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			}
 			}
 			else
-				return new ResponseEntity<String>("User do not exists!!!", HttpStatus.CONFLICT);	
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);	
 		} else {
 			System.out.println("Error in Input!!!");
-			return new ResponseEntity<String>("Input error !!! !!!", HttpStatus.CONFLICT);
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 	}
 

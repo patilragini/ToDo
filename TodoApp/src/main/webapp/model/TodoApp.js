@@ -8,13 +8,21 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				templateUrl : 'pages/Login.html',
 				controller : 'loginController'
 			});
+			console.log("here");
 		
 			$stateProvider.state('register', {
 				url : '/register',
 				templateUrl : 'pages/RegistrationPage.html',
 				controller : 'registerController'
 			});
-
+			
+			$stateProvider.state('home', {
+				url : '/home',
+				templateUrl : 'pages/home.html',
+				controller : 'homeController'
+			});
+			
+			
 			$urlRouterProvider.otherwise('login');
 			
 }]);

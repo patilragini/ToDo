@@ -1,29 +1,39 @@
-		<fieldset>
-			<img src="" alt="Google Logo" class="googleimg" align="left">
-			<h2>Sign in</h2>
-			<h3>to continue to Gmail</h3>
+
+<div class="container" >
+	<fieldset>
+		<img src="" alt="Google Logo" class="googleimg" align="left">
+		<h2>Sign in</h2>
+		<h3>to continue to Gmail</h3>
+		<div class="form-group">
+			<div>
+				<br>
 				<div class="form-group">
-
-					<div>
-						<br>
-						<div class="form-group">
-							<label>Email Id</label> <input type="email" name="email"
-								placeholder="Email Id" class="form-control" required />
-						</div>
-						<br>
-						<div class="form-group">
-							<label>Password:</label> <input type="password" name="userpass"
-								class="form-control" placeholder="Enter Password" required/>
-						</div>
-
-						<br>
-						<div class="form-group">
-							<a href="RegistrationPage.html">Create
-								account</a> <input type="submit" class="btn btn-default"
-								value="Login" name="action" />
-						</div>
-					</div>
+					<label>Email Id</label> 
+					<input type="email" name="email"
+						placeholder="Email Id" class="form-control" ng-model="user.email" required />
 				</div>
-			</form>
-		</fieldset>
+				<br>
+				<div class="form-group" >
+					<label>Password:</label>
+					 <input type="password" name="userpass"
+						class="form-control" placeholder="Enter Password" ng-model="user.password"  required />
+				</div>
 
+				<br> <a href="#!/register">
+					<button type="submit" class="btn btn-primary">Create
+						account</button>
+				</a>		
+					
+				<button type="submit" ng-click="loginUser()">Login</button>
+				
+				<br>
+				<a href="loginWithFB" class="fa fa-facebook"> Login</a>
+				
+				<a href="" class="fa fa-google">Login</a>
+				
+				
+			</div>
+		</div>
+
+	</fieldset>
+</div>

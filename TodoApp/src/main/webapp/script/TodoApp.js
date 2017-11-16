@@ -15,6 +15,13 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				controller : 'registerController'
 			});
 
+			$stateProvider.state('home', {
+				url : '/home',
+				templateUrl : 'pages/home.html',
+				controller : 'homeController'
+			});
+			
+			
 			$urlRouterProvider.otherwise('login');
 			
 }]);

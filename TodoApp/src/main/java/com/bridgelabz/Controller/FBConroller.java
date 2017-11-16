@@ -1,4 +1,4 @@
-//15 NOV
+//16 NOV
 package com.bridgelabz.Controller;
 
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class FBConroller {
 			fbUser.setEmail(profileData.get("email").asText());
 			fbUser.setActivated(1);
 			int id = userService.createUser(fbUser);
-			System.out.println("SCUSSES REGISTRATION FB USE:" + id);
+//			System.out.println("SCUSSES REGISTRATION FB USE:" + id);
 //			UserDetails s = userService.loginUser(fbUser);
 	//		System.out.println("fb reg::" + s);
 			String token = Token.generateToken(fbEmail, id);

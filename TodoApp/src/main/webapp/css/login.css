@@ -1,4 +1,4 @@
-.container{
+.container1{
 	border: 1px solid grey;
 	border-style: groove;
 	border-radius: 2px;
@@ -35,6 +35,5 @@
   background: #dd4b39;
   color: white;
 }
-.panel-primary {
-  border-color: #edd400;
-}
+
+

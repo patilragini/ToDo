@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,12 +37,15 @@ public class NoteController {
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
 //		System.out.println("here:" + user);
+		Date date = new Date();
 		if (user != null) {
 			System.out.println("TOKEN ID::" + id+"\n TOKEN ::"+token);
 			if (id > 0) {
 				int isActive = user.getActivated();
 				if (isActive > 0) {
 					note.setUserDetails(user);
+					note.setCreateDate(date);
+					note.setLastUpdated(date);
 					notesService.saveNotes(note);
 					return new ResponseEntity<String>("Note Updated !!! " + user, HttpStatus.OK);
 				}
@@ -106,6 +110,7 @@ public class NoteController {
 	@RequestMapping(value = "/updateNote/{updateId}", method = RequestMethod.POST)
 	public ResponseEntity<String> updateNote(HttpSession session, HttpServletRequest request, @RequestBody Notes note,
 			@PathVariable("updateId") int updateId) {
+		Date date = new Date();
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
@@ -122,6 +127,7 @@ System.out.println(noteUpdate);
 					noteUpdate.setTitle(note.getTitle());
 					noteUpdate.setDescription(note.getDescription());
 					noteUpdate.setColor(note.getColor());
+					noteUpdate.setLastUpdated(date);
 					int updateStatus = notesService.updateNotes(noteUpdate);
 					if (updateStatus == 1)
 						return new ResponseEntity<String>("Note updated", HttpStatus.OK);

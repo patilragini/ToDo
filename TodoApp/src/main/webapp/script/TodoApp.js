@@ -15,12 +15,24 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				controller : 'registerController'
 			});
 
+			
+			$stateProvider.state('forgetpassword', {
+				url : '/forgetpassword',
+				templateUrl : 'pages/forgetpassword.html',
+				controller : 'resetController'
+			});
+			
+			$stateProvider.state('resetpassword', {
+				url : '/resetpassword',
+				templateUrl : 'pages/resetpassword.html',
+				controller : 'resetController'
+			});
+			
 			$stateProvider.state('home', {
 				url : '/home',
 				templateUrl : 'pages/home.html',
 				controller : 'homeController'
 			});
-			
 			
 			$urlRouterProvider.otherwise('login');
 			

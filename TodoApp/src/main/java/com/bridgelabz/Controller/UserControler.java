@@ -1,7 +1,5 @@
-//NOv 13/17
+//20 NOV
 package com.bridgelabz.Controller;
-
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bridgelabz.Dao.UserDao;
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.Service.UserService;
+import com.bridgelabz.utility.CustomResponse;
 import com.bridgelabz.utility.MD5Encryption;
 import com.bridgelabz.utility.SendMail;
 import com.bridgelabz.utility.Token;
 import com.bridgelabz.utility.Validation;
+
 
 @RestController
 public class UserControler {
@@ -93,10 +92,10 @@ public class UserControler {
 				System.out.println(user1.getActivated());
 			if (user1.getActivated() > 0) {
 				System.out.println("HERE:" + user1 + "\n ACTIVATED::" + user1.getActivated());
-				//session temperoty remove session use when token remove and invalidate done scussfully
-				//session = request.getSession();
-				//session.setAttribute(session.getId(), user);
-				//session.setAttribute("user", user);
+//				session temperoty remove session use when token remove and invalidate done scussfully
+				session = request.getSession();
+				session.setAttribute(session.getId(), user);
+				session.setAttribute("user", user);
 				//token generate
 				String token = Token.generateToken(email, user1.getId());
 				response.setHeader("login", token);
@@ -130,50 +129,87 @@ public class UserControler {
 	public ResponseEntity<String> logout(HttpServletRequest request, HttpSession session) {
 		session = request.getSession();
 		session.removeAttribute("user");
-		// session.removeAttribute("token"); remove token logic 
+		session.removeAttribute("token");  
 		return new ResponseEntity<String>("Logout done", HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/pswdRestLink", method = RequestMethod.POST)
-	public ResponseEntity<String> passwordRestLink(@RequestBody UserDetails user, HttpServletRequest request,
+	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
+	public CustomResponse passwordRestLink(@RequestBody UserDetails user, HttpServletRequest request,
 			HttpSession session,HttpServletResponse response) {
+		CustomResponse customResponse = new CustomResponse();
 
 		String email = user.getEmail();
 		String error2 = Validation.checkemail(email);
 		if (error2 == "valid") {
 			UserDetails userbyEmail = userService.getUserByEmail(email);
 			if (userbyEmail != null) {
+				
 				String token = Token.generateToken(email,userbyEmail.getId());
-				response.setHeader("reset ::", token);	
-				//
-				String url = "http://localhost:8081/Todo/upatePassword";
+				response.setHeader("reset", token);			
+				
+				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword"+"token";	
 				String to = "patilrag21@gmail.com";
 				String msg = "Click on link to reset password  " + url+"  \n Enter below code in authentication:"+token;
 				String subject = "Reset Password";		
 				SendMail.sendMail( to, subject, msg);
-				return new ResponseEntity<String>("Mail send", HttpStatus.OK);
+				customResponse.setMessage("Email sent!!!");
+				customResponse.setStatus(2);
+				return customResponse;
+				//return new ResponseEntity<String>("Mail send", HttpStatus.OK);
 			}
-			return new ResponseEntity<String>("user not found", HttpStatus.CONFLICT);
+			else {
+			System.out.println("invalid email");
+			customResponse.setMessage("Please enter valid emailID");
+			customResponse.setStatus(5);
+			return customResponse;
+			//return new ResponseEntity<String>("user not found", HttpStatus.CONFLICT);
+			}
 		}
-		return new ResponseEntity<String>("Enter proper Email", HttpStatus.CONFLICT);
+		
+		customResponse.setMessage("Please enter valid emailID");
+		customResponse.setStatus(5);
+		return customResponse;
 	}
-	@RequestMapping(value = "/upatePassword", method = RequestMethod.POST)
-	public ResponseEntity<String> upatePassword(@RequestBody UserDetails userForm, HttpSession session, HttpServletRequest request) {
-		String token1 = request.getHeader("reset");
-		System.out.println("here::"+token1);
-		int Tokenid = Token.verify(token1);
+	@RequestMapping(value = "/resetpassword/{token:.+}", method = RequestMethod.POST)
+	public CustomResponse upatePassword(@PathVariable("token") String token,@RequestBody UserDetails userForm, HttpSession session, HttpServletRequest request) {
+		CustomResponse customResponse = new CustomResponse();
+
+		System.out.println("here::"+token);
+		if(token!=null){		
+		int Tokenid = Token.verify(token);
 		String password=userForm.getPassword();
 		String error4 = Validation.checkpassword(password);
 		if ( error4 == "valid") {			
 			UserDetails user=userService.getUserById(Tokenid);
+			
 			String passwordEncrypt = MD5Encryption.encrypt(password);
 			user.setPassword(passwordEncrypt);
 			boolean updateStatus = userService.updateUser(user);
-			if (updateStatus)
-				return new ResponseEntity<String>("user password updated", HttpStatus.OK);
-			else
-				return new ResponseEntity<String>("user password updated", HttpStatus.OK);
+			if (updateStatus) {
+				customResponse.setMessage("Reset password is success :");
+				customResponse.setStatus(2);
+				return customResponse;
+				//return new ResponseEntity<String>("user password updated", HttpStatus.OK);
+			}
+			else {
+				customResponse.setMessage("Password could not be changed");
+				customResponse.setStatus(-2);
+				return customResponse;
+				//return new ResponseEntity<String>("Error", HttpStatus.OK);
+			}
+			}else{
+				customResponse.setMessage("Error in email");
+				customResponse.setStatus(5);
+				return customResponse;
+				//return new ResponseEntity<String>("Invalid Password  wrong!!!", HttpStatus.CONFLICT);
+			}	
 		}
-		return new ResponseEntity<String>("Invalid Password  wrong!!!", HttpStatus.CONFLICT);
+		else {
+			customResponse.setMessage("Inavlid tokaen");
+			customResponse.setStatus(-2);
+			return customResponse;
+			//return new ResponseEntity<String>("Error", HttpStatus.OK);
+		}
 	}
-}
+
+	}

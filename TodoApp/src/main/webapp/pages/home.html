@@ -1,53 +1,89 @@
-<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Todo</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-	
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/css/home.css"></script>
-
-
-</head>
-<body> -->
-<div id="mySidenav" class="sidenav">
-	<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-	<a href="#">Notes</a> <a href="#">Remainder</a> <br> <a href="#">Label</a>
-	<a href="#">Create new label</a> <br> <a href="#">Archive</a> <a
-		href="#">Trash</a> <a href="#">Settings</a> <a href="#">Label</a> <a
-		href="#"> Send feedback</a>
-
-
-</div>
-<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<ul class="nav navbar-nav">
-				<span style="font-size: 30px; cursor: pointer" onclick="openNav()">&#9776;</span>
-			</ul>
-			
-			<a style="padding: 60px";class="navbar-brand" href="">TODO APP</a>
-<input  type="text"	name="search" placeholder="Search.." style="width: 490px;">
+        <div ng-repeat="list in lists">
+<div id="wrapper">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
+		<div class="container-fluid" id="topNavBar" >
+			<div class="navbar-header">
+    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        			<span class="sr-only">Toggle navigation</span>
+        			<span class="icon-bar"></span>
+        			<span class="icon-bar"></span>
+        			<span class="icon-bar"></span>
+    			</button>
+                <div  class="navbar-brand" id="textTopNav">
+                <button type="button" ng-click="hiddenDiv = !hiddenDiv" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" >{{lists[$index]}}
+        			<span class="sr-only">Toggle navigation</span>
+            			</button >
+                    <a  style="color: black" id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle">
+                        <i class="fa fa-bars"></i>
+                    </a>
+    				<a href="#"  style="color: black">ToDo App</a>
+                </div>
 			</div>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a href="#"><span class="glyphicon glyphicon-log-out"></span>
-						Logout</a></li>
-			</ul>
-
-	</div>
-</nav>
-
-<div class="container">
-	<h3>Login successful!!!</h3>
-	Hello, <br> <br>
-
+			<div id="navbar" class="collapse navbar-collapse" >
+					<input class="nav navbar-nav" type="text"	name="search" placeholder="Search.." style="width: 490px;">
+					<ul class="nav navbar-nav navbar-right">
+				<li><a href="#!/login"  style="color: black">
+				<span class="glyphicon glyphicon-log-out">
+				</span>	Logout</a></li>
+			</ul>		
+			</div><!--/.nav-collapse -->
+			
+		</div>
+	</nav>
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" ng-show="hiddenDiv">
+        <nav id="spy">
+            <ul class="sidebar-nav nav" class="sidebar-brand">
+                <li >
+                    <a href="#home"><span class="fa fa-home solo">Home</span></a>
+                </li>
+                <li>
+                    <a href="#anch1">
+                        <span class="fa fa-anchor solo">Notes</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#anch2">
+                        <span class="fa fa-anchor solo">Remainder</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#anch3">
+                        <span class="fa fa-anchor solo">Label</span>
+                    </a>
+                </li>
+              
+            </ul>
+        </nav>
+    </div>
+    <!-- Page content -->
+    <div id="page-content-wrapper">
+        <div class="page-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-danger">
+                            <div class="panel-heading">
+                                    Panel 1
+                            </div>
+                            <div class="panel-body">
+                                content body
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">                    
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                    Panel 1
+                            </div>
+                            <div class="panel-body">
+                                content body
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<!-- <html></html>
-</body> -->
-
+</div>

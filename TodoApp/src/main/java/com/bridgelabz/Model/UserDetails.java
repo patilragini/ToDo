@@ -33,6 +33,9 @@ public class UserDetails {
 	private String name;
 	private String phoneNumber;
 
+	@Column(name="profile_url")
+	private String profileUrl;
+	
 	@Column(unique = true)
 	private String email;
 	@OneToMany(mappedBy = "userDetails")
@@ -97,6 +100,12 @@ public class UserDetails {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	public String getProfileUrl() {
+		return profileUrl;
+	}
+	public void setProfileUrl(String profileUrl) {
+		this.profileUrl = profileUrl;
 	}
 
 	@Override

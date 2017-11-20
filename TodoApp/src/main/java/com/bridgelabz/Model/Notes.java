@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -25,6 +26,12 @@ public class Notes {
 	private String description;
 	
 	private String color;
+	
+	private Date createDate;
+	
+	private Date lastUpdated;
+	
+	
 	
 	public String getColor() {
 		return color;
@@ -64,5 +71,18 @@ public class Notes {
 		this.description = description;
 	}
 	
-
+	public Date getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+	
+	public Date getLastUpdated() {
+		return lastUpdated;
+	}
+	public void setLastUpdated(Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+	
 }

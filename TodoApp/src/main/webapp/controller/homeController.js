@@ -12,4 +12,6 @@ app.controller('homeController',
 			//console.log("Home page error");			
 		});
 	}
+	
+	
 });

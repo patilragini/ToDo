@@ -70,6 +70,7 @@ public class GoogleController {
 			googleUser.setName(googleName);
 			googleUser.setEmail(googleEmail);
 			googleUser.setActivated(1);
+			googleUser.setProfileUrl(profileData.get("image").get("url").asText());
 			int id = userService.createUser(googleUser);
 			System.out.println("SCUSSES REGISTRATION  of googleUser:" + id);
 			// UserDetails s = userService.loginUser(fbUser);
@@ -78,12 +79,10 @@ public class GoogleController {
 			System.out.println("TOKEN ::\n ---> " +token);
 			response.setHeader("login", token);
 			System.out.println("Login with Google done!!");
-			// ADD REDIRECCT TO HOME PAGE i.e TODO PAGE 
-
 		} else {
 			System.out.println("********USER IS REGISTERED!!!****************");			
-			response.sendRedirect("http://localhost:8082/TodoApp/#!/login");
-
+			response.sendRedirect("http://localhost:8082/TodoApp/#!/home");
+			return;
 			// ADD REDIRECCT TO LOGIN PAGE i.e TODO LOGIN PAGE *******
 		}
 

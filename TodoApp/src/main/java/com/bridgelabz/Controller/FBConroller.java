@@ -64,6 +64,7 @@ public class FBConroller {
 			fbUser.setName(fbName);
 			fbUser.setEmail(profileData.get("email").asText());
 			fbUser.setActivated(1);
+			fbUser.setProfileUrl(profileData.get("image").get("url").asText());
 			int id = userService.createUser(fbUser);
 //			System.out.println("SCUSSES REGISTRATION FB USE:" + id);
 //			UserDetails s = userService.loginUser(fbUser);
@@ -75,7 +76,8 @@ public class FBConroller {
 
 		} else {
 			System.out.println("********USER IS REGISTERED!!!****************");
-			response.sendRedirect("http://localhost:8082/TodoApp/#!/login");
+			response.sendRedirect("http://localhost:8082/TodoApp/#!/home");
+			return;
 			//ADD REDIRECCT TO LOGIN PAGE i.e TODO LOGIN PAGE *******
 		}
 		String profileImage = profileData.get("picture").get("data").get("url").asText();

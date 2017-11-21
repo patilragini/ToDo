@@ -1,4 +1,4 @@
-//20 NOV
+//21 nov
 package com.bridgelabz.Controller;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,13 +85,11 @@ public class UserControler {
 			user = userService.loginUser(user);
 			
 			UserDetails user1=userService.getUserByEmail(email);
-			System.out.println("dDSSD::"+user1);
-			
+		
 			if(user1!=null)
 			{
-				System.out.println(user1.getActivated());
 			if (user1.getActivated() > 0) {
-				System.out.println("HERE:" + user1 + "\n ACTIVATED::" + user1.getActivated());
+				//System.out.println("HERE:" + user1 + "\n ACTIVATED::" + user1.getActivated());
 //				session temperoty remove session use when token remove and invalidate done scussfully
 				session = request.getSession();
 				session.setAttribute(session.getId(), user);
@@ -174,7 +172,7 @@ public class UserControler {
 	public CustomResponse upatePassword(@PathVariable("token") String token,@RequestBody UserDetails userForm, HttpSession session, HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
 
-		System.out.println("here::"+token);
+//		System.out.println("here::"+token);
 		if(token!=null){		
 		int Tokenid = Token.verify(token);
 		String password=userForm.getPassword();

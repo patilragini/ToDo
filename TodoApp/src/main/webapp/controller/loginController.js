@@ -5,10 +5,11 @@ app.controller('loginController', function($scope, loginService, $location) {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
 			//console.log("home page");
-			alert("Home page");
 			// console.log(response.data);
+//			localStorage.setItem('login',login);
 			$location.path("/home");
 			//$state.go("home");
+			
 		}, function(response) {
 			alert("Eroor");
 			//console.log("Home page error");

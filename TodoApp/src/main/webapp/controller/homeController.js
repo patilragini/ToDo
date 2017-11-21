@@ -13,5 +13,14 @@ app.controller('homeController',
 		});
 	}
 	
-	
+		$scope.showSidebar=function(){
+		if($scope.width=='0px'){
+			$scope.width='200px';
+			$scope.leftmargin="300px";
+		}else{
+			$scope.width='0px';
+			$scope.leftmargin="0px";
+		}
+		
+	}
 });

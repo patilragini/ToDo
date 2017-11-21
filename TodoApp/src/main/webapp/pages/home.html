@@ -1,89 +1,38 @@
-        <div ng-repeat="list in lists">
-<div id="wrapper">
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" >
-		<div class="container-fluid" id="topNavBar" >
-			<div class="navbar-header">
-    			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        			<span class="sr-only">Toggle navigation</span>
-        			<span class="icon-bar"></span>
-        			<span class="icon-bar"></span>
-        			<span class="icon-bar"></span>
-    			</button>
-                <div  class="navbar-brand" id="textTopNav">
-                <button type="button" ng-click="hiddenDiv = !hiddenDiv" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" >{{lists[$index]}}
-        			<span class="sr-only">Toggle navigation</span>
-            			</button >
-                    <a  style="color: black" id="menu-toggle" href="#" class="glyphicon glyphicon-align-justify btn-menu toggle">
-                        <i class="fa fa-bars"></i>
-                    </a>
-    				<a href="#"  style="color: black">ToDo App</a>
-                </div>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse" >
-					<input class="nav navbar-nav" type="text"	name="search" placeholder="Search.." style="width: 490px;">
-					<ul class="nav navbar-nav navbar-right">
-				<li><a href="#!/login"  style="color: black">
-				<span class="glyphicon glyphicon-log-out">
-				</span>	Logout</a></li>
-			</ul>		
-			</div><!--/.nav-collapse -->
-			
-		</div>
-	</nav>
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper" ng-show="hiddenDiv">
-        <nav id="spy">
-            <ul class="sidebar-nav nav" class="sidebar-brand">
-                <li >
-                    <a href="#home"><span class="fa fa-home solo">Home</span></a>
-                </li>
-                <li>
-                    <a href="#anch1">
-                        <span class="fa fa-anchor solo">Notes</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#anch2">
-                        <span class="fa fa-anchor solo">Remainder</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#anch3">
-                        <span class="fa fa-anchor solo">Label</span>
-                    </a>
-                </li>
-              
-            </ul>
-        </nav>
-    </div>
-    <!-- Page content -->
-    <div id="page-content-wrapper">
-        <div class="page-content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="panel panel-danger">
-                            <div class="panel-heading">
-                                    Panel 1
-                            </div>
-                            <div class="panel-body">
-                                content body
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">                    
-                        <div class="panel panel-success">
-                            <div class="panel-heading">
-                                    Panel 1
-                            </div>
-                            <div class="panel-body">
-                                content body
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<top-nav-bar></top-nav-bar><br><br><br>
+<side-nav-bar></side-nav-bar>
+<div>
+<div class="container-fluid">
+
+<div class="main" id="main" style="margin-left:{{leftmargin}}">
+
+
+
+<div class="row">
+  <div class="col-xs-2 col-md-2" ></div>
+  
+  <div class="col-xs-8 col-md-8" id="startCard">
+  <div class="card">
+    <div class="card-header">
+  <input type="text" name="title" placeholder="Enter Title"  ng-model="note.title" style="background: white; width: 477px; height: 30px" />
+ </div>
+ <br>
+  <div class="card-body">
+    <input type="text" name="description" placeholder="Enter Description"  ng-model="note.description" style="background: white; width: 477px; height: 30px" />
+    <br>
+    <br>
+    <button  class="btn btn-primary">DONE</button>
+  </div>
+  
+  </div>
+</div>
+
+  <div class="col-xs-2 col-md-2"></div>
+
+
+
+</div>
+
+<!--KEEP BODY  -->
+<br>
 </div>
 </div>

@@ -11,8 +11,6 @@
 					<input type="text" name="name"
 						class="form-control" placeholder="Enter User Name"  ng-model="user.name" />
 				</div>
-				<span id="name" style="color: red"></span>
-
 
 				<div class="form-group">
 					<label>Email id</label>
@@ -20,22 +18,18 @@
 						id="UserEmail" class="form-control" placeholder="Enter EmailId"
 						required ng-model="user.email"/>
 				</div>
-				<span id="email" style="color: red"></span> <span id="email_status"></span>
 				<div class="form-group">
 					<label>PhoneNumber</label>
 					<input type="number" name="phoneNumber"
 						class="form-control" placeholder="Enter 10 digit phone number"
 						required ng-model="user.phoneNumber"/>
 				</div>
-				<span id="phoneNumber" style="color: red"></span>
 
 				<div class="form-group">
 					<label> Password</label>
 					<input type="password" name="password"
 						required class="form-control" placeholder="Enter password"  ng-model="user.password"/>
 				</div>
-				<span id="password" style="color: red" ></span>
-
 
 				<div class="form-group">
 					<button type="submit" ng-click="registerUser()">Register</button>

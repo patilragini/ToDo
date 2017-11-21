@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!------------------------- angular  ---------------------------->
+
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js"></script>
 
@@ -53,9 +55,18 @@
 <!-------------------------   css  .css ---------------------------->
 
 <link rel="stylesheet" href="css/login.css">
-<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" type="text/css" href="css/home.css">
 <link rel="stylesheet" href="css/forgetpassword.css">
 <link rel="stylesheet" href="css/resetpassword.css">
+<link rel="stylesheet" href="css/Cards.css">
+<link rel="stylesheet" href="css/registrationPage.css">
+
+<link rel="stylesheet" type="text/css" href="css/sidenav.css">
+
+
+<!-------------------------   custom Directives ---------------------------->
+
+<script type="text/javascript" src="directives/CustomDirectives.js"></script>
 
 
 

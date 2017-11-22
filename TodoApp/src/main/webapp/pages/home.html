@@ -1,38 +1,81 @@
-<top-nav-bar></top-nav-bar><br><br><br>
-<side-nav-bar></side-nav-bar>
-<div>
-<div class="container-fluid">
-
-<div class="main" id="main" style="margin-left:{{leftmargin}}">
-
-
-
-<div class="row">
-  <div class="col-xs-2 col-md-2" ></div>
-  
-  <div class="col-xs-8 col-md-8" id="startCard">
-  <div class="card">
-    <div class="card-header">
-  <input type="text" name="title" placeholder="Enter Title"  ng-model="note.title" style="background: white; width: 477px; height: 30px" />
- </div>
- <br>
-  <div class="card-body">
-    <input type="text" name="description" placeholder="Enter Description"  ng-model="note.description" style="background: white; width: 477px; height: 30px" />
-    <br>
-    <br>
-    <button  class="btn btn-primary">DONE</button>
-  </div>
-  
-  </div>
-</div>
-
-  <div class="col-xs-2 col-md-2"></div>
-
-
-
-</div>
-
-<!--KEEP BODY  -->
+<top-nav-bar></top-nav-bar>
 <br>
+<br>
+<br>
+<side-nav-bar></side-nav-bar>
+<div class="container-fluid">
+	<div class="main" id="main" style="margin-left: {{leftmargin}}">
+
+
+		<!--Take note  -->
+		<br>
+		<div class="row">
+			<div class="col-lg-3 col-md-3"></div>
+			<div id="note" class=" col-sm-12 col-md-7 col-xs-12 col-lg-4">
+				<div ng-model="note.title" contenteditable="true" data-text="Title"></div>
+				</br>
+				<div  ng-model="note.description" contenteditable="true" data-text="Take a note"></div>
+				</br>
+				<div>
+					<img src="images/remainder.svg"> <img
+						src="images/collaborate.svg"> <img
+						src="images/colourPalate.svg"> <img src="images/image.svg">
+					<img src="images/archive.svg"> <img src="images/pin.svg">
+
+					<button class="savebtn" ng-click="saveNote()">DONE</button>
+
+				</div>
+			</div>
+		</div>
+
+
+
+		<!--Show note  -->
+		<div class="col-sm-12 col-md-6 col-xs-12 col-lg-6"></div>
+		<div class="row">
+			<div class="col-lg-2 col-md-1"></div>
+			<div class="col-md-10 col-sm-12 col-xs-12 col-lg-9">
+				<a ng-init="showNotes()"></a>
+				<div ng-repeat='note in notes' id="note"
+					class="col-md-6 col-sm-10 col-xs-12 col-lg-4">
+					<div contenteditable="true">{{note.title}}</div>
+					</br>
+					<div contenteditable="true">{{note.description}}</div>
+					<div></div>
+					</br>
+					<div>
+						<img src="images/remainder.svg"> <img
+							src="images/collaborate.svg"> <img
+							src="images/colourPalate.svg"> <img src="images/image.svg">
+						<img src="images/archive.svg"> <img src="images/pin.svg">
+						<li class="dropdown">
+						<a href="#!/home"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false"> <img
+								src="images/more.svg">
+
+						</a>
+							<ul class="dropdown-menu">
+								<li role="separator" class="divider"></li>
+								<li>
+									<button ng-click="deleteNote(note)">DELETE</button>
+								</li>
+								<li>
+									<button ng-click="updateNote(note)">UPDATE</button>
+								</li>
+							
+						</ul>
+						</li>
+						
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-</div>
+
+
+
+
+

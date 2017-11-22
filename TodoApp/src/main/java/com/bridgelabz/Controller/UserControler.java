@@ -96,7 +96,9 @@ public class UserControler {
 				session.setAttribute("user", user);
 				//token generate
 				String token = Token.generateToken(email, user1.getId());
+				
 				response.setHeader("login", token);
+				
 				System.out.println(Token.verify(token));
 				System.out.println("login successful!!!");
 				return new ResponseEntity<Void>(HttpStatus.OK);

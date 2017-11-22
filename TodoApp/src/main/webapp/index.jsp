@@ -50,12 +50,12 @@
 <script type="text/javascript" src="service/loginService.js"></script>
 <script type="text/javascript" src="service/registerService.js"></script>
 <script type="text/javascript" src="service/forgotpasswordService.js"></script>
-
+<script type="text/javascript" src="service/noteService.js"></script>
 
 <!-------------------------   css  .css ---------------------------->
 
 <link rel="stylesheet" href="css/login.css">
-<link rel="stylesheet" type="text/css" href="css/home.css">
+<link rel="stylesheet" href="css/home.css">
 <link rel="stylesheet" href="css/forgetpassword.css">
 <link rel="stylesheet" href="css/resetpassword.css">
 <link rel="stylesheet" href="css/Cards.css">

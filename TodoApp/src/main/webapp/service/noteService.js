@@ -2,6 +2,8 @@ var todoApp = angular.module('TodoApp');
 
 todoApp.factory('noteService', function($http, $location) {
 	var noteList = {};
+	
+	
 	noteList.showNotes = function(token) {
 		return $http({
 			method : 'POST',
@@ -13,22 +15,14 @@ todoApp.factory('noteService', function($http, $location) {
 		});
 	}
 
-	notes.addNote = function(token, note) {
-
+	noteList.saveNote = function(token, note) {
 		console.log(note);
-
 		return $http({
-
 			method : 'POST',
-
 			url : 'saveNote',
-
 			data : note,
-
 			headers : {
-
 				'login' : token
-
 			}
 		});
 	}

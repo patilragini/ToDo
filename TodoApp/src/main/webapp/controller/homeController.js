@@ -36,9 +36,10 @@ todoApp.controller('homeController', function($scope, loginService,noteService, 
 	
 	/*save Notes*/
 	
-	 $scope.createNote = function() {
+	$scope.saveNote = function() {
 			var token = localStorage.getItem('login');
 			console.log("in create notes ");
+			console.log("efdjfdkjfhdkjhfdkjfhkj");
 			var notes = noteService.saveNote(token, $scope.note);
 			notes.then(function(response) {
 				showNotes();
@@ -47,6 +48,5 @@ todoApp.controller('homeController', function($scope, loginService,noteService, 
 				$scope.error = response.data.message;
 			});
 		}
-	 showNotes();
 	
 });

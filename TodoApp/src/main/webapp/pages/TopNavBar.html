@@ -94,21 +94,22 @@
         </ul>
         </div>
 			<button type="button" class="refreshBtn">
-          <span class="glyphicon glyphicon-refresh"></span> Refresh
-        </button><ul class="nav navbar-nav navbar-right">
+          <span class="glyphicon glyphicon-refresh"></span> 
+               </button><ul class="nav navbar-nav navbar-right">
 			<div class="col-sm-2">
-									<li class="dropdown"><a href="#!/home" class="dropdown-toggle"
+			<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" role="button" aria-haspopup="true"
 						aria-expanded="false">
 						 <img src="images/defaultpic.jpg"
-							class="img-circle profile-pic" alt="profilePic">
+							class="img-circle profile-pic" alt=".">
 					</a>
 						<ul class="dropdown-menu">
 							<li role="separator" class="divider"></li>
-							<li><a href="#!/login"  style="color: black">
+							<li><a  ng-click="logoutUser()" style="color: black">
 				<span class="glyphicon glyphicon-log-out">
-				</span>	Logout</a></li>
-				<li><a href="#!/login"  style="color: black">
+				</span >Logout</a>
+				</li>
+				<li><a href="#!/home"  style="color: black">
 				<span >
 				</span>	Myaccount</a></li>
 

@@ -10,6 +10,9 @@ public interface NotesService {
 	public Notes getNoteById(int noteId);
 
 	public Set<Notes> getNotes(int id);
+	
+/*	public Set<Notes> getNotesTrash(int id,int inTrash);
+*/
 
 	public boolean deleteNote(int deleteNodeId);
 

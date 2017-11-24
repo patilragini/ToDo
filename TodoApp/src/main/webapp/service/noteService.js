@@ -11,7 +11,6 @@ todoApp.factory('noteService', function($http, $location) {
 			headers : {
 				'login' : token
 			}
-
 		});
 	}
 
@@ -26,6 +25,56 @@ todoApp.factory('noteService', function($http, $location) {
 			}
 		});
 	}
+	
+	noteList.updateNote = function(token, note) {
+		console.log(note);
+		return $http({
+			method : 'POST',
+			url : 'updateNote/'+note.id,
+			data : note,
+			headers : {
+				'login' : token
+			}
+		});
+	}
+	
+	noteList.deleteNote = function(token, note) {
+		console.log(note);
+		return $http({
+			method : 'POST',
+			url : 'updateNote/'+note.id,
+			data : note,
+			headers : {
+				'login' : token
+			}
+		});
+	}
+
+	noteList.deleteForeverNote = function(token, note) {
+		console.log(note);
+		return $http({
+			method : 'POST',
+			url : 'deleteForeverNote',
+			data : note,
+			headers : {
+				'login' : token
+			}
+		});
+	}
+	
+	noteList.restoreNote = function(token, note) {
+		console.log(note);
+		return $http({
+			method : 'POST',
+			url : 'updateNote/'+note.id,
+			data : note,
+			headers : {
+				'login' : token
+			}
+		});
+	}
+	
+
 	return noteList;
 
 }

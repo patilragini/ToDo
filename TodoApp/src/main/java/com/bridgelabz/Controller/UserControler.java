@@ -126,11 +126,12 @@ public class UserControler {
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public ResponseEntity<String> logout(HttpServletRequest request, HttpSession session) {
+	public ResponseEntity<Void> logout(HttpServletRequest request, HttpSession session) {
 		session = request.getSession();
 		session.removeAttribute("user");
 		session.removeAttribute("token");  
-		return new ResponseEntity<String>("Logout done", HttpStatus.OK);
+		System.out.println("in log out javas");
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/forgotpassword", method = RequestMethod.POST)
@@ -143,11 +144,11 @@ public class UserControler {
 		if (error2 == "valid") {
 			UserDetails userbyEmail = userService.getUserByEmail(email);
 			if (userbyEmail != null) {
-				
+				System.out.println("forgrt link");
 				String token = Token.generateToken(email,userbyEmail.getId());
 				response.setHeader("reset", token);			
 				
-				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword"+"token";	
+				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword/"+token;	
 				String to = "patilrag21@gmail.com";
 				String msg = "Click on link to reset password  " + url+"  \n Enter below code in authentication:"+token;
 				String subject = "Reset Password";		

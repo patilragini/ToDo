@@ -31,8 +31,31 @@ public class Notes {
 	
 	private Date lastUpdated;
 	
+	private boolean isPinned;
+	
+	private boolean inTrash;
+
+	private boolean isArchive;
 	
 	
+	public boolean isArchive() {
+		return isArchive;
+	}
+	public void setArchive(boolean isArchive) {
+		this.isArchive = isArchive;
+	}
+	public boolean isPinned() {
+		return isPinned;
+	}
+	public void setPinned(boolean isPinned) {
+		this.isPinned = isPinned;
+	}
+	public boolean isInTrash() {
+		return inTrash;
+	}
+	public void setInTrash(boolean inTrash) {
+		this.inTrash = inTrash;
+	}
 	public String getColor() {
 		return color;
 	}

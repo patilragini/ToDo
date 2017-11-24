@@ -1,4 +1,4 @@
-var app = angular.module('TodoApp', ['ui.router']);
+var app = angular.module('TodoApp', ['ui.router','ui.bootstrap']);
 
 app.config([ '$stateProvider', '$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
@@ -7,6 +7,12 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				url : '/login',
 				templateUrl : 'pages/Login.html',
 				controller : 'loginController'
+			});
+			
+			$stateProvider.state('logout', {
+				url : '/logout',
+				templateUrl : 'pages/Login.html',
+				controller : 'logoutController'
 			});
 		
 			$stateProvider.state('register', {
@@ -26,6 +32,18 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				url : '/resetpassword',
 				templateUrl : 'pages/resetpassword.html',
 				controller : 'resetController'
+			});
+			
+			$stateProvider.state('trash', {
+				url : '/trash',
+				templateUrl : 'pages/trash.html',
+				controller : 'homeController'
+			});
+			
+			$stateProvider.state('archive', {
+				url : '/archive',
+				templateUrl : 'pages/archive.html',
+				controller : 'homeController'
 			});
 			
 			$stateProvider.state('home', {

@@ -7,18 +7,18 @@
     border: 5px;
     border-color: red;
 	
-}
- */
+} */
+
  [contenteditable] {
   background-color: white;
 }
 #note{
-    padding: 15px;
     background-color: white;
-    width: 400px;
     border-style: outset;
 }
 [contentEditable=true]:empty:not(:focus):before{
     content:attr(data-text)
 }
-
+[contenteditable]:focus {
+    outline: 0px solid transparent;
+}

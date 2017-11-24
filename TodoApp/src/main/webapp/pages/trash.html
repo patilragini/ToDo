@@ -1,0 +1,43 @@
+<top-nav-bar>trash</top-nav-bar>
+<br>
+<br>
+<br>
+<side-nav-bar></side-nav-bar>
+
+<!-- TRASH TEST -->
+<div class="container-fluid">
+	<div class="main" id="main" style="margin-left: {{leftmargin}}">
+	<br>
+		<div class="col-lg-1"></div>
+		<div class="col-lg-10 col-md-10">
+		<h4>in trash</h4>
+<div class="row">
+				<a ng-init="showNotes()"></a>
+				<div ng-repeat='note in notes|filter:{inTrash:true}' id="note"
+					class="col-md-6 col-sm-10 col-xs-12 col-lg-3" style="margin: 10px">
+					
+					<div contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					</br>
+					<div contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div></div>
+					</br>
+					<div>
+						<li class="dropdown" class="right"><a href="#!/trash"
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false"> <img
+								src="images/more.svg" style="width: 18px; height: 18px;"></a>
+							
+							<ul class="dropdown-menu">
+								<li></li>
+								<li>
+								<li><a ng-click="deleteForeverNote(note)">Delete forever</a></li>
+
+								<li><a ng-click="restoreNote(note)">RESTORE</a></li>
+
+							</ul></li>
+					</div>
+				</div>
+			</div>	
+		</div>
+		</div>
+		</div>

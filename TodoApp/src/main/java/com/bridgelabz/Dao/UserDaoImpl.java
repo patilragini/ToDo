@@ -53,7 +53,6 @@ public class UserDaoImpl implements UserDao {
 	 */
 	public UserDetails login(UserDetails userDetails) {
 		// TODO Auto-generated method stub
-		System.out.println("in login");
 		Session session = sessionFactory.openSession();
 		String email = userDetails.getEmail();
 		String password = userDetails.getPassword();
@@ -63,7 +62,6 @@ public class UserDaoImpl implements UserDao {
 		criteria.add(Restrictions.eq("password", userDetails.getPassword()));
 		UserDetails user = (UserDetails) criteria.uniqueResult();
 		if (user != null) {
-			System.out.println("FOUND:: " + user.getActivated() + user.getEmail() + user.getId() + user.getPassword());
 			return user;
 
 		} else

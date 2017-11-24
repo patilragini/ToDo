@@ -1,0 +1,40 @@
+
+    <div class="modal-content">
+   
+    <div class="model-body">
+ <div class="col-md-6 col-sm-10 col-xs-12 col-lg-12"><br><br></div>
+ 
+ 
+		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
+					style="margin: 10px">										
+					<div class="right">
+						<img ng-click="unpinNote(note)" src="images/pinblue.svg">
+					</div>
+					<div contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					</br>
+					<div contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div></div>
+					</br>
+					<div>
+						<li class="dropdown" class="right"><a 
+							class="dropdown-toggle" data-toggle="dropdown" role="button"
+							aria-haspopup="true" aria-expanded="false"> <img
+								src="images/more.svg" style="width: 18px; height: 18px;"></a>
+							<img src="images/remainder.svg"> <img
+							src="images/collaborate.svg"> <img
+							src="images/colourPalate.svg"> <img src="images/image.svg">
+							<img ng-click="ArchiveNote(note)"   src="images/archive.svg">
+							<ul class="dropdown-menu">
+								<li></li>
+								<li>
+								<li><a ng-click="deleteNote(note)">DELETE</a></li>
+
+								<li><a ng-click="updateNote(note)">UPDATE</a></li>
+							</ul></li>
+					</div>
+					</div>
+					
+					
+					
+		</div>
+</div>

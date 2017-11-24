@@ -1,6 +1,6 @@
 var todoApp = angular.module('TodoApp');
-
-todoApp.controller('homeController', function($scope, loginService,noteService, $location) {
+//['ui.bootstrap']
+todoApp.controller('homeController', function($scope, loginService,noteService,$uibModal, $location) {
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
@@ -19,17 +19,49 @@ todoApp.controller('homeController', function($scope, loginService,noteService, 
 		}
 	}
 	
+	$scope.showModalPin = function(note) {
+		$scope.note = note;
+		modalInstance = $uibModal.open({
+			templateUrl : 'pages/modelNotePin.html',
+			scope : $scope,
+			size : 'md'
+		});
+	};
+	$scope.showModel = function(note) {
+		$scope.note = note;
+		modalInstance = $uibModal.open({
+			templateUrl : 'pages/homeModel.html',
+			scope : $scope,
+			size : 'md'
+		});
+	};
+	
+	
+	$scope.showDiv=false;
+	
+	$scope.show=function(){
+		$scope.showDiv=true;		
+	};	
+	$scope.hide=function(){
+		$scope.showDiv=true;		
+	};
+	
+	
+	
+	
+	
+	
+	
+	
 	/*show Notes*/
 
 	$scope.showNotes = function() {
 		var token = localStorage.getItem('login');
-		console.log(token);
 		var notes = noteService.showNotes(token);
-		console.log(notes);
 		notes.then(function(response) {
 			$scope.notes = response.data;
 		}, function(response) {
-			$scope.error = response.data.message;
+			console.log("ERROR IN SHOWING NOTE");
 		});
 		$scope.notes = notes;
 	}
@@ -39,14 +71,126 @@ todoApp.controller('homeController', function($scope, loginService,noteService, 
 	$scope.saveNote = function() {
 			var token = localStorage.getItem('login');
 			console.log("in create notes ");
-			console.log("efdjfdkjfhdkjhfdkjfhkj");
 			var notes = noteService.saveNote(token, $scope.note);
 			notes.then(function(response) {
-				showNotes();
+				$scope.showNotes();
 			}, function(response) {
-				showNotes();
-				$scope.error = response.data.message;
+				console.log("ERROR IN SAVING NOTE");
+			});
+		}
+	/*update Notes*/	
+	$scope.updateNote = function(note) {
+			var token = localStorage.getItem('login');			
+			var notes = noteService.updateNote(token,note);
+			notes.then(function(response) {
+				$scope.showNotes();
+			}, function(response) {
+				$scope.showNotes();
 			});
 		}
 	
+
+	/*delete Note and add to trash*/
+	$scope.deleteNote = function(note) {
+		var token = localStorage.getItem('login');
+		note.inTrash=true;
+		console.log(notes);
+		var notes = noteService.deleteNote(token,note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	
+	
+	/*delete Note forever*/
+	$scope.deleteForeverNote = function(note) {
+		var token = localStorage.getItem('login');	
+		var notes = noteService.deleteForeverNote(token,note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	
+
+	/*Restore note from trash*/
+	$scope.restoreNote = function(note) {
+		var token = localStorage.getItem('login');
+		note.inTrash=false;		
+		var notes = noteService.restoreNote(token,note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	
+	
+	/*note pin*/
+	$scope.pinNote = function(note) {
+		var token = localStorage.getItem('login');
+		console.log("pin note");
+		note.pinned=true;		
+		var notes = noteService.updateNote(token,note);
+		notes.then(function(response) {
+			console.log("pin note");
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	/*note Un pin*/
+	
+	$scope.unpinNote = function(note) {
+		var token = localStorage.getItem('login');
+		console.log("Un pin note");
+		note.pinned=false;		
+		var notes = noteService.updateNote(token,note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	
+	/*note Archive */
+	$scope.ArchiveNote = function(note) {
+		var token = localStorage.getItem('login');
+		console.log('archive note');
+		note.archive=true;		
+		var notes = noteService.updateNote(token,note);
+		notes.then(function(response) {
+			console.log(note);
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	/*note Archive */
+	$scope.unArchiveNote = function(note) {
+		var token = localStorage.getItem('login');
+		note.archive=false;		
+		var notes = noteService.updateNote(token,note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	}
+	
+	
+
+	
+	
+	
+		
 });

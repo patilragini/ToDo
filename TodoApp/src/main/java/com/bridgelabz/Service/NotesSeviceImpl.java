@@ -45,6 +45,11 @@ public class NotesSeviceImpl implements NotesService{
 		return id;
 		
 	}
+/*	@Override
+	public Set<Notes> getNotesTrash(int id, boolean inTrash) {
+		// TODO Auto-generated method stub
+		return noteDao.getNotesTrash(id,inTrash);
+	}*/
 	
 	
 

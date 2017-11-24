@@ -40,7 +40,7 @@ public class NoteController {
 		if (user != null) {
 			if (id > 0) {
 				int isActive = user.getActivated();
-				if (isActive > 0) {
+				if (isActive > 0 && (note.getTitle().length() > 0 || note.getDescription().length() > 0)) {
 					note.setUserDetails(user);
 					note.setCreateDate(date);
 					note.setLastUpdated(date);
@@ -71,7 +71,6 @@ public class NoteController {
 			if (id > 0) {
 				Set<Notes> notes = notesService.getNotes(user.getId());
 				if (!notes.isEmpty()) {
-					System.out.println(notes);
 					return ResponseEntity.ok(notes);
 				} else {
 					return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
@@ -81,36 +80,22 @@ public class NoteController {
 		}
 		return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/deleteNotes/{deleteId}", method = RequestMethod.POST)
-	public ResponseEntity<String> deleteNotes(HttpSession session, HttpServletRequest request,
-			@PathVariable("deleteId") int deleteId) {
+		
+	@RequestMapping(value = "/deleteForeverNote", method = RequestMethod.POST)
+	public ResponseEntity<Set<Notes>> deleteForeverNote(HttpServletRequest request, @RequestBody Notes note) {
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
-		// System.out.println("here:" + user);
-		Notes noteDelete = notesService.getNoteById(deleteId);
-
-		if (user != null && noteDelete != null) {
-			// System.out.println("TOKEN ID::" + id);
+		if (user != null) {
 			if (id > 0) {
-				// System.out.println("HERE::" +
-				// noteUpdate.getUserDetails().getId());
-				if (noteDelete.getUserDetails().getId() == id) {
-					Set<Notes> notes = notesService.getNotes(user.getId());
-					if (notes != null) {
-						notesService.deleteNote(deleteId);
-						return new ResponseEntity<String>("Notes Deleted ", HttpStatus.OK);
-					}
-					return new ResponseEntity<String>("Notes Not exists ", HttpStatus.OK);
-				}
-				return new ResponseEntity<String>("Notes Not Created ", HttpStatus.OK);
+				notesService.deleteNote(note.getId());
+				return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 			}
-			return new ResponseEntity<String>("Notes Not Created ", HttpStatus.OK);
-		} else
-			return new ResponseEntity<String>("Invalid!!!\n Login To Continue", HttpStatus.CONFLICT);
+			return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
 	}
-
+	
 	@RequestMapping(value = "/updateNote/{updateId}", method = RequestMethod.POST)
 	public ResponseEntity<String> updateNote(HttpSession session, HttpServletRequest request, @RequestBody Notes note,
 			@PathVariable("updateId") int updateId) {
@@ -118,22 +103,13 @@ public class NoteController {
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
-		// System.out.println("here:" + user);
 		Notes noteUpdate = notesService.getNoteById(updateId);
-		System.out.println(noteUpdate);
 		if (user != null && noteUpdate != null) {
-			// System.out.println("TOKEN ID::" + id);
 			if (id > 0) {
-				// System.out.println("HERE::" +
-				// noteUpdate.getUserDetails().getId());
 				if (noteUpdate.getUserDetails().getId() == id) {
-					// check id of token is = user id for authentication extra
-					noteUpdate.setUserDetails(user);
-					noteUpdate.setTitle(note.getTitle());
-					noteUpdate.setDescription(note.getDescription());
-					noteUpdate.setColor(note.getColor());
-					noteUpdate.setLastUpdated(date);
-					int updateStatus = notesService.updateNotes(noteUpdate);
+					note.setUserDetails(user);					
+					note.setLastUpdated(date);		
+					int updateStatus = notesService.updateNotes(note);
 					if (updateStatus == 1)
 						return new ResponseEntity<String>("Note updated", HttpStatus.OK);
 					else

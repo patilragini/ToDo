@@ -12,6 +12,10 @@ import com.bridgelabz.Model.Notes;
 public interface NoteDao {
 	public int saveNotes(Notes note);
 	public Set<Notes> getNotes(int id);
+	
+/*	public Set<Notes> getNotesTrash(int id,boolean inTrash);
+*/
+	
 	public Notes getNoteById(int id);
 	public boolean deleteNote(int deleteNodeId);
 	public int updateNotes(Notes note);

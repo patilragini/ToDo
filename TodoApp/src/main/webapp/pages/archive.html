@@ -9,38 +9,60 @@
 	<br>
 		<div class="col-lg-1"></div>
 		<div class="col-lg-10 col-md-10">
-		<h4>IN ARCHIVE</h4>
+		<h4>IN ARCHIVE</h4><!--  unArchiveNote(note) note in notes|filter:{archive:true,inTrash:false} -->
 <div class="row">
 				<a ng-init="showNotes()"></a>
-				<div ng-repeat='note in notes|filter:{archive:true,inTrash:false,pinned:false}' id="note"
-					class="col-md-6 col-sm-10 col-xs-12 col-lg-3" style="margin: 10px">
+				<div ng-repeat='note in notes|filter:{archive:true,inTrash:false}' id="note"
+					class="col-md-6 col-sm-10 col-xs-12 col-lg-3" style="margin: 10px; background-color:{{note.color}}">
 					
-					<div contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
 					</br>
-					<div contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.description">{{note.description}}</div>
 					<div></div>
 					</br>
 					</br>
-					<div>
-						<li class="dropdown" class="right"><a 
-							class="dropdown-toggle" data-toggle="dropdown" role="button"
-							aria-haspopup="true" aria-expanded="false"> <img
-								src="images/more.svg" style="width: 18px; height: 18px;"></a>
-							<img src="images/remainder.svg"> <img
-							src="images/collaborate.svg"> <img
-							src="images/colourPalate.svg"> <img src="images/image.svg">
-							<img ng-click="unArchiveNote(note)"    src="images/archive.svg">
 
+					<div class="dropdown" class="left">
+							<a class="dropdown-toggle" data-toggle="dropdown" role="button"
+								aria-haspopup="true" aria-expanded="false"> 
+							</a> <img src="images/remainder.svg"> <img
+								src="images/collaborate.svg"> 						
+						<div class="btn-group dropup colorDiv" uib-dropdown>
+									<img id="dropdown" class="dropdown-toggle"
+										data-toggle="dropdown" alt="color"
+										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
+									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+										aria-labelledby="btn-append-to-body"
+										style="background-color: #f9fbff">
+										<a ng-repeat="color in colors" role="menuitem"> <img
+										ng-click="note.color=color.color;updateNote(note)"	ng-src="{{color.path}}" height="40px"
+											>
+										</a>
+									</ul>
+								</div>
+							<img src="images/image.svg"> <img
+								ng-click="unArchiveNote(note)" src="images/archive.svg">
 
-							<ul class="dropdown-menu">
-								<li></li>
-								<li>
-								<li><a ng-click="deleteNote(note)">DELETE</a></li>
+							<div style="float: right">
+								<span class="btn dropdown-toggle" id="menu1"
+									data-toggle="dropdown">
+									 <span > 
+									 <img src="images/more.svg" style="width: 19px; height: 32px;"></span>
+								</span>
+								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+									<li></li>
+									<li>
+									<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
-								<li><a ng-click="updateNote(note)">UPDATE</a></li>
+									<li><a ng-click="updateNote(note)">UPDATE</a></li>
 
-							</ul></li>
-					</div>
+								</ul>
+							</div>
+
+						</div>
+					
+					
+					
 				</div>
 			</div>	
 		</div>

@@ -1,4 +1,4 @@
-var app = angular.module('TodoApp', ['ui.router','ui.bootstrap']);
+var app = angular.module('TodoApp', ['ui.router','ui.bootstrap', 'ngSanitize']);
 
 app.config([ '$stateProvider', '$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
@@ -28,8 +28,8 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				controller : 'resetController'
 			});
 			
-			$stateProvider.state('resetpassword', {
-				url : '/resetpassword',
+			$stateProvider.state('resetPassword', {
+				url : '/resetpassword/:t',
 				templateUrl : 'pages/resetpassword.html',
 				controller : 'resetController'
 			});

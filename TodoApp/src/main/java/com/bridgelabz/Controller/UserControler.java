@@ -80,27 +80,16 @@ public class UserControler {
 		String error4 = Validation.checkpassword(password);
 		if (error2 == "valid" && error4 == "valid") {
 			String passwordEncrypt = MD5Encryption.encrypt(password);
-			user.setPassword(passwordEncrypt);
-			
-			user = userService.loginUser(user);
-			
-			UserDetails user1=userService.getUserByEmail(email);
-		
-			if(user1!=null)
-			{
+			user.setPassword(passwordEncrypt);	
+			user = userService.loginUser(user);			
+			if(user!=null)
+			{				UserDetails user1=userService.getUserByEmail(email);
 			if (user1.getActivated() > 0) {
-				//System.out.println("HERE:" + user1 + "\n ACTIVATED::" + user1.getActivated());
-//				session temperoty remove session use when token remove and invalidate done scussfully
 				session = request.getSession();
 				session.setAttribute(session.getId(), user);
 				session.setAttribute("user", user);
-				//token generate
 				String token = Token.generateToken(email, user1.getId());
-				
-				response.setHeader("login", token);
-				
-				System.out.println(Token.verify(token));
-				System.out.println("login successful!!!");
+				response.setHeader("login", token);				
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
 			else{
@@ -110,19 +99,18 @@ public class UserControler {
 			else
 				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);	
 		} else {
-			System.out.println("Error in Input!!!");
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}
 	}
 
 	@RequestMapping(value = "/activate/{id}", method = RequestMethod.GET)
-	public ResponseEntity<String> activate(@PathVariable int id, HttpSession session, HttpServletRequest request) {
+	public ResponseEntity<Void> activate(@PathVariable int id, HttpSession session, HttpServletRequest request) {
 		UserDetails user = userService.getUserById(id);
 		if (user != null) {
 			Boolean status = userService.updateActivation(id);
-			return new ResponseEntity<String>("Activation done", HttpStatus.OK);
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
-		return new ResponseEntity<String>("user not valid!!!", HttpStatus.CONFLICT);
+		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -146,7 +134,7 @@ public class UserControler {
 			if (userbyEmail != null) {
 				System.out.println("forgrt link");
 				String token = Token.generateToken(email,userbyEmail.getId());
-				response.setHeader("reset", token);			
+				response.setHeader("token", token);			
 				
 				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword/"+token;	
 				String to = "patilrag21@gmail.com";
@@ -174,8 +162,6 @@ public class UserControler {
 	@RequestMapping(value = "/resetpassword/{token:.+}", method = RequestMethod.POST)
 	public CustomResponse upatePassword(@PathVariable("token") String token,@RequestBody UserDetails userForm, HttpSession session, HttpServletRequest request) {
 		CustomResponse customResponse = new CustomResponse();
-
-//		System.out.println("here::"+token);
 		if(token!=null){		
 		int Tokenid = Token.verify(token);
 		String password=userForm.getPassword();
@@ -209,7 +195,6 @@ public class UserControler {
 			customResponse.setMessage("Inavlid tokaen");
 			customResponse.setStatus(-2);
 			return customResponse;
-			//return new ResponseEntity<String>("Error", HttpStatus.OK);
 		}
 	}
 

@@ -62,7 +62,7 @@ margin-right: 5px;
 }
 .container-fluid {
     background: #e8e8e8;
-    height:900px;
+    height:auto;
 }
 
 @media screen and (max-width: 640px) {

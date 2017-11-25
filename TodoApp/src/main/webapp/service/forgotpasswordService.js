@@ -16,12 +16,12 @@ toDoApp.factory('forgotpasswordService', function($http, $location) {
 		
 	}
 
-	reset.resetPassword = function(user) {
+	reset.resetPassword = function(user,url) {
 		console.log(user);
 		return $http({
 			method : "POST",
 			url : 'resetpassword',
-			data : user
+			data : user,url
 		})
 	}
 	return reset;

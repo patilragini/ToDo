@@ -44,15 +44,7 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 	};	
 	$scope.hide=function(){
 		$scope.showDiv=true;		
-	};
-	
-	
-	
-	
-	
-	
-	
-	
+	};	
 	/*show Notes*/
 
 	$scope.showNotes = function() {
@@ -187,8 +179,13 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		});
 	}
 	
-	
-
+	$scope.colors=[
+		{"color":'#e74c3c',"path":'images/Red.png'},
+		{"color":'#fcff77',"path":'images/lightyellow.png'},{"color":'#80ff80',"path":'images/green.png'},{"color":'#0099ff',"path":'images/blue.png'},
+		{"color":'#1a53ff',"path":'images/darkblue.png'},{"color":'#9966ff',"path":'images/purple.png'
+		},{"color":'#ff99cc',"path":'images/pink.png'},{"color":'#bfbfbf',"path":'images/grey.png'},{"color":'#ffffff',"path":'images/white.png'}
+		
+	];
 	
 	
 	

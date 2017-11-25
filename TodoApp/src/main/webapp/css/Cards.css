@@ -15,6 +15,7 @@
 #note{
     background-color: white;
     border-style: outset;
+    margin: 10px;
 }
 [contentEditable=true]:empty:not(:focus):before{
     content:attr(data-text)

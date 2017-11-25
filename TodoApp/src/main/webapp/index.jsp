@@ -40,7 +40,7 @@
 
 <script type="text/javascript" src="controller/registerController.js"></script>
 <script type="text/javascript" src="controller/homeController.js"></script>
-<script type="text/javascript" src="controller/resetpwdController.js"></script>
+<script type="text/javascript" src="controller/resetController.js"></script>
 
 
 <!-------------------------   sevices .js ---------------------------->

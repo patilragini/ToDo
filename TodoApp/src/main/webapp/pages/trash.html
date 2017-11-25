@@ -14,11 +14,11 @@
 <div class="row">
 				<a ng-init="showNotes()"></a>
 				<div ng-repeat='note in notes|filter:{inTrash:true}' id="note"
-					class="col-md-6 col-sm-10 col-xs-12 col-lg-3" style="margin: 10px">
+					class="col-md-6 col-sm-10 col-xs-12 col-lg-3" style="margin: 10px;background-color:{{note.color}}">
 					
-					<div contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					<div contenteditable="false" ng-model="note.title"  style="background-color:{{note.color}}">{{note.title}}</div>
 					</br>
-					<div contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div contenteditable="false" ng-model="note.description"  style="background-color:{{note.color}}">{{note.description}}</div>
 					<div></div>
 					</br>
 					<div>

@@ -7,10 +7,12 @@ app.controller('registerController', function($scope, registerService,$location)
 			a.then(function(response) {
 				console.log("register done scussfully");
 				alert("register done scussfully check mail to activate account");
-				$location.path('/home')
+				$location.path('/login')
 			},function(response){
 				alert("registration falied");
 				console.log("in Register controller");
+				$location.path('/login')
+
 			});
 	}
 });

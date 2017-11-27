@@ -19,6 +19,11 @@
 	src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
 
 	<script type="text/javascript"  src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.5.0/ui-bootstrap-tpls.js"></script>
+
+<script type="text/javascript" src="node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+<script type="text/javascript" src="node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+
+
 <!------------------------- responsive bootstrap ---------------------------->
 
 <link rel="stylesheet"
@@ -41,6 +46,8 @@
 <script type="text/javascript" src="controller/registerController.js"></script>
 <script type="text/javascript" src="controller/homeController.js"></script>
 <script type="text/javascript" src="controller/resetController.js"></script>
+<script type="text/javascript" src="controller/dummyController.js"></script>
+
 
 
 <!-------------------------   sevices .js ---------------------------->
@@ -51,6 +58,8 @@
 <script type="text/javascript" src="service/registerService.js"></script>
 <script type="text/javascript" src="service/forgotpasswordService.js"></script>
 <script type="text/javascript" src="service/noteService.js"></script>
+<script type="text/javascript" src="service/dummyservice.js"></script>
+
 
 <!-------------------------   css  .css ---------------------------->
 

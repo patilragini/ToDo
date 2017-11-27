@@ -88,7 +88,7 @@ public class UserControler {
 				session = request.getSession();
 				session.setAttribute(session.getId(), user);
 				session.setAttribute("user", user);
-				String token = Token.generateToken(email, user1.getId());
+				String token = Token.generateToken(user1.getId());
 				response.setHeader("login", token);				
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
@@ -108,6 +108,7 @@ public class UserControler {
 		UserDetails user = userService.getUserById(id);
 		if (user != null) {
 			Boolean status = userService.updateActivation(id);
+			
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.CONFLICT);
@@ -133,7 +134,7 @@ public class UserControler {
 			UserDetails userbyEmail = userService.getUserByEmail(email);
 			if (userbyEmail != null) {
 				System.out.println("forgrt link");
-				String token = Token.generateToken(email,userbyEmail.getId());
+				String token = Token.generateToken(userbyEmail.getId());
 				response.setHeader("token", token);			
 				
 				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword/"+token;	
@@ -196,6 +197,15 @@ public class UserControler {
 			customResponse.setStatus(-2);
 			return customResponse;
 		}
+	}
+	
+	@RequestMapping(value="/getToken")
+	public ResponseEntity<CustomResponse> getToken(HttpSession session){
+		CustomResponse response=new CustomResponse();
+//		System.out.println("in get dummy::---------------------------------------------->>>>>>>>>>>>");
+		response.setMessage((String) session.getAttribute("login"));
+//		System.out.println(response.getMessage());
+		return  ResponseEntity.ok(response);
 	}
 
 	}

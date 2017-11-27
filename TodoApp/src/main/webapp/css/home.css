@@ -1,86 +1,82 @@
 .right {
-    float: right;
-    background: white;
-    border: white;
+	float: right;
+	background: white;
+	border: white;
+}
 
-}
-#sidebarbtn{
+#sidebarbtn {
 	font-size: 25px;
-	padding:8px;
-	
+	padding: 8px;
 }
-#searchbtn{
-	top:20px;
-	width:1%;
+
+#searchbtn {
+	top: 20px;
+	width: 1%;
 	padding-right: 2px;
 }
 
-#searchbox{
-	padding:5px;
+#searchbox {
+	padding: 5px;
 	border-radius: 5px;
-	margin:10px;
+	margin: 10px;
 }
 
 .refreshBtn {
-    font-size: 18px;
-    line-height: 1.5;
-    border-radius: 3px;
-    margin: auto;
-    margin-top: 10px;
-    color: black;
-    background: #fb0;
-    border: #fb0;
-    border-radius: 5px;
+	font-size: 18px;
+	line-height: 1.5;
+	border-radius: 3px;
+	margin: auto;
+	margin-top: 10px;
+/* 	color: black;
+ */	background: transparent; border : transparent;
+	border-radius: 5px;
+	border: transparent;
 }
-.navbar-right{
-margin-right: 5px;	
+
+.navbar-right {
+	margin-right: 5px;
 }
 /* .navbar-brand{
 	margin-top: 18px;
 } */
-
-.profile-pic{
+.profile-pic {
 	height: 50px;
-	width:50px;
+	width: 50px;
 	margin-right: 10px;
 }
 
-.navbar-default{
-	padding:7px;
-	background:#fb0;
-	font-style: normal;
+.navbar-default {
+	padding: 7px;
+font-style: normal;
 }
 
-.navbar-default input{
+.navbar-default input {
+	padding: 3px;
+	margin-top: 12px;
+	width: 500px;
+	height: 30px;
 	
-	padding:3px;
-	margin-top:12px;
-	width:500px;
-	height:30px;
-/*     background-color: #fcaf3e;
- */    
 }
+
 .container-fluid {
-    background: #e8e8e8;
-    height:auto;
+	background: #e8e8e8;
+	    height:auto;
 }
 
 @media screen and (max-width: 640px) {
-  #searchbtn,.profile-pic,#searchbox {
-    visibility: hidden;
-    clear: both;
-    float: left;
-    margin: 10px auto 5px 20px;
-    width: 28%;
-    display: none;
-    
-  }
-  .modal-content{
- position: relative;
-  background-color: none;
-  border: none; 
-  border-radius: none;
- 
-  background-clip:none;
-
-  }
+	#searchbtn, .profile-pic, #searchbox {
+		visibility: hidden;
+		clear: both;
+		float: left;
+		margin: 10px auto 5px 20px;
+		width: 28%;
+		display: none;
+	}
+	.modal-content {
+		position: relative;
+		background-color: none;
+		border: none;
+		border-radius: none;
+		background-clip: none;
+	}
+}

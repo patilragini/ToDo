@@ -19,7 +19,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class Token {
 	private static String Key = "mykey";
 
-	public static String generateToken(String email, int id) {
+	public static String generateToken(int id) {
 		String token = "";
 		long currentTime = System.currentTimeMillis();
 		// 2 days
@@ -42,8 +42,6 @@ public class Token {
 				return 0;
 			else {
 				System.out.println("ID: " + claims.getId());
-				System.out.println("Subject: " + claims.getSubject());
-				System.out.println("Issuer: " + claims.getIssuer());
 				System.out.println("Expiration: " + claims.getExpiration());
 				return Integer.parseInt(claims.getId());
 			}
@@ -60,11 +58,6 @@ public class Token {
 		}
 	}
 
-	/*
-	 * public static void main(String[] args) { UserDetails user = null; String
-	 * token=Token.generateToken("ragini@gmail.com", 2);
-	 * System.out.println(token); System.out.println("HERE"+token);
-	 * System.out.println(verify(token)); }
-	 */
+
 
 }

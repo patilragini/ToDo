@@ -65,3 +65,32 @@ todoApp.directive('contenteditable', ['$sce', function($sce) {
 	  };
 
 	}]);
+
+todoApp.directive('datetimepicker', function() {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, element, attrs, ngModelCtrl) {
+            console.log('call datetimepicker link...');
+            var picker = element.datetimepicker({
+                dateFormat: 'dd/MM/yyyy hh:mm:ss'
+            });
+
+            //ngModelCtrl.$setViewValue(picker.getDate());
+
+            //model->view
+            ngModelCtrl.$render(function() {
+                console.log('ngModelCtrl.$viewValue@'+ngModelCtrl.$viewValue);
+                picker.setDate(ngModelCtrl.$viewValue || '');
+            });
+
+            //view->model
+            picker.on('dp.change', function(e) {
+                console.log('dp.change'+e.date);              
+                scope.$apply(function(){
+                    ngModelCtrl.$setViewValue(e.date);
+                });
+            });
+        }
+    };
+});

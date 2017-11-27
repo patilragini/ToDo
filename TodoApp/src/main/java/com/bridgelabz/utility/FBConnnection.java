@@ -57,14 +57,10 @@ public class FBConnnection {
 		form.param("redirect_uri", Redirect_URI);
 		form.param("code", code);
 		form.param("grant_type", "authorization_code");
-		
-		System.out.println("FORM ::\n"+form);
 		Response response = target.request().accept(MediaType.APPLICATION_JSON).post(Entity.form(form));
 		System.out.println(response);
 		String token = response.readEntity(String.class);
-		System.out.println("TOKEN::\n"+token);
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(mapper);
 		String accessToken = null;
 		try {
 			accessToken = mapper.readTree(token).get("access_token").asText();

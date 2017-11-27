@@ -1,6 +1,6 @@
 var todoApp = angular.module('TodoApp');
 //['ui.bootstrap']
-todoApp.controller('homeController', function($scope, loginService,noteService,$uibModal, $location) {
+todoApp.controller('homeController', function($scope, loginService,noteService,$uibModal, $location,$state) {
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
@@ -45,6 +45,7 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 	$scope.hide=function(){
 		$scope.showDiv=true;		
 	};	
+	
 	/*show Notes*/
 
 	$scope.showNotes = function() {
@@ -180,12 +181,31 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 	}
 	
 	$scope.colors=[
-		{"color":'#e74c3c',"path":'images/Red.png'},
-		{"color":'#fcff77',"path":'images/lightyellow.png'},{"color":'#80ff80',"path":'images/green.png'},{"color":'#0099ff',"path":'images/blue.png'},
-		{"color":'#1a53ff',"path":'images/darkblue.png'},{"color":'#9966ff',"path":'images/purple.png'
+		{"color":'#f26f75',"path":'images/Red.png'},
+		{"color":'#fcff77',"path":'images/lightyellow.png'},{"color":'#80ff80',"path":'images/green.png'},{"color":'#9ee0ff',"path":'images/blue.png'},
+		{"color":'#7daaf2',"path":'images/darkblue.png'},{"color":'#9966ff',"path":'images/purple.png'
 		},{"color":'#ff99cc',"path":'images/pink.png'},{"color":'#bfbfbf',"path":'images/grey.png'},{"color":'#ffffff',"path":'images/white.png'}
 		
 	];
+	
+	if($state.current.name=="home"){
+		$scope.navColor= "#ffbb00";
+		$scope.navBrand="ToDo App";
+		$scope.navBrandColor="black";
+	}
+	else if($state.current.name=="trash"){
+		$scope.navColor="#636363"
+			$scope.navBrand="Trash";
+		$scope.navBrandColor="white";
+
+
+	}
+	else if($state.current.name=="archive"){
+		$scope.navColor= "#607d8b";
+		$scope.navBrand="Archive";
+		$scope.navBrandColor="white";
+
+	}
 	
 	
 	

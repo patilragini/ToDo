@@ -37,7 +37,17 @@ public class Notes {
 
 	private boolean isArchive;
 	
+	private Date remainder;
 	
+	
+	
+	
+	public Date getRemainder() {
+		return remainder;
+	}
+	public void setRemainder(Date remainder) {
+		this.remainder = remainder;
+	}
 	public boolean isArchive() {
 		return isArchive;
 	}

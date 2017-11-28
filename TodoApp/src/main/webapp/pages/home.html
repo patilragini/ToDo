@@ -14,30 +14,48 @@
 			<div class="row">
 				<div class="col-lg-3 col-md-3"></div>
 				<div id="note" class=" col-sm-12 col-md-7 col-xs-12 col-lg-4"
-					ng-click="show()" ng-blur="hide()" style="padding-bottom: 20px; width: 600px">
+					ng-click="show()" ng-blur="hide()"
+					style="padding-bottom: 20px; width: 600px">
 
-					<div ng-model="note.title" ng-bind="note.title" contenteditable="true" data-text="Title"
-						ng-show="showDiv"></div>
+					<div ng-model="note.title" ng-bind="note.title"
+						contenteditable="true" data-text="Title" ng-show="showDiv"></div>
 					</br>
-					<div ng-bind="note.description" ng-model="note.description" contenteditable="true"
-						data-text="Take a note" ng-show="showDiv"></div>
+					<div ng-bind="note.description" ng-model="note.description"
+						contenteditable="true" data-text="Take a note" ng-show="showDiv"></div>
 					</br>
 					<div ng-show="showDiv">
-						<img src="images/remainder.svg"> <img
-							src="images/collaborate.svg"> 	<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-										ng-click="note.color=color.color;updateNote(note)"	ng-src="{{color.path}}" height="40px"
-											>
-										</a>
-									</ul>
-								</div> <img src="images/image.svg">
-						<img src="images/archive.svg">
+					
+						<a class="dropdown">
+							<img src="images/remainder.svg" data-toggle="dropdown">
+					
+						<ul class="dropdown-menu">
+							<div class="input-group date"
+								data-datetimepicker="datetimepicker"
+								data-date-format="MM/DD/YYYY hh:mm A/PM">
+								<input id="mypicker" class="form-control" type="text"
+									placeholder="click here" ng-click="datetimepicker()" /> <span
+									class="input-group-addon"> <span id="mypicker"
+									class="glyphicon glyphicon-calendar"> </span>
+								</span>
+							</div>
+						</ul>
+						</a>
+
+						<img src="images/collaborate.svg">
+						<div class="btn-group dropup colorDiv" uib-dropdown>
+							<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown"
+								alt="color" src="images/colourPalate.svg" uib-dropdown-toggle
+								height="20px">
+							<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+								aria-labelledby="btn-append-to-body"
+								style="background-color: #f9fbff">
+								<a ng-repeat="color in colors" role="menuitem"> <img
+									ng-click="note.color=color.color;updateNote(note)"
+									ng-src="{{color.path}}" height="40px">
+								</a>
+							</ul>
+						</div>
+						<img src="images/image.svg"> <img src="images/archive.svg">
 						<button class="right" ng-click="saveNote()">DONE</button>
 					</div>
 				</div>
@@ -52,67 +70,87 @@
 				<div
 					ng-repeat='note in notes|filter:{pinned:true,archive:false,inTrash:false}'
 					id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-3"
-					style="margin: 10px; background-color:{{note.color}}">
-					<div class="tooltip2">						
-					<div style="background-color:{{note.color}}" class="right">
-						<img  ng-click="unpinNote(note)" src="images/pinblue.svg" style="background-color: {{note.color}}">
-					</div>
-					<div ng-click="showModalPin(note)">
-						<div contenteditable="true" ng-model="note.title"
-							style="background-color: {{note.color}}">{{note.title}}</div>
+					style="margin: 10px; background-color: {{note.color}}">
+					<div class="tooltip2">
+						<div style="background-color: {{note.color}}" class="right">
+							<img ng-click="unpinNote(note)" src="images/pinblue.svg"
+								style="background-color: {{note.color}}">
+						</div>
+						<div ng-click="showModalPin(note)">
+							<div contenteditable="true" ng-model="note.title"
+								style="background-color: {{note.color}}">{{note.title}}</div>
+							</br>
+							<div contenteditable="true" ng-model="note.description"
+								style="background-color: {{note.color}}">{{note.description}}</div>
+						</div>
 						</br>
-						<div contenteditable="true" ng-model="note.description"
-							style="background-color: {{note.color}}">{{note.description}}</div>
-					</div>
-					</br>
-					<div class="tooltipshow">
-						<div class="dropdown" class="left">
-							<a class="dropdown-toggle" data-toggle="dropdown" role="button"
-								aria-haspopup="true" aria-expanded="false"> 
-							</a> <img src="images/remainder.svg"> <img
-								src="images/collaborate.svg"> 						
-						<div class="btn-group dropup colorDiv" uib-dropdown>
+						<div class="tooltipshow">
+							<div class="dropdown" class="left">
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="false"> </a>
+									
+									
+									<a class="dropdown">
+							<img src="images/remainder.svg" ng-click="showModalPin(note)">					
+						<ul class="dropdown-menu">
+							<div class="input-group date"
+								data-datetimepicker="datetimepicker"
+								data-date-format="MM/DD/YYYY hh:mm A/PM">
+								<input id="mypicker" class="form-control" type="text"
+									placeholder="click here" ng-click="datetimepicker()"/> <span
+									class="input-group-addon"> <span id="mypicker"
+									class="glyphicon glyphicon-calendar"> </span>
+								</span>
+							</div>
+						</ul>
+						</a>
+										<img src="images/collaborate.svg">
+								<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
+										src="images/colourPalate.svg" uib-dropdown-toggle
+										height="20px">
 									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 										aria-labelledby="btn-append-to-body"
 										style="background-color: #f9fbff">
 										<a ng-repeat="color in colors" role="menuitem"> <img
-										ng-click="note.color=color.color;updateNote(note)"	ng-src="{{color.path}}" height="40px"
-											>
+											ng-click="note.color=color.color;updateNote(note)"
+											ng-src="{{color.path}}" height="40px">
 										</a>
 									</ul>
 								</div>
-							<img src="images/image.svg"> <img
-								ng-click="ArchiveNote(note)" src="images/archive.svg">
+								<img src="images/image.svg"> <img
+									ng-click="ArchiveNote(note)" src="images/archive.svg">
 
-							<div style="float: right">
-								<span class="btn dropdown-toggle" id="menu1"
-									data-toggle="dropdown">
-									 <span > 
-									 <img src="images/more.svg" style="width: 19px; height: 32px;"></span>
-								</span>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li></li>
-									<li>
-									<li><a ng-click="deleteNote(note)">DELETE</a></li>
+								<div style="float: right">
+									<span class="btn dropdown-toggle" id="menu1"
+										data-toggle="dropdown"> <span> <img
+											src="images/more.svg" style="width: 19px; height: 32px;"></span>
+									</span>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										<li></li>
+										<li>
+										<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
-									<li><a ng-click="updateNote(note)">UPDATE</a></li>
+										<li><a ng-click="updateNote(note)">UPDATE</a></li>
+											<li><a ng-click="fbShare(note)">fbShare</a></li>
+											<li><a ng-click="copy(note)">Make a copy</a></li>
 
-								</ul>
+									</ul>
+								</div>
+
 							</div>
-
 						</div>
-					</div>
-					
-				
+
+
 					</div>
 				</div>
 			</div>
 			<hr>
 			<!---------------- Show note ---------------->
 			<h4>Others::</h4>
+
+			
 
 			<div class="row">
 				<a ng-init="showNotes()"></a>
@@ -121,87 +159,86 @@
 					id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-3"
 					style="margin: 10px">
 
-					<div class="tooltip2">	
+					<div class="tooltip2">
 						<div class="right">
-							<img  ng-click="pinNote(note)" src="images/pin.svg" style="background: transparent;background-color: {{note.color}}" >
+							<img ng-click="pinNote(note)" src="images/pin.svg"
+								style="background: transparent; background-color: {{note.color}}">
 						</div>
 						<div ng-click="showModel(note)">
-							<div contenteditable="true" ng-model="note.title" style="background-color: {{note.color}}" >{{note.title}}</div>
+							<div contenteditable="true" ng-model="note.title"
+								style="background-color: {{note.color}}">{{note.title}}</div>
 							</br>
-							<div contenteditable="true" ng-model="note.description" style="background-color: {{note.color}}">{{note.description}}</div>
+							<div contenteditable="true" ng-model="note.description"
+								style="background-color: {{note.color}}">{{note.description}}</div>
 						</div>
 						</br>
 						<div class="tooltipshow">
-						<div class="dropdown" class="left">
-							<a class="dropdown-toggle" data-toggle="dropdown" role="button"
-								aria-haspopup="true" aria-expanded="false"> 
-							</a> <img src="images/remainder.svg"> <img
-								src="images/collaborate.svg"> 						
-						<div class="btn-group dropup colorDiv" uib-dropdown>
+							<div class="dropdown" class="left">
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
+									aria-haspopup="true" aria-expanded="true"> </a>
+									
+								<a class="dropdown">
+							<img src="images/remainder.svg" ng-click="showModalPin(note)">
+					
+						<ul class="dropdown-menu">
+							<div class="input-group date"
+								data-datetimepicker="datetimepicker"
+								data-date-format="MM/DD/YYYY hh:mm A/PM">
+								<input id="mypicker" class="form-control" type="text"
+									placeholder="click here" ng-click="datetimepicker()" /> <span
+									class="input-group-addon"> <span id="mypicker"
+									class="glyphicon glyphicon-calendar"
+									ng-click="datetimepicker()"> </span>
+								</span>
+							</div>
+						</ul>
+						</a>		<img
+									src="images/collaborate.svg">
+								<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
+										src="images/colourPalate.svg" uib-dropdown-toggle
+										height="20px">
 									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
 										aria-labelledby="btn-append-to-body"
 										style="background-color: #f9fbff">
 										<a ng-repeat="color in colors" role="menuitem"> <img
-										ng-click="note.color=color.color;updateNote(note)"	ng-src="{{color.path}}" height="40px"
-										style="border: 2px ;border-color: black"
-											>
+											ng-click="note.color=color.color;updateNote(note)"
+											ng-src="{{color.path}}" height="40px"
+											style="border: 2px; border-color: black">
 										</a>
 									</ul>
 								</div>
-							<img src="images/image.svg"> <img
-								ng-click="ArchiveNote(note)" src="images/archive.svg">
+								<img src="images/image.svg"> <img
+									ng-click="ArchiveNote(note)" src="images/archive.svg">
 
-							<div style="float: right">
-								<span class="btn dropdown-toggle" id="menu1"
-									data-toggle="dropdown">
-									 <span > 
-									 <img src="images/more.svg" style="width: 19px; height: 32px;"></span>
-								</span>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li></li>
-									<li>
-									<li><a ng-click="deleteNote(note)">DELETE</a></li>
+								<div style="float: right">
+									<span class="btn dropdown-toggle" id="menu1"
+										data-toggle="dropdown"> <span> <img
+											src="images/more.svg" style="width: 19px; height: 32px;"></span>
+									</span>
+									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										<li></li>
+										<li>
+										<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
-									<li><a ng-click="updateNote(note)">UPDATE</a></li>
+										<li><a ng-click="updateNote(note)">UPDATE</a></li>
+											<li><a ng-click="fbShare(note)">fbShare</a></li>
+										<li><a ng-click="copy(note)">Make a copy</a></li>
+											
 
-								</ul>
+									</ul>
+								</div>
+
 							</div>
-
 						</div>
-					</div>
-				
+
 					</div>
 
 				</div>
 			</div>
+
+			<div class="col-md-6"></div>
+			<!-- End of body -->
 		</div>
-		<!-- End of body -->
-		<div class="col-lg-1"></div>
-		
-		
-		
-		<div class="col-md-6">
-  <div class="input-group date" id="endTime" data-datetimepicker  ng-model="stat.endTime" data-date-format="MM/DD/YYYY hh:mm A/PM" >
-    <input class="form-control" type="text" placeholder="End"/>
-    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span>
-    </span>
-  </div>
-</div>
-
-<br>
-<br>
-here
 	</div>
-</div>
-
-
-
-
-
-
-
-
-

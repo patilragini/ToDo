@@ -22,7 +22,7 @@
 	padding-left: 20px;
 }
 
-[contentEditable=true]:empty:not (:focus ):before {
+[contentEditable=true]:empty:not(:focus ):before {
 	content: attr(data-text)
 }
 

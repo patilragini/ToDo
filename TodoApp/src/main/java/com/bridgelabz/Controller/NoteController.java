@@ -108,7 +108,7 @@ public class NoteController {
 			if (id > 0) {
 				if (noteUpdate.getUserDetails().getId() == id) {
 					note.setUserDetails(user);					
-					note.setLastUpdated(date);		
+					note.setLastUpdated(date);	
 					int updateStatus = notesService.updateNotes(note);
 					if (updateStatus == 1)
 						return new ResponseEntity<String>("Note updated", HttpStatus.OK);

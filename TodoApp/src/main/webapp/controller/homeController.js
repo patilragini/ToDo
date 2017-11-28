@@ -6,7 +6,7 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		result.then(function(response) {
 			$state.go("home");
 		}, function(response) {
-			alert("Eroor");
+			alert("Wrong user name password");
 		});
 	}
 	$scope.showSidebar = function() {
@@ -37,6 +37,7 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 	};
 	
 	
+	
 	$scope.showDiv=false;
 	
 	$scope.show=function(){
@@ -46,18 +47,34 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		$scope.showDiv=true;		
 	};	
 	
+//	make copy of note
+	$scope.copy = function(note) {
+		note.pinned=false;		
+		note.archived = false;
+		note.archive=false;		
+		note.remainder="";
+		var token = localStorage.getItem('login');
+		var a = noteService.saveNote(token,note);
+		a.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+		});
+	}
+	
 	/*show Notes*/
 
 	$scope.showNotes = function() {
 		var token = localStorage.getItem('login');
+		
 		var notes = noteService.showNotes(token);
+		console.log(notes.remainder);
 		notes.then(function(response) {
 			$scope.notes = response.data;
 		}, function(response) {
 			console.log("ERROR IN SHOWING NOTE");
 		});
-		$scope.notes = notes;
-	}
+/*		$scope.notes = notes;
+*/	}
 	
 	/*save Notes*/
 	
@@ -96,8 +113,6 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		});
 	}
 	
-	
-	
 	/*delete Note forever*/
 	$scope.deleteForeverNote = function(note) {
 		var token = localStorage.getItem('login');	
@@ -107,6 +122,7 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		}, function(response) {
 			$scope.showNotes();
 		});
+		
 	}
 	
 	
@@ -206,8 +222,54 @@ todoApp.controller('homeController', function($scope, loginService,noteService,$
 		$scope.navBrandColor="white";
 
 	}
+	if($state.current.name=="search"){
+		$scope.navColor= "#000057";
+		$scope.navBrand="ToDo App";
+		$scope.navBrandColor="white";
+	}
+	
+//	remainder functions
 	
 	
+	$scope.datetimepicker=function(note){
+		console.log("in date time picker");
+    	$('#mypicker').datetimepicker();
+    	var remainder = $('#mypicker').val();
+    	note.remainder=new Date(remainder);
+    	$scope.updateNote(note);
+    	console.log(remainder);
+    }
 	
+
+	 $scope.toster= function(note){
+	    var remainder=note.remainder;		 	 
+		    }
+	 
+	 $scope.fbShare = function(note) {
+			FB.init({
+				appId : '159040634830938',
+				status : true,
+				cookie : true,
+				xfbml : true,
+				version : 'v2.4'
+			});
+
+			FB.ui({
+				method : 'share_open_graph',
+				action_type : 'og.likes',
+				action_properties : JSON.stringify({
+					object : {
+						'og:title' : note.title,
+						'og:description' :note.description
+					}
+				})
+			}, function(response) {
+				if (response && !response.error_message) {
+					alert('Posting completed.');
+				} else {
+					alert('Error while posting.');
+				}
+			});
+		};
 		
 });

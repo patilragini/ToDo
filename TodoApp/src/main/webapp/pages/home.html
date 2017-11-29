@@ -19,7 +19,7 @@
 
 					<div ng-model="note.title" ng-bind="note.title"
 						contenteditable="true" data-text="Title" ng-show="showDiv"></div>
-					</br>
+					</br> 
 					<div ng-bind="note.description" ng-model="note.description"
 						contenteditable="true" data-text="Take a note" ng-show="showDiv"></div>
 					</br>
@@ -39,7 +39,7 @@
 								</span>
 							</div>
 						</ul>
-						</a>
+						</a> 
 
 						<img src="images/collaborate.svg">
 						<div class="btn-group dropup colorDiv" uib-dropdown>
@@ -104,7 +104,11 @@
 							</div>
 						</ul>
 						</a>
+						<div ng-click="showModelCollaborator(note)">
 										<img src="images/collaborate.svg">
+										</div>
+										
+										
 								<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"

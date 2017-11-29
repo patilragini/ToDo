@@ -19,7 +19,8 @@ import javax.persistence.OneToMany;
 
 /**
  * 
- * @author Ragini pojo user_Details
+ * @author Ragini 
+ * <p>pojo user_Details
  *
  */
 @Entity

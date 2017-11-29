@@ -13,6 +13,23 @@ todoApp.factory('noteService', function($http, $location) {
 			}
 		});
 	}
+	
+
+	noteList.service = function(token, note,url) {
+		console.log(note);
+		return $http({
+			method : 'POST',
+			url : url,
+			data : note,
+			headers : {
+				'login' : token
+			}
+		});
+	}
+	
+	
+	
+	
 
 	noteList.saveNote = function(token, note) {
 		console.log(note);

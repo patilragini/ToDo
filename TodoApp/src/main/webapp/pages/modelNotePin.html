@@ -13,6 +13,10 @@
 					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
 					</br>
 					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div>
+					<span>Reminder:{{mypicker}}</span>
+					</div>
+					
 					<div></div>
 					</br>
 					<div>
@@ -24,15 +28,20 @@
 							<img src="images/remainder.svg" data-toggle="dropdown">
 					
 						<ul class="dropdown-menu">
+						     <li>Later 8am</li>
+						
 							<div class="input-group date"
 								data-datetimepicker="datetimepicker"
-								data-date-format="MM/DD/YYYY hh:mm AM/PM"  >
+								data-date-format="YYYY/MM/DD hh:mm AM/PM"  >
 								<input id="mypicker" class="form-control" type="text"
-									placeholder="click here" ng-model="note.remainder"/> <span
+									placeholder="" ng-model="note.remainder"/> <span
 									class="input-group-addon"> <span id="mypicker"
 									class="glyphicon glyphicon-calendar" ng-click="datetimepicker(note)" > </span>
 								</span>
 							</div>
+							
+							
+							
 						</ul>
 						</a>
 				<img

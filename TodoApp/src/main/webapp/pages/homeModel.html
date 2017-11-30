@@ -1,20 +1,20 @@
 
-
-   <div class="modal-content">
+   
    
     <div class="model-body">
  <div class="col-md-6 col-sm-10 col-xs-12 col-lg-12"><br><br></div>
-    
+ 
+ 
 		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
-					style="background-color:{{note.color}}"}>	
-													
-					<div class="right">
-						<img style="background-color:{{note.color}}"} ng-click="pinNote(note)" src="images/pin.svg">
-					</div>
-					<div style="background-color:{{note.color}}"} contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					style="margin: 10px ;background-color:{{note.color}}">										
+					
+					<div class="right" style="background-color:{{note.color}}">
+<img style="background-color:{{note.color}}" ng-click="pinNote(note)" src="images/pin.svg">					</div>
+					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
 					</br>
-					<div style="background-color:{{note.color}}"} contenteditable="true" ng-model="note.description">{{note.description}}</div>
-					<div></div><span>Reminder:{{mypicker}}</span>
+					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div>
+					<span>Reminder:{{mypicker}}</span>
 					</div>
 					
 					<div></div>
@@ -73,12 +73,15 @@
 									<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
 									<li><a ng-click="updateNote(note)">UPDATE</a></li>
-											<li><a ng-click="fbShare(note)">fbShare</a></li>
+									<li><a ng-click="fbShare(note)">fbShare</a></li>
+								 <li><a ng-click="copy(note)">Make a copy</a></li>
+											
 
 								</ul>
 							</div>
 					</div>
 					
-					</div>
+					
+					
 		</div>
 </div>

@@ -37,7 +37,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		});
 	};
 	
-	$scope.ListView = true;
+	/*$scope.ListView = true;
 
 	$scope.ListViewToggle = function() {
 		if ($scope.ListView == true) {
@@ -65,7 +65,29 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 				element[i].style.width = "300px";
 			}
 		}
+	}*/
+	
+	var getUser = function() {
+		var token = localStorage.getItem('login');
+		var url = 'getuser';
+		var UserDetails = noteService.service(url, 'Get', token);
+		console.log("log::"+UserDetails);
+		UserDetails.then(function(response) {			
+			var Userdetails = response.data;
+			console.log(Userdetails);
+			if (Userdetails!= null) {
+				console.log(Userdetails.name);
+				$scope.Userdetails = Userdetails;
+
+			}
+			$scope.Userdetails = Userdetails;
+
+		}, function(response) {
+			$scope.Userdetails = Userdetails;
+
+		});
 	}
+	getUser();
 	
 	
 	
@@ -73,24 +95,62 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	
 	
 	
-	
-	/* open collaborator modal */
-	$scope.showModelCollaborator = function(note) {
-		
+   /*$scope.showModelCollaborator = function(note) {
 		modalInstance = $uibModal.open({
 			templateUrl : 'pages/collaboratorNoteModel.html',
 			scope : $scope
 		});
+	}*/
+	
+	//COLABORATOR
+	$scope.openCollboarate = function(note,user) {
+		$scope.note = note;
+		$scope.user = user;
+		modalInstance = $uibModal.open({
+			templateUrl : 'pages/collaboratorNoteModel.html',
+			scope : $scope,
+
+		});
 	}
+	
+	
+	
+	
+	
+	
+		
+	
+	/*var collborators = [];
+	$scope.getUserlist = function(note, user) {
+		var details = {};
+		console.log("here::"+note);
+		details.note = note;
+		details.ownerId = user;
+		console.log(user);
+		details.shareWithId = {};
+		console.log(details);
+		var url = 'collaborate';
+		var token = localStorage.getItem('login');
+		var users = noteService.service(url, 'POST', token, details);
+		console.log("fddfsfd"+users);
+		users.then(function(response) {
+			console.log("inside collaborator");
+			console.log(response.data);
+			$scope.users = response.data;
+			note.collabratorUsers = response.data;
+			console.log(note.collabratorUsers);
 
-	$scope.showDiv = false;
+		}, function(response) {
+			$scope.users = {};
+			collborators = response.data;
+			console.log("inside collaborator response"+collborators);
 
-	$scope.show = function() {
-		$scope.showDiv = true;
-	};
-	$scope.hide = function() {
-		$scope.showDiv = true;
-	};
+		});
+		console.log("Returned");
+		console.log(collborators);
+		console.log(users);
+		return collborators;
+	}*/
 
 	// make copy of note
 	$scope.copy = function(note) {
@@ -105,6 +165,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		}, function(response) {
 		});
 	}
+	
 
 	/* show Notes */
 
@@ -112,24 +173,28 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		var token = localStorage.getItem('login');
 
 		var notes = noteService.showNotes(token);
-		console.log(notes.remainder);
 		notes.then(function(response) {
 			$scope.notes = response.data;
 		}, function(response) {
 			console.log("ERROR IN SHOWING NOTE");
 		});
-		/*
-		 * $scope.notes = notes;
-		 */}
+		}
 
 	/* save Notes */
 
-	$scope.saveNote = function() {
+	$scope.saveNote = function(note) {
 		var token = localStorage.getItem('login');
 		console.log("in create notes ");
-		var notes = noteService.saveNote(token, $scope.note);
+		note.pinned = false;
+		note.archived = false;
+		note.archive = false;
+		var notes = noteService.saveNote(token, note);
+		
 		notes.then(function(response) {
+			$scope.note.title="";
+			$scope.note.description="";
 			$scope.showNotes();
+			$scope.showDiv=false;
 		}, function(response) {
 			console.log("ERROR IN SAVING NOTE");
 		});
@@ -224,6 +289,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		});
 	}
 
+
 	/* note Archive */
 	$scope.unArchiveNote = function(note) {
 		var token = localStorage.getItem('login');
@@ -304,17 +370,17 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			var i = 0;
 			for (i; i < $scope.notes.length; i++) {
 				var currentDate = moment().format('YYYY-MM-DD HH:mm');
-			console.log("currentDate" + currentDate);
+//			console.log("currentDate" + currentDate);
 //				console.log($scope.notes[i].title);
 				var dateString = (new Date($scope.notes[i].remainder));
-				console.log(dateString);
+//				console.log(dateString);
 				var dateString2=new Date(dateString).toISOString().slice(0, 19).replace('T', ' ');
 				
-				console.log("database date::"+dateString2);
+//				console.log("database date::"+dateString2);
 				if (dateString2  === currentDate) {
 					$scope.mypicker=dateString2;
-					console.log($scope.notes[i].description);
-					console.log("reminder !!!!! " +dateString2);					
+//					console.log($scope.notes[i].description);
+//					console.log("reminder !!!!! " +dateString2);					
 				
 					toastr.success('Remainder check notes!!!');
 					dateString2=null;
@@ -322,7 +388,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 
 						
 				}
-				console.log("dskjhdjkh");
+//				console.log("dskjhdjkh");
 
 			}
 		}, 10000);
@@ -364,9 +430,15 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		});
 	};
 	
-	
-	
-	
+
+	$scope.showDiv = false;
+
+	$scope.show = function() {
+		$scope.showDiv = true;
+	};
+	$scope.hide = function() {
+		$scope.showDiv = true;
+	};
 
 
 

@@ -95,3 +95,72 @@ public class FBConnnection {
 		return fbProfile;
 	}
 }
+/*
+
+
+
+
+
+
+$scope.collborate = function(note, user) {
+	var obj = {};
+	console.log(note);
+	obj.note = note;
+	obj.ownerId = user;
+	obj.shareWithId = $scope.shareWith;
+
+	var url = 'collaborate';
+	var token = localStorage.getItem('token');
+	var users = noteService.service(url, 'POST', token, obj);
+	users.then(function(response) {
+
+		console.log("Inside collborator");
+		console.log(response.data);
+		$scope.users = response.data;
+		$scope.note.collabratorUsers = response.data;
+
+	}, function(response) {
+		$scope.users = {};
+
+	});
+	console.log("Returned");
+	console.log(collborators);
+	console.log(users);
+
+}
+
+$scope.getOwner = function(note) {
+	var url = 'getOwner';
+	var token = localStorage.getItem('token');
+	var users = noteService.service(url, 'POST', token, note);
+	users.then(function(response) {
+
+		$scope.owner = response.data;
+
+	}, function(response) {
+		$scope.users = {};
+	});
+}
+
+$scope.removeCollborator = function(note, user, index) {
+	var obj = {};
+	var url = 'removeCollborator';
+	obj.note = note;
+	obj.ownerId = {
+		'email' : ''
+	};
+	obj.shareWithId = user;
+	var token = localStorage.getItem('token');
+	var users = noteService.service(url, 'POST', token, obj);
+	users.then(function(response) {
+		$scope.collborate(note, $scope.owner);
+
+		console.log(response.data);
+
+	}, function(response) {
+		console.log(response.data);
+
+	});
+}
+
+*/

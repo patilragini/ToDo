@@ -21,7 +21,7 @@
 						contenteditable="true" data-text="Title" ng-show="showDiv"></div>
 					</br> 
 					<div ng-bind="note.description" ng-model="note.description"
-						contenteditable="true" data-text="Take a note" ng-show="showDiv"></div>
+						contenteditable="true" data-text="Take a note" ></div>
 					</br>
 					<div ng-show="showDiv">
 					
@@ -42,7 +42,7 @@
 						</a> 
 
 						<img src="images/collaborate.svg">
-						<div class="btn-group dropup colorDiv" uib-dropdown>
+							<div class="btn-group dropup colorDiv" uib-dropdown>
 							<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown"
 								alt="color" src="images/colourPalate.svg" uib-dropdown-toggle
 								height="20px">
@@ -56,7 +56,7 @@
 							</ul>
 						</div>
 						<img src="images/image.svg"> <img src="images/archive.svg">
-						<button class="right" ng-click="saveNote()">DONE</button>
+						<button class="right" ng-click="saveNote(note)">DONE</button>
 					</div>
 				</div>
 			</div>
@@ -104,11 +104,14 @@
 							</div>
 						</ul>
 						</a>
-						<div ng-click="showModelCollaborator(note)">
+						
+						
+						
+						
+						<div ng-click="openCollboarate(note,user)">
 										<img src="images/collaborate.svg">
 										</div>
-										
-										
+									
 								<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
@@ -182,7 +185,7 @@
 									aria-haspopup="true" aria-expanded="true"> </a>
 									
 								<a class="dropdown">
-							<img src="images/remainder.svg" ng-click="showModalPin(note)">
+							<img src="images/remainder.svg">
 					
 						<ul class="dropdown-menu">
 							<div class="input-group date"
@@ -223,7 +226,7 @@
 									</span>
 									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 										<li></li>
-										<li>
+									
 										<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
 										<li><a ng-click="updateNote(note)">UPDATE</a></li>

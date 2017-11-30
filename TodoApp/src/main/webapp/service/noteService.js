@@ -15,8 +15,8 @@ todoApp.factory('noteService', function($http, $location) {
 	}
 	
 
-	noteList.service = function(token, note,url) {
-		console.log(note);
+/*	noteList.service = function(token, note,url) {
+		console.log("inservice++"+note);
 		return $http({
 			method : 'POST',
 			url : url,
@@ -25,8 +25,19 @@ todoApp.factory('noteService', function($http, $location) {
 				'login' : token
 			}
 		});
-	}
+	}*/
 	
+	noteList.service=function(url,method,token,note){
+		return $http({
+		    method: method,
+		    url: url,
+		    data:note,
+		    headers: {
+		        'login': token
+		    }
+		
+		});
+	}
 	
 	
 	
@@ -90,6 +101,10 @@ todoApp.factory('noteService', function($http, $location) {
 			}
 		});
 	}
+	
+	
+	
+	
 	
 
 	return noteList;

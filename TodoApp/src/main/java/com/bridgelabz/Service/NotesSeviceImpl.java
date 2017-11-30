@@ -1,11 +1,14 @@
 package com.bridgelabz.Service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Dao.NoteDao;
+import com.bridgelabz.Model.Collaborator;
 import com.bridgelabz.Model.Notes;
+import com.bridgelabz.Model.UserDetails;
 
 /**
  * 
@@ -50,6 +53,24 @@ public class NotesSeviceImpl implements NotesService{
 		// TODO Auto-generated method stub
 		return noteDao.getNotesTrash(id,inTrash);
 	}*/
+	public int saveCollborator(Collaborator collborate) {
+		// TODO Auto-generated method stub
+		return noteDao.saveCollborator(collborate);
+	}
+
+	public List<UserDetails> getListOfUser(int noteId) {
+		return noteDao.getListOfUser(noteId);
+	}
+
+	public Set<Notes> getCollboratedNotes(int userId) {
+		// TODO Auto-generated method stub
+		return noteDao.getCollboratedNotes(userId);	
+	}
+
+	public int removeCollborator(int shareWith,int noteId) {
+		// TODO Auto-generated method stub
+		return noteDao.removeCollborator(shareWith, noteId);
+	}
 	
 	
 

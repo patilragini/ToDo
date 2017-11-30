@@ -4,6 +4,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +41,8 @@ public class UserDetails {
 	
 	@Column(unique = true)
 	private String email;
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "userDetails")
 	private Set<Notes> notes;
 

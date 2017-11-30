@@ -8,10 +8,10 @@ app.controller('loginController', function($scope,toastr,$interval, loginService
 			console.log(response.headers('login'));
 			localStorage.setItem('login',response.headers('login'));
 			toastr.success('login scussfull','');
-
 			$location.path("/home");
 			toastr.success('error in login','dsa');
 	}, function(response) {
+		$location.path("/login");
 		toastr.success('error in login','dsa');
 			});
 	}

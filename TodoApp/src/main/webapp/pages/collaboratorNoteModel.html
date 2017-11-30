@@ -1,15 +1,27 @@
-<div class="modal-header">
-<h3>Collaborator</h3>
-</div>
+<div class="modal-content"  ng-init="getUserlist(note,Userdetails)">
+<div class="modal-header"><font size="5px">COLLABORATOR</font></div>
+	<div class="modal-body" ng-init="getUserlist(note,user)">
+		<div class="row">	
+	<div class="col-sm-8" ng-init="getOwner(note)"><font size="4px">{{owner.name}}<i class="pull-right">(owner)</i></font><br>{{owner.email}}</div>
+	</div><br>
+	<div ng-repeat="user in UserDetails">
+	<div class="row">
+	
+	<div><font size="4px">{{user.name}}</font>
+	
+	<br>{{user.email}}
+	</div>
+	</div><br>
+	</div>
+	<div class="row">
+	<input type="text" class="col-sm-12" id="searchbox" ng-model="$parent.shareWith.email" placeholder="Enter Collborator">
+	</div>
+	</div>
+	
+	<div class="modal-footer">
+	
+	    <div role="button" ng-click="collborate(note,user)"
+				class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
+	</div>
 
-<div class="modal-body" >
-
-
-<div>
-<input type="text" id="email" class="form-control" placeholder="enter email to share">
-
-</div>
-<div class="modal-footer">
-<button ng-click="">CANCEL</button>
-<button ng-click="">SAVE</button>
-</div>
+</div>>

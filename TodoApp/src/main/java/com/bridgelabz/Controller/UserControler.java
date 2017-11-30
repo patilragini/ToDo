@@ -133,10 +133,8 @@ public class UserControler {
 		if (error2 == "valid") {
 			UserDetails userbyEmail = userService.getUserByEmail(email);
 			if (userbyEmail != null) {
-				System.out.println("forgrt link");
 				String token = Token.generateToken(userbyEmail.getId());
 				response.setHeader("token", token);			
-				
 				String url = "http://localhost:8082/TodoApp/"+ "#!/resetpassword/"+token;	
 				String to = "patilrag21@gmail.com";
 				String msg = "Click on link to reset password  " + url+"  \n Enter below code in authentication:"+token;
@@ -202,10 +200,22 @@ public class UserControler {
 	@RequestMapping(value="/getToken")
 	public ResponseEntity<CustomResponse> getToken(HttpSession session){
 		CustomResponse response=new CustomResponse();
-//		System.out.println("in get dummy::---------------------------------------------->>>>>>>>>>>>");
+//		System.out.println("in get dummy::------>>>>>>>>>>");
 		response.setMessage((String) session.getAttribute("login"));
 //		System.out.println(response.getMessage());
 		return  ResponseEntity.ok(response);
+	}
+	
+
+	@RequestMapping(value = "/getuser", method = RequestMethod.GET)
+	public ResponseEntity<UserDetails> getUser(HttpServletRequest request){
+		String token = request.getHeader("login");
+		UserDetails user = userService.getUserById(Token.verify(token));
+		if(user!=null){
+			return ResponseEntity.ok(user);
+		}else{
+			return ResponseEntity.ok(user);
+		}
 	}
 
 	}

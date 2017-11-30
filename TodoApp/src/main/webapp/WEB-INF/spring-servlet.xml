@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-	
+
 	<context:component-scan base-package="com.bridgelabz" />
 	<mvc:annotation-driven />
 
@@ -26,6 +25,8 @@
 			<list>
 				<value>com.bridgelabz.Model.UserDetails</value>
 				<value>com.bridgelabz.Model.Notes</value>
+				<value>com.bridgelabz.Model.Collaborator</value>
+
 			</list>
 		</property>
 
@@ -55,15 +56,15 @@
 	<bean id="sendMail" class="com.bridgelabz.utility.SendMail">
 		<property name="mailSender" ref="mailSender"></property>
 	</bean>
-	
-		<bean id="userService" class="com.bridgelabz.Service.UserServiceImpl" />
-		<bean id="userDao" class="com.bridgelabz.Dao.UserDaoImpl" />
-		
-		<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
-		<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl"/>
-	
-	
-	<mvc:resources location="/pages/" mapping="/pages/**" />	
+
+	<bean id="userService" class="com.bridgelabz.Service.UserServiceImpl" />
+	<bean id="userDao" class="com.bridgelabz.Dao.UserDaoImpl" />
+
+	<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
+	<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl" />
+
+
+	<mvc:resources location="/pages/" mapping="/pages/**" />
 	<mvc:resources location="/script/" mapping="/script/**" />
 	<mvc:resources location="/controller/" mapping="/controller/**" />
 	<mvc:resources location="/service/" mapping="/service/**" />
@@ -71,6 +72,6 @@
 	<mvc:resources location="/directives/" mapping="/directives/**" />
 	<mvc:resources location="/images/" mapping="/images/**" />
 	<mvc:resources location="/js/" mapping="/js/**" />
-	
 
- </beans>
+
+</beans>

@@ -1,8 +1,11 @@
 package com.bridgelabz.Dao;
 
+import java.util.List;
 import java.util.Set;
 
+import com.bridgelabz.Model.Collaborator;
 import com.bridgelabz.Model.Notes;
+import com.bridgelabz.Model.UserDetails;
 
 /**
  * 
@@ -11,14 +14,25 @@ import com.bridgelabz.Model.Notes;
  */
 public interface NoteDao {
 	public int saveNotes(Notes note);
+	
 	public Set<Notes> getNotes(int id);
 	
 /*	public Set<Notes> getNotesTrash(int id,boolean inTrash);
 */
 	
 	public Notes getNoteById(int id);
+	
 	public boolean deleteNote(int deleteNodeId);
+	
 	public int updateNotes(Notes note);
+	 
+	public int saveCollborator(Collaborator collborate);
+	
+	public List<UserDetails> getListOfUser(int noteId);
+	
+	public Set<Notes> getCollboratedNotes(int userId);
+	
+	public int removeCollborator(int shareWith,int noteId );
 
 	
 }

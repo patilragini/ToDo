@@ -1,5 +1,4 @@
 
-    <div class="modal-content">
    
     <div class="model-body">
  <div class="col-md-6 col-sm-10 col-xs-12 col-lg-12"><br><br></div>
@@ -7,6 +6,7 @@
  
 		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
 					style="margin: 10px ;background-color:{{note.color}}">										
+					
 					<div class="right" style="background-color:{{note.color}}">
 						<img ng-click="unpinNote(note)" src="images/pinblue.svg">
 					</div>
@@ -73,7 +73,9 @@
 									<li><a ng-click="deleteNote(note)">DELETE</a></li>
 
 									<li><a ng-click="updateNote(note)">UPDATE</a></li>
-											<li><a ng-click="fbShare(note)">fbShare</a></li>
+									<li><a ng-click="fbShare(note)">fbShare</a></li>
+								 <li><a ng-click="copy(note)">Make a copy</a></li>
+											
 
 								</ul>
 							</div>

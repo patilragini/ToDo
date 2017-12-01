@@ -99,7 +99,6 @@ public class NotesDaoImpl implements NoteDao {
 			session.delete(getNoteById(deleteNodeId));
 			try {
 				transaction.commit();
-
 			} catch (HibernateException e) {
 				e.printStackTrace();
 				transaction.rollback();
@@ -107,7 +106,6 @@ public class NotesDaoImpl implements NoteDao {
 				session.close();
 			}
 		}
-
 		return false;
 	}
 
@@ -169,8 +167,8 @@ public class NotesDaoImpl implements NoteDao {
 		Session session = sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		Query query = session.createQuery("delete  Collaborator c where c.shareWithId= "+shareWith+" and c.note="+noteId );
-		query.setParameter("noteId", noteId);
-		query.setParameter("shareWith", shareWith);
+		/*query.setParameter("noteId", noteId);
+		query.setParameter("shareWith", shareWith);*/
 		int status=query.executeUpdate();
 		session.close();
 		return status;

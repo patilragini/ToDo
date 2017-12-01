@@ -48,7 +48,7 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 			
 			$stateProvider.state('search', {
 				url : '/archive',
-				templateUrl : 'pages/search.html',
+				templateUrl : 'pages/Search.html',
 				controller : 'homeController'
 			});
 			

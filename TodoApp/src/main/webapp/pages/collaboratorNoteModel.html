@@ -1,20 +1,32 @@
-<div class="modal-content"  ng-init="getUserlist(note,Userdetails)">
-<div class="modal-header"><font size="5px">COLLABORATOR</font></div>
-	<div class="modal-body" ng-init="getUserlist(note,user)">
-		<div class="row">	
-	<div class="col-sm-8" ng-init="getOwner(note)"><font size="4px">{{owner.name}}<i class="pull-right">(owner)</i></font><br>{{owner.email}}</div>
+<div class="modal-content" ng-init="getUserlist(note,user)">
+<div class="modal-header"><font size="8px">Collborators</font></div>
+	<div class="modal-body">
+		<div class="row">
+	<h3></h3>
+	<div class="col-sm-2">
+	<img ng-src="{{owner.profileUrl}}" class="img-circle"/>
+	</div>
+
+	<div class="col-sm-8" ng-init="getOwner(note)"><font size="4px">{{owner.name}}<i class="pull-right"></i></font><br>{{owner.email}}<h3>(owner)</h3></div>
 	</div><br>
-	<div ng-repeat="user in UserDetails">
+	
+	<div ng-repeat="user in users">
 	<div class="row">
+
+	<div class="col-sm-2">
+	<img ng-src="{{user.profileUrl}}" class="img-circle"/>
+	</div>
 	
-	<div><font size="4px">{{user.name}}</font>
-	
+	<div class="col-sm-8"><font size="4px">{{user.name}}</font>
+
+	 <button type="button" class="close pull-right col-sm-1" ng-click="removeCollborator(note,user)">&times;</button>
 	<br>{{user.email}}
 	</div>
 	</div><br>
+	<hr>
 	</div>
 	<div class="row">
-	<input type="text" class="col-sm-12" id="searchbox" ng-model="$parent.shareWith.email" placeholder="Enter Collborator">
+		    <input type="text"  class="col-sm-12"   id="searchbox"  placeholder="Enter email to share with.."  ng-model="$parent.shareWith.email" >
 	</div>
 	</div>
 	
@@ -24,4 +36,4 @@
 				class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
 	</div>
 
-</div>>
+</div>

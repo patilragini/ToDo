@@ -82,7 +82,7 @@ todoApp.factory('noteService', function($http, $location) {
 		console.log(note);
 		return $http({
 			method : 'POST',
-			url : 'deleteForeverNote',
+			url : 'deleteForeverNote/'+note.id,
 			data : note,
 			headers : {
 				'login' : token
@@ -101,10 +101,6 @@ todoApp.factory('noteService', function($http, $location) {
 			}
 		});
 	}
-	
-	
-	
-	
 	
 
 	return noteList;

@@ -54,19 +54,19 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	function listGrideView() {
 		if ($scope.ListView) {
 			var element = document
-					.getElementsByClassName('card');
+					.getElementsByClassName('note');
 			for (var i = 0; i < element.length; i++) {
-				element[i].style.width = "900px";
+				element[i].style.width = "800px";
 			}
 		} else {
 			var element = document
 					.getElementsByClassName('card');
 			for (var i = 0; i < element.length; i++) {
-				element[i].style.width = "300px";
+				element[i].style.width = "400px";
 			}
 		}
 	}*/
-	
+	/*
 	var getUser = function() {
 		var token = localStorage.getItem('login');
 		var url = 'getuser';
@@ -87,20 +87,31 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 
 		});
 	}
-	getUser();
+	getUser();*/
 	
-	
-	
-	
-	
-	
-	
-   /*$scope.showModelCollaborator = function(note) {
-		modalInstance = $uibModal.open({
-			templateUrl : 'pages/collaboratorNoteModel.html',
-			scope : $scope
+
+	var getUser = function() {
+		var token = localStorage.getItem('login');
+		var url = 'getuser';
+		var user = noteService.service(url, 'Get', token);
+
+		user.then(function(response) {
+			var User = response.data;
+			console.log("get user"+User);
+			if (User.profileUrl == null) {
+				User.profileUrl = "images/default-Profile.png";
+				console.log(User.name);
+				$scope.user = User
+			}
+			console.log(User.profileUrl);
+			$scope.user = User;
+
+		}, function(response) {
+
 		});
-	}*/
+
+	}
+	getUser();	
 	
 	//COLABORATOR
 	$scope.openCollboarate = function(note,user) {
@@ -113,14 +124,61 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		});
 	}
 	
+	/* get owner */
+	$scope.getOwner = function(note) {
+		var url = 'getOwner';
+		var token = localStorage.getItem('login');
+		console.log(token);
+		var users = noteService.service(url, 'POST', token, note);
+		users.then(function(response) {
+			$scope.owner = response.data;
+		}, function(response) {
+			$scope.users = {};
+		});
+	}
+	
+	
+	
+	/* show Notes */
+
+	$scope.showNotes = function() {
+		var token = localStorage.getItem('login');
+
+		var notes = noteService.showNotes(token);
+		notes.then(function(response) {
+			$scope.notes = response.data;
+		}, function(response) {
+			console.log("ERROR IN SHOWING NOTE");
+		});
+		}
+	
+	// make copy of note
+	$scope.copy = function(note) {
+		note.pinned = false;
+		note.archived = false;
+		note.archive = false;
+		note.remainder = "";
+		var token = localStorage.getItem('login');
+		var a = noteService.saveNote(token, note);
+		a.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+		});
+	}
+	
+
 	
 	
 	
 	
 	
-		
 	
-	/*var collborators = [];
+	
+	
+	
+	
+	
+	var collborators = [];
 	$scope.getUserlist = function(note, user) {
 		var details = {};
 		console.log("here::"+note);
@@ -150,35 +208,63 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		console.log(collborators);
 		console.log(users);
 		return collborators;
-	}*/
+	}
 
-	// make copy of note
-	$scope.copy = function(note) {
-		note.pinned = false;
-		note.archived = false;
-		note.archive = false;
-		note.remainder = "";
+
+
+	$scope.collborate = function(note, user) {
+		var obj = {};
+		console.log(note);
+		obj.note = note;
+		obj.ownerId = user;
+		obj.shareWithId = $scope.shareWith;
+
+		var url = 'collaborate';
 		var token = localStorage.getItem('login');
-		var a = noteService.saveNote(token, note);
-		a.then(function(response) {
-			$scope.showNotes();
+		var users = noteService.service(url, 'POST', token, obj);
+		users.then(function(response) {
+
+			console.log("Inside collborator");
+			console.log(response.data);
+			$scope.users = response.data;
+			$scope.note.collabratorUsers = response.data;
+
 		}, function(response) {
+			$scope.users = {};
+
+		});
+		console.log("Returned");
+		console.log(collborators);
+		console.log(users);
+
+	}
+
+	
+
+	$scope.removeCollborator = function(note, user) {
+		var obj = {};
+		var url = 'removeCollborator';
+		obj.note = note;
+		obj.ownerId = {
+			'email' : ''
+		};
+		obj.shareWithId = user;
+		var token = localStorage.getItem('login');
+		var users = noteService.service(url, 'POST', token, obj);
+		users.then(function(response) {
+			$scope.collborate(note, $scope.owner);
+
+			console.log(response.data);
+
+		}, function(response) {
+			console.log(response.data);
+
 		});
 	}
 	
+	
+	
 
-	/* show Notes */
-
-	$scope.showNotes = function() {
-		var token = localStorage.getItem('login');
-
-		var notes = noteService.showNotes(token);
-		notes.then(function(response) {
-			$scope.notes = response.data;
-		}, function(response) {
-			console.log("ERROR IN SHOWING NOTE");
-		});
-		}
 
 	/* save Notes */
 

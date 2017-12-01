@@ -1,4 +1,4 @@
-//22 nov
+
 package com.bridgelabz.Controller;
 
 import java.util.Set;
@@ -75,6 +75,10 @@ public class NoteController {
 		if (user != null) {
 			if (id > 0) {
 				Set<Notes> notes = notesService.getNotes(user.getId());
+				Set<Notes> collborated =notesService.getCollboratedNotes(user.getId());
+				notes.addAll(collborated);
+				
+				
 				if (!notes.isEmpty()) {
 					return ResponseEntity.ok(notes);
 				} else {
@@ -86,16 +90,22 @@ public class NoteController {
 		return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 	}
 		
-	@RequestMapping(value = "/deleteForeverNote", method = RequestMethod.POST)
-	public ResponseEntity<Set<Notes>> deleteForeverNote(HttpServletRequest request, @RequestBody Notes note) {
+	@RequestMapping(value = "/deleteForeverNote/{noteId}", method = RequestMethod.POST)
+	public ResponseEntity<Set<Notes>> deleteForeverNote(@PathVariable("noteId") int noteId,HttpServletRequest request, @RequestBody Notes note) {
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
+		Notes notedelete = notesService.getNoteById(noteId);
 		if (user != null) {
-			if (id > 0) {
-				notesService.deleteNote(note.getId());
-				return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
-			}
+			System.out.println("token id:"+id);			
+			System.out.println("note user"+notedelete.getUserDetails());			
+			System.out.println("note id"+notedelete.getUserDetails().getId());
+				if (notedelete.getUserDetails().getId() == id) {							
+				System.out.println("NOTE DELETED");
+				notesService.deleteNote(noteId);
+				return new ResponseEntity<Set<Notes>>(HttpStatus.OK);				
+			}			
+			
 			return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
@@ -111,41 +121,63 @@ public class NoteController {
 		Notes noteUpdate = notesService.getNoteById(updateId);
 		if (user != null && noteUpdate != null) {
 			if (id > 0) {
+				System.out.println("in updation");
+				//check token user id and note user
 				if (noteUpdate.getUserDetails().getId() == id) {
 					note.setUserDetails(user);					
 					note.setLastUpdated(date);	
 					int updateStatus = notesService.updateNotes(note);
 					if (updateStatus == 1)
 						return new ResponseEntity<String>("Note updated", HttpStatus.OK);
-					else
+					else{
+						System.out.println("error in updation1");
 						return new ResponseEntity<String>("Note not updated", HttpStatus.OK);
-
+					}
+				}
+				else{
+				System.out.println("error in updation2");
+				List<UserDetails> users=notesService.getListOfUser(note.getId());
+				int i=0;
+				int flag=0;
+				while(users.size()>i) {
+					System.out.println("updation2");
+					if(users.get(i).getId()==user.getId()) {
+						flag=1;
+						System.out.println("2up");
+					}
+					i++;
+				}if(flag==1){
+					System.out.println("2up");
+					note.setUserDetails(noteUpdate.getUserDetails());
+					notesService.updateNotes(note);
 				}
 				return new ResponseEntity<String>("Note do not exist", HttpStatus.OK);
+				}
+			} else{
+				System.out.println("error in updation3");
 
-			} else
 				return new ResponseEntity<String>("Token issue", HttpStatus.CONFLICT);
-		} else
+			}
+			} else
 			return new ResponseEntity<String>("Invalid!!!", HttpStatus.OK);
 	}
 	
 	
-	
-	
 	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
 	public ResponseEntity<List<UserDetails>> getNotes(@RequestBody Collaborator collborator, HttpServletRequest request){
-System.out.println("in colaborator backden");		
 		List<UserDetails> users=new ArrayList<UserDetails>();
 		Collaborator collaborate =new Collaborator();
-		System.out.println(collaborate);
+//		System.out.println(collaborate);
 		Notes note= (Notes) collborator.getNote();
-		System.out.println(note);
+//		System.out.println(note);
 		UserDetails shareWith= (UserDetails) collborator.getShareWithId();
-		System.out.println(shareWith);
+//		System.out.println(shareWith);
 		shareWith=userService.getUserByEmail(shareWith.getEmail());
 		UserDetails owner= (UserDetails) collborator.getOwnerId();
-		System.out.println(owner);
+//		System.out.println("owner  backend "+owner);
 		String token=request.getHeader("login");
+//		System.out.println("token ::"+token);
+		
 		users=	notesService.getListOfUser(note.getId());
 		UserDetails user=userService.getUserById(Token.verify(token));
 		if(user!=null) {
@@ -176,7 +208,8 @@ System.out.println("in colaborator backden");
 	
 	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
 	public ResponseEntity<UserDetails> getOwner(@RequestBody Notes note, HttpServletRequest request){
-		String token=request.getHeader("Authorization");
+		String token=request.getHeader("login");
+//		System.out.println("in get owner !!!!!!!!!!!!!!!!!!1");
 		UserDetails user=userService.getUserById(Token.verify(token));
 		if(user!=null) {
 			Notes noteComplete=notesService.getNoteById(note.getId());
@@ -187,7 +220,7 @@ System.out.println("in colaborator backden");
 			return ResponseEntity.ok(null);
 		}
 	}
-	
+
 	@RequestMapping(value = "/removeCollborator", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> removeCollborator(@RequestBody Collaborator collborator, HttpServletRequest request){
 		CustomResponse response=new CustomResponse();
@@ -195,7 +228,7 @@ System.out.println("in colaborator backden");
 		int noteId=collborator.getNote().getId();
 		Notes note=notesService.getNoteById(noteId);
 		UserDetails owner=note.getUserDetails();
-		String token=request.getHeader("Authorization");
+		String token=request.getHeader("login");
 		UserDetails user=userService.getUserById(Token.verify(token));
 		if(user!=null) {
 				if(owner.getId()!=shareWith){

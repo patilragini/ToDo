@@ -18,7 +18,8 @@
 					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
 					</br>
 					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.description">{{note.description}}</div>
-					<div></div>
+										<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
+				
 					</br>
 					</br>
 <div class="tooltipshow">
@@ -48,7 +49,7 @@
 										<img src="images/collaborate.svg">
 										</a>
 															
-						<div class="btn-group dropup colorDiv" uib-dropdown>
+						<a class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
 										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
@@ -60,8 +61,11 @@
 											>
 										</a>
 									</ul>
-								</div>
-							<img src="images/image.svg"> <img
+								</a>
+<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />
+						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
+							
+							<img
 								ng-click="unArchiveNote(note)" src="images/archive.svg">
 
 							<div style="float: right">
@@ -82,7 +86,7 @@
 								</ul>
 							</div>
 
-						</div>
+				
 						</div>
 					
 					</div>

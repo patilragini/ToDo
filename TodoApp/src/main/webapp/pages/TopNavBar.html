@@ -99,12 +99,12 @@
 			<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" role="button">
 						 <img src="{{user.profileUrl}}"
-							class="img-circle profile-pic" alt=".">
+							class="img-circle profile-pic" alt="profile" >
 					</a>
 						<ul class="dropdown-menu" style="width: 280px;">
 						<!-- 	<li role="separator" class="divider"></li> -->
 						
-						<img src="{{user.profileUrl}}" style="height: 100px;
+						<img src="{{user.profileUrl}}"  ng-click="openImageUploader(user,'user')" style="height: 100px;
   						  width: 100px;"
 							class="img-circle "><a>  {{user.name}}</a><hr><a> {{user.email}}</a>
 							

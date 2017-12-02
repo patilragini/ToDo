@@ -1,7 +1,7 @@
 var todoApp = angular.module('TodoApp');
 
 todoApp.controller('homeController', function($scope, toastr, $interval,
-		loginService, noteService, $uibModal, $location, $state) {
+		loginService, registerService,noteService, $uibModal, $location, $state,$http) {
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
@@ -36,6 +36,113 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			size : 'md'
 		});
 	};
+	
+	
+    $scope.uploadme;
+    
+    $scope.uploadImage = function(note) {
+        var fd = new FormData();
+        var imgBlob = dataURItoBlob($scope.uploadme);
+        console.log("uploadme 123:: "+$scope.uploadme);
+        fd.append('file', imgBlob);
+        $http.post(
+            'imageURL',
+            fd, {
+              transformRequest: angular.identity,
+              headers: {
+                'Content-Type': undefined
+              }
+            }
+          )
+          var img=$scope.uploadme;
+          if(img!=null){
+        	  
+          }
+    }    
+    function dataURItoBlob(dataURI) {
+    	console.log("data uri **********");
+        var binary = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+          array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {
+          type: mimeString
+        });
+      }
+
+    
+	
+	
+	$scope.openImageUploader = function(type,typeOfImage) {
+		$scope.type = type;
+		$scope.typeOfImage=typeOfImage;
+		$('#image').trigger('click');
+		return false;
+	}
+	
+	
+	$scope.stepsModel = [];
+
+	$scope.imageUpload = function(element){
+	    var reader = new FileReader();
+	    console.log("elements!!!!!!"+element);
+	    reader.onload = $scope.imageIsLoaded;
+	    reader.readAsDataURL(element.files[0]);
+	    console.log(element.files[0]);
+	}
+
+	$scope.imageIsLoaded = function(e){
+	    $scope.$apply(function() {
+	        $scope.stepsModel.push(e.target.result);
+	        console.log(e.target.result);
+	        var imageSrc=e.target.result;
+	        
+	        if($scope.typeOfImage=='user'){
+	        	console.log("User pic");
+	        	$scope.type.profileUrl=imageSrc;
+	        	updateUser($scope.type);
+	        	
+	        }else{
+	        $scope.type.image=imageSrc;
+	        console.log(e.target.result);
+	        console.log("here note "+imageSrc);
+	        $scope.updateNote($scope.type);}
+	    });
+	};
+	
+	var updateUser=function(user){
+		var url = 'changeUsreProfilePic';
+		console.log("update user::"+user.name);
+		console.log(user);
+		var token = localStorage.getItem('login');
+
+		
+		var userDetails = registerService.service(url, 'POST', user,token);
+		console.log("645:: ");
+		console.log(userDetails);
+		
+/*
+		userDetails.then(function(response) {
+			getUser();
+		}, function(response) {
+			getUser();
+			$scope.error = response.data.message;
+
+		});*/
+		
+	}
+	
+	
+	$scope.$on("fileProgress", function(e, progress) {
+		$scope.progress = progress.loaded / progress.total;
+	});
+	
+	$scope.type = {};
+	$scope.type.image = '';
+    
+ 
 	
 	/*$scope.ListView = true;
 
@@ -99,7 +206,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			var User = response.data;
 			console.log("get user"+User);
 			if (User.profileUrl == null) {
-				User.profileUrl = "images/default-Profile.png";
+				User.profileUrl = "images/defaultpic.jpg";
 				console.log(User.name);
 				$scope.user = User
 			}
@@ -123,6 +230,17 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 
 		});
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/* get owner */
 	$scope.getOwner = function(note) {
@@ -165,18 +283,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		}, function(response) {
 		});
 	}
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	var collborators = [];
 	$scope.getUserlist = function(note, user) {

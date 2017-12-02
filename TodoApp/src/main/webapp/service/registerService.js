@@ -11,6 +11,21 @@ toDo.factory('registerService', function($http, $location) {
 			data : user
 		})
 	}
+	
+	
+	
+	
+	details.service=function(url,method,user,token){
+		return $http({
+		    method: method,
+		    url: url,
+		    data:user,
+		    headers: {
+		        'login': token
+		    }
+		
+		});
+	}
 	return details;
 
 });

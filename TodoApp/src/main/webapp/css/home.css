@@ -60,7 +60,7 @@ font-style: normal;
 
 .container-fluid {
 	background: #e8e8e8;
-	    height:auto;
+	    height:100%;
 }
 
 @media screen and (max-width: 640px) {
@@ -79,4 +79,8 @@ font-style: normal;
 		border-radius: none;
 		background-clip: none;
 	}
+}
+.collaboratorImg{
+	    height: 45px;
+    width: 45px;
 }

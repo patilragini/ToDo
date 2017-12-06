@@ -2,15 +2,19 @@ package com.bridgelabz.Model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import java.util.Date;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
@@ -42,6 +46,22 @@ public class Notes {
 	
 	@Column(columnDefinition = "LONGBLOB")
 	private String image;
+	
+	
+	
+	
+	@ManyToMany(fetch=FetchType.EAGER)
+	@Column
+	private Set<Label> labels;
+	
+	public Set<Label> getLabels() {
+		return labels;
+	}
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
+	}
+	
+	
 	
 	
 	public String getImage() {

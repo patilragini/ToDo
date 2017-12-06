@@ -4,6 +4,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.ColumnDefault;
 
+import com.bridgelabz.Model.Label;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
@@ -45,6 +46,18 @@ public class UserDetails {
 	@JsonIgnore
 	@OneToMany(mappedBy = "userDetails")
 	private Set<Notes> notes;
+	
+	
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="user")
+	private Set<Label> labels;
+
+	public Set<Label> getLabels() {
+		return labels;
+	}
+
+	public void setLabels(Set<Label> labels) {
+		this.labels = labels;
+	}
 
 	public Set<Notes> getNotes() {
 		return notes;
@@ -118,5 +131,7 @@ public class UserDetails {
 		return "UserDetails [id=" + id + ", name=" + name + ", password=" + password + ", phoneNumber=" + phoneNumber
 				+ ", email=" + email + "]";
 	}
+
+
 
 }

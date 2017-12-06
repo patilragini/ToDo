@@ -10,6 +10,61 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			alert("Wrong user name password");
 		});
 	}
+	
+	
+	$scope.addlabel=function(){
+		console.log($scope.newLabel);
+		console.log("LABEL NAME ::"+$scope.newLabel.labelName);
+		if($scope.newLabel!=null){
+		var url = 'addLabel';
+		var token = localStorage.getItem('login');
+		var addlabel = noteService.service(url, 'POST',token,$scope.newLabel);
+		addlabel.then(function(response) {
+			 $scope.newLabel.labelName="";
+			 getUser();
+		});
+	}
+	}
+	
+	$scope.deletelabel=function(label){		
+console.log(label);
+console.log("in deletelabel"+label);
+		var url = 'deletelabel';
+		var token = localStorage.getItem('login');
+		var delLabel = noteService.service(url, 'POST',token,label);
+		delLabel.then(function(response) {
+			 getUser();
+		});
+	}
+	
+	$scope.Labelmodal = function() {		
+		modalInstance = $uibModal.open({
+			templateUrl : 'pages/ModalLabel.html',
+			scope : $scope,
+			size : 'md'
+		});
+	};
+	
+	$scope.toggleLabelOfNote = function(note, label) {
+		var index = -1;
+		var i = 0;
+		for (i = 0, len = note.labels.length; i < len; i++) {
+			if (note.labels[i].labelName === label.labelName) {
+				index = i;
+				break;
+			}
+		}
+
+		if (index == -1) {
+			note.labels.push(label);
+			update(note);
+		} else {
+			note.labels.splice(index, 1);
+			update(note);
+		}
+	}
+
+	
 	$scope.showSidebar = function() {
 		if ($scope.width == '0px') {
 			$scope.width = '200px';
@@ -28,6 +83,8 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			size : 'md'
 		});
 	};
+	
+	
 	$scope.showModel = function(note) {
 		$scope.note = note;
 		modalInstance = $uibModal.open({
@@ -43,7 +100,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
     $scope.uploadImage = function(note) {
         var fd = new FormData();
         var imgBlob = dataURItoBlob($scope.uploadme);
-        console.log("uploadme 123:: "+$scope.uploadme);
+        console.log("uploadme:: "+$scope.uploadme);
         fd.append('file', imgBlob);
         $http.post(
             'imageURL',
@@ -72,8 +129,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
         });
       }
 
-    
-	
 	
 	$scope.openImageUploader = function(type,typeOfImage) {
 		$scope.type = type;
@@ -144,58 +199,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
     
  
 	
-	/*$scope.ListView = true;
-
-	$scope.ListViewToggle = function() {
-		if ($scope.ListView == true) {
-			$scope.ListView = false;
-			listGrideView();
-		} else {
-			$scope.ListView = true;
-			listGrideView();
-		}
-	}
-
-	listGrideView();
-
-	function listGrideView() {
-		if ($scope.ListView) {
-			var element = document
-					.getElementsByClassName('note');
-			for (var i = 0; i < element.length; i++) {
-				element[i].style.width = "800px";
-			}
-		} else {
-			var element = document
-					.getElementsByClassName('card');
-			for (var i = 0; i < element.length; i++) {
-				element[i].style.width = "400px";
-			}
-		}
-	}*/
-	/*
-	var getUser = function() {
-		var token = localStorage.getItem('login');
-		var url = 'getuser';
-		var UserDetails = noteService.service(url, 'Get', token);
-		console.log("log::"+UserDetails);
-		UserDetails.then(function(response) {			
-			var Userdetails = response.data;
-			console.log(Userdetails);
-			if (Userdetails!= null) {
-				console.log(Userdetails.name);
-				$scope.Userdetails = Userdetails;
-
-			}
-			$scope.Userdetails = Userdetails;
-
-		}, function(response) {
-			$scope.Userdetails = Userdetails;
-
-		});
-	}
-	getUser();*/
-	
 
 	var getUser = function() {
 		var token = localStorage.getItem('login');
@@ -210,7 +213,7 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 				console.log(User.name);
 				$scope.user = User
 			}
-			console.log(User.profileUrl);
+//			console.log(User.profileUrl);
 			$scope.user = User;
 
 		}, function(response) {
@@ -230,15 +233,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 
 		});
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -541,10 +535,16 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		$scope.navBrandColor = "white";
 
 	}
-	if ($state.current.name == "search") {
+	else if ($state.current.name == "search") {
 		$scope.navColor = "#000057";
 		$scope.navBrand = "ToDo App";
 		$scope.navBrandColor = "white";
+	}else{		
+		$scope.navLabel=$location.path().substr(1) ;
+		$scope.navColor = "#517a82";
+		$scope.navBrandColor = "white";
+		console.log("1231321132:::: "+$scope.navLabel);
+		$scope.navBrand =$scope.navLabel ;
 	}
 
 	// remainder functions

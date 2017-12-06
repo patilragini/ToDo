@@ -1,0 +1,24 @@
+<div class="modal-content">
+<div class="modal-header"><font size="5px">Edit Labels</font></div>
+	<div class="modal-body">
+			
+		<div contenteditable="true" ng-model="$parent.newLabel.labelName" data-text="create label" >
+		</div>
+		
+		<div ng-click="addlabel()" style="cursor:pointer">&#10004</div>
+		<div ng-repeat="label in user.labels">
+		<div class="row">
+				
+			 </div>
+		<div contenteditable="true" ng-model="label.labelName">
+		</div>
+	
+	</div>
+	<div class="modal-footer">
+	<!-- 
+	    <div role="button" ng-click=""
+				class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div> -->
+	</div>
+ 
+ </div>
+</div>

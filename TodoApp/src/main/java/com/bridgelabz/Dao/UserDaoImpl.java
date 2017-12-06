@@ -1,10 +1,12 @@
 package com.bridgelabz.Dao;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -13,6 +15,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.utility.MD5Encryption;
 
@@ -138,4 +141,72 @@ public class UserDaoImpl implements UserDao {
 				session.close();
 		}
 	}
-}
+
+	@Override
+public int addLabel(Label label) {
+		
+		int labelId=0;
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		labelId=(Integer) session.save(label);
+		transaction.commit();
+		}catch(HibernateException e){
+			e.printStackTrace();
+			transaction.rollback();
+		}finally{
+			session.close();
+		}
+		return labelId;
+	}
+	
+	public boolean updateLable(Label label) {
+		
+		boolean status=false;
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+			Label completlabel=	session.get(Label.class, label.getId());
+			completlabel.setLabelName(label.getLabelName());
+		 session.update(completlabel);
+		 transaction.commit();
+		 status=true;
+		}catch(HibernateException e){
+			e.printStackTrace();
+			transaction.rollback();
+		}finally{
+			session.close();
+		}
+		return status;
+	}
+	
+    public boolean deleteLable(Label label) {
+		
+		boolean status=false;
+		Session session=sessionFactory.openSession();
+		Transaction transaction=session.beginTransaction();
+		try{
+		Label completlabel=	session.get(Label.class, label.getId());
+		 session.delete(completlabel);
+		 transaction.commit();
+		 status=true;
+		}catch(HibernateException e){
+			e.printStackTrace();
+			transaction.rollback();
+		}finally{
+			session.close();
+		}
+		return status;
+	}
+
+	public Set<Label> getAllLabels(int userId) {
+		Session session=sessionFactory.openSession();
+		UserDetails user=session.get(UserDetails.class,userId);
+		Set<Label> label=user.getLabels();
+		System.out.println(label);
+		session.close();
+		return label;
+	}
+
+	}
+

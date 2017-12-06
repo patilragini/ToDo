@@ -4,7 +4,7 @@
 		<div class="row">
 	<h3></h3>
 	<div class="col-sm-2">
-	<img ng-src="{{owner.profileUrl}}" class="img-circle"/>
+	<img ng-src="{{owner.profileUrl}}" class="img-circle collaboratorImg"/>
 	</div>
 
 	<div class="col-sm-8" ng-init="getOwner(note)"><font size="4px">{{owner.name}}<i class="pull-right"></i></font><br>{{owner.email}}<h3>(owner)</h3></div>
@@ -14,7 +14,7 @@
 	<div class="row">
 
 	<div class="col-sm-2">
-	<img ng-src="{{user.profileUrl}}" class="img-circle"/>
+	<img  ng-src="{{user.profileUrl}}" class="img-circle collaboratorImg" />
 	</div>
 	
 	<div class="col-sm-8"><font size="4px">{{user.name}}</font>

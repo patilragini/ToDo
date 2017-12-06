@@ -1,8 +1,10 @@
 package com.bridgelabz.Dao;
 
 import java.util.List;
+import java.util.Set;
 
 import com.bridgelabz.Model.UserDetails;
+import com.bridgelabz.Model.Label;
 
 /**
  * 
@@ -43,4 +45,8 @@ public interface UserDao {
 	
 	public boolean updateActivation(int id);
 	public boolean updateUser(UserDetails user);
+	public int addLabel(Label label);
+	public boolean deleteLable(Label label);
+	public boolean updateLable(Label label);
+	public Set<Label> getAllLabels(int userId);
 }

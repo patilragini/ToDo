@@ -26,8 +26,8 @@
 				<value>com.bridgelabz.Model.UserDetails</value>
 				<value>com.bridgelabz.Model.Notes</value>
 				<value>com.bridgelabz.Model.Collaborator</value>
-
-			</list>
+				<value>com.bridgelabz.Model.Label</value>
+				</list>
 		</property>
 
 		<property name="hibernateProperties">

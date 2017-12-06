@@ -46,8 +46,7 @@
 										<img src="images/collaborate.svg">
 										</a>
 										
-															
-						<a class="btn-group dropup colorDiv" uib-dropdown>
+					<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
 										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
@@ -58,7 +57,7 @@
 										ng-click="note.color=color.color; updateNote(note)"	ng-src="{{color.path}}" height="40px">
 										</a>
 									</ul>
-								</a>
+								</div>
 								<!--  -->
 							<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />					
 							

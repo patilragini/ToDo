@@ -1,6 +1,9 @@
 //22 nov
 package com.bridgelabz.Controller;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.Service.UserService;
+
 import com.bridgelabz.utility.CustomResponse;
 import com.bridgelabz.utility.MD5Encryption;
 import com.bridgelabz.utility.SendMail;
@@ -241,5 +246,77 @@ public class UserControler {
 		}
 
 	}
+	
+	
+	@RequestMapping(value = "/addLabel", method = RequestMethod.POST)
+	public ResponseEntity<CustomResponse> addLabel(@RequestBody Label label,HttpServletRequest request){
+		CustomResponse response=new CustomResponse();
+		String token =request.getHeader("login");
+	
+		System.out.println("in add label"+token);
+		UserDetails user=userService.getUserById(Token.verify(token));
+		if(user!=null){
+			
+			Set<Label> labels=userService.getAllLabels(user.getId());
+			if(labels!=null){
+		    	Iterator<Label> itr = labels.iterator();
+			    while(itr.hasNext())
+			     {
+			    	System.out.println("inside");
+			      	Label oldLabel=(Label) itr.next();
+		         	if(oldLabel.getLabelName().equals(label.getLabelName())){
+		     	    	response.setMessage("label already exist");
+					   return ResponseEntity.ok(response); 
+		         	}
+			     }
+				}
+			
+			label.setUser(user);
+			int id=userService.addLabel(label);
+			if(id>0){
+				response.setMessage("Label added");
+				return ResponseEntity.ok(response);
+			}else{
+				 response.setMessage("Problem occured");
+				 return ResponseEntity.ok(response);
+			}
+		}else{
+			response.setMessage("Token expired");
+			 return ResponseEntity.ok(response);
+		  
+		}
+	}
+//	deleteLable
 
+	@RequestMapping(value = "/deletelabel", method = RequestMethod.POST)
+	public ResponseEntity<CustomResponse> 	deleteLabel(@RequestBody Label label,HttpServletRequest request){
+		CustomResponse response=new CustomResponse();
+		String token =request.getHeader("login");
+	System.out.println("in delete label"+label);
+		UserDetails user=userService.getUserById(Token.verify(token));
+		if(user!=null){			
+			Set<Label> labels=userService.getAllLabels(user.getId());
+			if(labels!=null){
+			
+				boolean id=userService.deleteLable(label);
+				
+				if(id){
+					response.setMessage("Label removed !!!");
+					return ResponseEntity.ok(response);
+				}else{
+					 response.setMessage("ERROR");
+					 return ResponseEntity.ok(response);
+				}
+				}
+		}else{
+			response.setMessage("Token expired !!!");
+			 return ResponseEntity.ok(response);
+		  
+		}
+		response.setMessage("Token Issue !!!");
+		 return ResponseEntity.ok(response);		
+	}
+	
+	
+	
 }

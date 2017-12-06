@@ -103,6 +103,8 @@
 <!-------------------------   custom Directives ---------------------------->
 
 <script type="text/javascript" src="directives/CustomDirectives.js"></script>
+<script type="text/javascript" src="js/FilterLabel.js"></script>
+
 
 <title>Todo App</title>
 <link rel="shortcut icon" href="images/KeepIcon.svg" />

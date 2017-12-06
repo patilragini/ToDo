@@ -7,61 +7,57 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				url : '/login',
 				templateUrl : 'pages/Login.html',
 				controller : 'loginController'
-			});
-			
-			$stateProvider.state('logout', {
+			})
+			.state('logout', {
 				url : '/logout',
 				templateUrl : 'pages/Login.html',
 				controller : 'logoutController'
-			});
-		
-			$stateProvider.state('register', {
+			})
+			.state('register', {
 				url : '/register',
 				templateUrl : 'pages/RegistrationPage.html',
 				controller : 'registerController'
-			});
-
-			
-			$stateProvider.state('forgetpassword', {
+			})
+			.state('forgetpassword', {
 				url : '/forgetpassword',
 				templateUrl : 'pages/forgetpassword.html',
 				controller : 'resetController'
-			});
-			
-			$stateProvider.state('resetPassword', {
+			})
+			.state('resetPassword', {
 				url : '/resetpassword/:t',
 				templateUrl : 'pages/resetpassword.html',
 				controller : 'resetController'
-			});
-			
-			$stateProvider.state('trash', {
+			})
+			.state('trash', {
 				url : '/trash',
 				templateUrl : 'pages/trash.html',
 				controller : 'homeController'
-			});
-			
-			$stateProvider.state('archive', {
+			})
+			.state('archive', {
 				url : '/archive',
 				templateUrl : 'pages/archive.html',
 				controller : 'homeController'
-			});
-			
-			$stateProvider.state('search', {
+			})
+			.state('search', {
 				url : '/archive',
 				templateUrl : 'pages/Search.html',
 				controller : 'homeController'
-			});
-			
-			$stateProvider.state('home', {
+			})
+			.state('home', {
 				url : '/home',
 				templateUrl : 'pages/home.html',
 				controller : 'homeController'
-			});
-			$stateProvider.state('dummy', {
+			})
+			.state('dummy', {
 				url : '/dummy',
 				templateUrl : 'pages/dummy.html',
 				controller : 'dummycontroller'
+			}).state('labels', {
+				url : '/{labelName}',
+				templateUrl : 'pages/Labels.html',
+				controller : 'homeController'
 			});
+			
 			
 			$urlRouterProvider.otherwise('login');
 			

@@ -1,10 +1,12 @@
 package com.bridgelabz.Service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.bridgelabz.Dao.UserDao;
+import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.UserDetails;
 
 /**
@@ -67,6 +69,30 @@ public class UserServiceImpl implements UserService {
 		return userDao.updateUser(user);
 	} 
 	
-	
+	public int addLabel(Label label) {
+		return userDao.addLabel(label);
+		
+	}
+
+	public boolean deleteLable(Label label) {
+		// TODO Auto-generated method stub
+		return userDao.deleteLable(label);
+	}
+
+	public boolean updateLable(Label label) {
+		// TODO Auto-generated method stub
+		return userDao.updateLable(label);
+	}
+
+	public Set<Label> getAllLabels(int userId) {
+		// TODO Auto-generated method stub
+		return userDao.getAllLabels(userId);
+	}
+
+	@Override
+	public List<UserDetails> getUserList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

@@ -20,6 +20,9 @@
 					</br>
 					<div contenteditable="false" ng-model="note.description"  style="background-color:{{note.color}}">{{note.description}}</div>
 					<div></div>
+					
+				<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
+				
 					</br>
 					<div>
 						<li class="dropdown" class="right"><a href="#!/trash"

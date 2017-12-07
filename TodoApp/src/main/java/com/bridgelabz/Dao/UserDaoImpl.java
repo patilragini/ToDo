@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -166,12 +167,14 @@ public int addLabel(Label label) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		try{
+			System.out.println("in update label");
 			Label completlabel=	session.get(Label.class, label.getId());
 			completlabel.setLabelName(label.getLabelName());
 		 session.update(completlabel);
 		 transaction.commit();
 		 status=true;
 		}catch(HibernateException e){
+			System.out.println("Label not updated");
 			e.printStackTrace();
 			transaction.rollback();
 		}finally{
@@ -207,6 +210,20 @@ public int addLabel(Label label) {
 		session.close();
 		return label;
 	}
+	
+
+	@Override
+	public List<UserDetails> getUserList() {
+		Session session=sessionFactory.openSession();
+       Criteria criteria = session.createCriteria(UserDetails.class);
+       criteria.setProjection(Projections.property("email"));
+        List<UserDetails> userEmailList=criteria.list();
+        System.out.println("USER Email List");
+        System.out.println(userEmailList);
+		return userEmailList;
+	}
+	
+	
 
 	}
 

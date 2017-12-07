@@ -1,7 +1,8 @@
 var todoApp = angular.module('TodoApp');
 
 todoApp.controller('homeController', function($scope, toastr, $interval,
-		loginService, registerService,noteService, $uibModal, $location, $state,$http) {
+		loginService, registerService, noteService, $uibModal, $location,
+		$state, $http) {
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
@@ -10,42 +11,57 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			alert("Wrong user name password");
 		});
 	}
-	
-	
-	$scope.addlabel=function(){
+
+	$scope.addlabel = function() {
 		console.log($scope.newLabel);
-		console.log("LABEL NAME ::"+$scope.newLabel.labelName);
-		if($scope.newLabel!=null){
-		var url = 'addLabel';
-		var token = localStorage.getItem('login');
-		var addlabel = noteService.service(url, 'POST',token,$scope.newLabel);
-		addlabel.then(function(response) {
-			 $scope.newLabel.labelName="";
-			 getUser();
-		});
+		console.log("LABEL NAME ::" + $scope.newLabel.labelName);
+		if ($scope.newLabel != null) {
+			var url = 'addLabel';
+			var token = localStorage.getItem('login');
+			var addlabel = noteService.service(url, 'POST', token,
+					$scope.newLabel);
+			addlabel.then(function(response) {
+				$scope.newLabel.labelName = "";
+				getUser();
+			});
+		}
 	}
-	}
-	
-	$scope.deletelabel=function(label){		
-console.log(label);
-console.log("in deletelabel"+label);
+
+	$scope.deletelabel = function(label) {
+		console.log(label);
+		console.log("in deletelabel" + label);
 		var url = 'deletelabel';
 		var token = localStorage.getItem('login');
-		var delLabel = noteService.service(url, 'POST',token,label);
+		var delLabel = noteService.service(url, 'POST', token, label);
 		delLabel.then(function(response) {
-			 getUser();
+			getUser();
 		});
 	}
-	
-	$scope.Labelmodal = function() {		
+
+	$scope.updateLabel = function(label) {
+		if (label!=null) {
+			var token = localStorage.getItem('login');
+			console.log("update label called");
+			var url = 'updateLabel';
+			var addlabel = noteService.service(url, 'POST', token, label);
+			addlabel.then(function(response) {
+
+			}, function(response) {
+
+			});
+		}
+	}
+
+	$scope.Labelmodal = function() {
 		modalInstance = $uibModal.open({
 			templateUrl : 'pages/ModalLabel.html',
 			scope : $scope,
 			size : 'md'
 		});
 	};
-	
+
 	$scope.toggleLabelOfNote = function(note, label) {
+		var token = localStorage.getItem('login');
 		var index = -1;
 		var i = 0;
 		for (i = 0, len = note.labels.length; i < len; i++) {
@@ -54,20 +70,18 @@ console.log("in deletelabel"+label);
 				break;
 			}
 		}
-
 		if (index == -1) {
 			note.labels.push(label);
-			update(note);
+			var notes = noteService.updateNote(token, note);
 		} else {
 			note.labels.splice(index, 1);
-			update(note);
+			noteService.updateNote(token, note);
 		}
 	}
 
-	
 	$scope.showSidebar = function() {
 		if ($scope.width == '0px') {
-			$scope.width = '200px';
+			$scope.width = '250px';
 			$scope.leftmargin = "300px";
 		} else {
 			$scope.width = '0px';
@@ -83,8 +97,7 @@ console.log("in deletelabel"+label);
 			size : 'md'
 		});
 	};
-	
-	
+
 	$scope.showModel = function(note) {
 		$scope.note = note;
 		modalInstance = $uibModal.open({
@@ -93,113 +106,101 @@ console.log("in deletelabel"+label);
 			size : 'md'
 		});
 	};
-	
-	
-    $scope.uploadme;
-    
-    $scope.uploadImage = function(note) {
-        var fd = new FormData();
-        var imgBlob = dataURItoBlob($scope.uploadme);
-        console.log("uploadme:: "+$scope.uploadme);
-        fd.append('file', imgBlob);
-        $http.post(
-            'imageURL',
-            fd, {
-              transformRequest: angular.identity,
-              headers: {
-                'Content-Type': undefined
-              }
-            }
-          )
-          var img=$scope.uploadme;
-          if(img!=null){
-        	  
-          }
-    }    
-    function dataURItoBlob(dataURI) {
-    	console.log("data uri **********");
-        var binary = atob(dataURI.split(',')[1]);
-        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-        var array = [];
-        for (var i = 0; i < binary.length; i++) {
-          array.push(binary.charCodeAt(i));
-        }
-        return new Blob([new Uint8Array(array)], {
-          type: mimeString
-        });
-      }
 
-	
-	$scope.openImageUploader = function(type,typeOfImage) {
+	$scope.uploadme;
+
+	$scope.uploadImage = function(note) {
+		var fd = new FormData();
+		var imgBlob = dataURItoBlob($scope.uploadme);
+		console.log("uploadme:: " + $scope.uploadme);
+		fd.append('file', imgBlob);
+		$http.post('imageURL', fd, {
+			transformRequest : angular.identity,
+			headers : {
+				'Content-Type' : undefined
+			}
+		})
+		var img = $scope.uploadme;
+		if (img != null) {
+
+		}
+	}
+	function dataURItoBlob(dataURI) {
+		console.log("data uri **********");
+		var binary = atob(dataURI.split(',')[1]);
+		var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+		var array = [];
+		for (var i = 0; i < binary.length; i++) {
+			array.push(binary.charCodeAt(i));
+		}
+		return new Blob([ new Uint8Array(array) ], {
+			type : mimeString
+		});
+	}
+
+	$scope.openImageUploader = function(type, typeOfImage) {
 		$scope.type = type;
-		$scope.typeOfImage=typeOfImage;
+		$scope.typeOfImage = typeOfImage;
 		$('#image').trigger('click');
 		return false;
 	}
-	
-	
+
 	$scope.stepsModel = [];
 
-	$scope.imageUpload = function(element){
-	    var reader = new FileReader();
-	    console.log("elements!!!!!!"+element);
-	    reader.onload = $scope.imageIsLoaded;
-	    reader.readAsDataURL(element.files[0]);
-	    console.log(element.files[0]);
+	$scope.imageUpload = function(element) {
+		var reader = new FileReader();
+		console.log("elements!!!!!!" + element);
+		reader.onload = $scope.imageIsLoaded;
+		reader.readAsDataURL(element.files[0]);
+		console.log(element.files[0]);
 	}
 
-	$scope.imageIsLoaded = function(e){
-	    $scope.$apply(function() {
-	        $scope.stepsModel.push(e.target.result);
-	        console.log(e.target.result);
-	        var imageSrc=e.target.result;
-	        
-	        if($scope.typeOfImage=='user'){
-	        	console.log("User pic");
-	        	$scope.type.profileUrl=imageSrc;
-	        	updateUser($scope.type);
-	        	
-	        }else{
-	        $scope.type.image=imageSrc;
-	        console.log(e.target.result);
-	        console.log("here note "+imageSrc);
-	        $scope.updateNote($scope.type);}
-	    });
+	$scope.imageIsLoaded = function(e) {
+		$scope.$apply(function() {
+			$scope.stepsModel.push(e.target.result);
+			console.log(e.target.result);
+			var imageSrc = e.target.result;
+
+			if ($scope.typeOfImage == 'user') {
+				console.log("User pic");
+				$scope.type.profileUrl = imageSrc;
+				updateUser($scope.type);
+
+			} else {
+				$scope.type.image = imageSrc;
+				console.log(e.target.result);
+				console.log("here note " + imageSrc);
+				$scope.updateNote($scope.type);
+			}
+		});
 	};
-	
-	var updateUser=function(user){
+
+	var updateUser = function(user) {
 		var url = 'changeUsreProfilePic';
-		console.log("update user::"+user.name);
+		console.log("update user::" + user.name);
 		console.log(user);
 		var token = localStorage.getItem('login');
 
-		
-		var userDetails = registerService.service(url, 'POST', user,token);
+		var userDetails = registerService.service(url, 'POST', user, token);
 		console.log("645:: ");
 		console.log(userDetails);
-		
-/*
-		userDetails.then(function(response) {
-			getUser();
-		}, function(response) {
-			getUser();
-			$scope.error = response.data.message;
 
-		});*/
-		
+		/*
+		 * userDetails.then(function(response) { getUser(); },
+		 * function(response) { getUser(); $scope.error = response.data.message;
+		 * 
+		 * });
+		 */
+
 	}
-	
-	
+
 	$scope.$on("fileProgress", function(e, progress) {
 		$scope.progress = progress.loaded / progress.total;
 	});
-	
+
 	$scope.type = {};
 	$scope.type.image = '';
-    
- 
-	
-
+//GET CURRENT LOGIN USER
 	var getUser = function() {
 		var token = localStorage.getItem('login');
 		var url = 'getuser';
@@ -207,13 +208,13 @@ console.log("in deletelabel"+label);
 
 		user.then(function(response) {
 			var User = response.data;
-			console.log("get user"+User);
+			console.log("get user" + User);
 			if (User.profileUrl == null) {
 				User.profileUrl = "images/defaultpic.jpg";
 				console.log(User.name);
 				$scope.user = User
 			}
-//			console.log(User.profileUrl);
+			// console.log(User.profileUrl);
 			$scope.user = User;
 
 		}, function(response) {
@@ -221,10 +222,33 @@ console.log("in deletelabel"+label);
 		});
 
 	}
-	getUser();	
+	getUser();
 	
-	//COLABORATOR
-	$scope.openCollboarate = function(note,user) {
+	
+	
+	
+	var getEmailList=function(){
+		var token = localStorage.getItem('login');
+		var url = "getEmailUserlist";
+		var users = noteService.service(url, 'GET',token);
+		users.then(function(response) {
+			$scope.userList=response.data;
+		}, function(response) {
+			console.log(response.data);
+			console.log("HERE");			
+		});
+	}
+	
+	getEmailList();
+	
+	
+
+	
+	
+	
+	
+	// COLABORATOR
+	$scope.openCollboarate = function(note, user) {
 		$scope.note = note;
 		$scope.user = user;
 		modalInstance = $uibModal.open({
@@ -233,9 +257,7 @@ console.log("in deletelabel"+label);
 
 		});
 	}
-	
-	
-	
+
 	/* get owner */
 	$scope.getOwner = function(note) {
 		var url = 'getOwner';
@@ -248,9 +270,7 @@ console.log("in deletelabel"+label);
 			$scope.users = {};
 		});
 	}
-	
-	
-	
+
 	/* show Notes */
 
 	$scope.showNotes = function() {
@@ -262,8 +282,8 @@ console.log("in deletelabel"+label);
 		}, function(response) {
 			console.log("ERROR IN SHOWING NOTE");
 		});
-		}
-	
+	}
+
 	// make copy of note
 	$scope.copy = function(note) {
 		note.pinned = false;
@@ -278,40 +298,38 @@ console.log("in deletelabel"+label);
 		});
 	}
 
-	
+	//get list of collaborated users
 	var collborators = [];
 	$scope.getUserlist = function(note, user) {
 		var details = {};
-		console.log("here::"+note);
+//		console.log("here::" + note);
 		details.note = note;
 		details.ownerId = user;
-		console.log(user);
+//		console.log(user);
 		details.shareWithId = {};
-		console.log(details);
+//		console.log(details);
 		var url = 'collaborate';
 		var token = localStorage.getItem('login');
 		var users = noteService.service(url, 'POST', token, details);
-		console.log("fddfsfd"+users);
+//		console.log("fddfsfd" + users);
 		users.then(function(response) {
-			console.log("inside collaborator");
-			console.log(response.data);
+//			console.log("inside collaborator");
+//			console.log(response.data);
 			$scope.users = response.data;
 			note.collabratorUsers = response.data;
-			console.log(note.collabratorUsers);
+//			console.log(note.collabratorUsers);
 
 		}, function(response) {
 			$scope.users = {};
 			collborators = response.data;
-			console.log("inside collaborator response"+collborators);
+//			console.log("inside collaborator response" + collborators);
 
 		});
-		console.log("Returned");
-		console.log(collborators);
-		console.log(users);
+//		console.log("Returned");
+//		console.log(collborators);
+//		console.log(users);
 		return collborators;
 	}
-
-
 
 	$scope.collborate = function(note, user) {
 		var obj = {};
@@ -324,7 +342,6 @@ console.log("in deletelabel"+label);
 		var token = localStorage.getItem('login');
 		var users = noteService.service(url, 'POST', token, obj);
 		users.then(function(response) {
-
 			console.log("Inside collborator");
 			console.log(response.data);
 			$scope.users = response.data;
@@ -339,8 +356,6 @@ console.log("in deletelabel"+label);
 		console.log(users);
 
 	}
-
-	
 
 	$scope.removeCollborator = function(note, user) {
 		var obj = {};
@@ -362,10 +377,6 @@ console.log("in deletelabel"+label);
 
 		});
 	}
-	
-	
-	
-
 
 	/* save Notes */
 
@@ -376,12 +387,12 @@ console.log("in deletelabel"+label);
 		note.archived = false;
 		note.archive = false;
 		var notes = noteService.saveNote(token, note);
-		
+
 		notes.then(function(response) {
-			$scope.note.title="";
-			$scope.note.description="";
+			$scope.note.title = "";
+			$scope.note.description = "";
 			$scope.showNotes();
-			$scope.showDiv=false;
+			$scope.showDiv = false;
 		}, function(response) {
 			console.log("ERROR IN SAVING NOTE");
 		});
@@ -412,6 +423,7 @@ console.log("in deletelabel"+label);
 
 	/* delete Note forever */
 	$scope.deleteForeverNote = function(note) {
+		console.log("in delete forever");
 		var token = localStorage.getItem('login');
 		var notes = noteService.deleteForeverNote(token, note);
 		notes.then(function(response) {
@@ -433,61 +445,53 @@ console.log("in deletelabel"+label);
 			$scope.showNotes();
 		});
 	}
-
-	/* note pin */
-	$scope.pinNote = function(note) {
+	
+	/* Notes pin ,unpin,  archive, unarchive */
+	$scope.pin = function(note, pinned) {
 		var token = localStorage.getItem('login');
-		console.log("pin note");
-		note.pinned = true;
-		var notes = noteService.updateNote(token, note);
-		notes.then(function(response) {
-			console.log("pin note");
-			$scope.showNotes();
-		}, function(response) {
-			$scope.showNotes();
-		});
-	}
-
-	/* note Un pin */
-
-	$scope.unpinNote = function(note) {
-		var token = localStorage.getItem('login');
-		console.log("Un pin note");
-		note.pinned = false;
+		note.pinned = pinned;
 		var notes = noteService.updateNote(token, note);
 		notes.then(function(response) {
 			$scope.showNotes();
 		}, function(response) {
 			$scope.showNotes();
 		});
-	}
+	};
 
-	/* note Archive */
-	$scope.ArchiveNote = function(note) {
+	$scope.archive = function(note, archived) {
 		var token = localStorage.getItem('login');
-		console.log('archive note');
-		note.archive = true;
-		var notes = noteService.updateNote(token, note);
-		notes.then(function(response) {
-			console.log(note);
-			$scope.showNotes();
-		}, function(response) {
-			$scope.showNotes();
-		});
+		note.archive = archived;
+		console.log(archived);
+		noteService.updateNote(token, note);
 	}
 
-
-	/* note Archive */
-	$scope.unArchiveNote = function(note) {
-		var token = localStorage.getItem('login');
-		note.archive = false;
-		var notes = noteService.updateNote(token, note);
-		notes.then(function(response) {
-			$scope.showNotes();
-		}, function(response) {
-			$scope.showNotes();
-		});
-	}
+	/*
+	 * note pin $scope.pinNote = function(note) { var token =
+	 * localStorage.getItem('login'); console.log("pin note"); note.pinned =
+	 * true; var notes = noteService.updateNote(token, note);
+	 * notes.then(function(response) { console.log("pin note");
+	 * $scope.showNotes(); }, function(response) { $scope.showNotes(); }); }
+	 * 
+	 * note Un pin
+	 * 
+	 * $scope.unpinNote = function(note) { var token =
+	 * localStorage.getItem('login'); console.log("Un pin note"); note.pinned =
+	 * false; var notes = noteService.updateNote(token, note);
+	 * notes.then(function(response) { $scope.showNotes(); }, function(response) {
+	 * $scope.showNotes(); }); }
+	 * 
+	 * note Archive $scope.ArchiveNote = function(note) { var token =
+	 * localStorage.getItem('login'); console.log('archive note'); note.archive =
+	 * true; var notes = noteService.updateNote(token, note);
+	 * notes.then(function(response) { console.log(note); $scope.showNotes(); },
+	 * function(response) { $scope.showNotes(); }); }
+	 * 
+	 * 
+	 * note Archive $scope.unArchiveNote = function(note) { var token =
+	 * localStorage.getItem('login'); note.archive = false; var notes =
+	 * noteService.updateNote(token, note); notes.then(function(response) {
+	 * $scope.showNotes(); }, function(response) { $scope.showNotes(); }); }
+	 */
 
 	$scope.colors = [ {
 		"color" : '#f26f75',
@@ -534,17 +538,16 @@ console.log("in deletelabel"+label);
 		$scope.navBrand = "Archive";
 		$scope.navBrandColor = "white";
 
-	}
-	else if ($state.current.name == "search") {
+	} else if ($state.current.name == "search") {
 		$scope.navColor = "#000057";
 		$scope.navBrand = "ToDo App";
 		$scope.navBrandColor = "white";
-	}else{		
-		$scope.navLabel=$location.path().substr(1) ;
+	} else {
+		$scope.navLabel = $location.path().substr(1);
 		$scope.navColor = "#517a82";
 		$scope.navBrandColor = "white";
-		console.log("1231321132:::: "+$scope.navLabel);
-		$scope.navBrand =$scope.navLabel ;
+		console.log("1132:::: " + $scope.navLabel);
+		$scope.navBrand = $scope.navLabel;
 	}
 
 	// remainder functions
@@ -563,25 +566,25 @@ console.log("in deletelabel"+label);
 			var i = 0;
 			for (i; i < $scope.notes.length; i++) {
 				var currentDate = moment().format('YYYY-MM-DD HH:mm');
-//			console.log("currentDate" + currentDate);
-//				console.log($scope.notes[i].title);
+				// console.log("currentDate" + currentDate);
+				// console.log($scope.notes[i].title);
 				var dateString = (new Date($scope.notes[i].remainder));
-//				console.log(dateString);
-				var dateString2=new Date(dateString).toISOString().slice(0, 19).replace('T', ' ');
-				
-//				console.log("database date::"+dateString2);
-				if (dateString2  === currentDate) {
-					$scope.mypicker=dateString2;
-//					console.log($scope.notes[i].description);
-//					console.log("reminder !!!!! " +dateString2);					
-				
+				// console.log(dateString);
+				var dateString2 = new Date(dateString).toISOString().slice(0,
+						19).replace('T', ' ');
+
+				// console.log("database date::"+dateString2);
+				if (dateString2 === currentDate) {
+					$scope.mypicker = dateString2;
+					// console.log($scope.notes[i].description);
+					// console.log("reminder !!!!! " +dateString2);
+
 					toastr.success('Remainder check notes!!!');
-					dateString2=null;
+					dateString2 = null;
 					$scope.updateNote(note);
 
-						
 				}
-//				console.log("dskjhdjkh");
+				// console.log("dskjhdjkh");
 
 			}
 		}, 10000);
@@ -622,7 +625,6 @@ console.log("in deletelabel"+label);
 			}
 		});
 	};
-	
 
 	$scope.showDiv = false;
 
@@ -632,7 +634,5 @@ console.log("in deletelabel"+label);
 	$scope.hide = function() {
 		$scope.showDiv = true;
 	};
-
-
 
 });

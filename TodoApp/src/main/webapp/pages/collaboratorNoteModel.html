@@ -1,5 +1,5 @@
-<div class="modal-content" ng-init="getUserlist(note,user)">
-<div class="modal-header"><font size="8px">Collborators</font></div>
+<div class="modal-content" ng-init="getUserlist(note,user)" style="height: 100%">
+<div class="modal-header"><font size="5px">Collborators</font></div>
 	<div class="modal-body">
 		<div class="row">
 	<h3></h3>
@@ -25,13 +25,23 @@
 	</div><br>
 	<hr>
 	</div>
-	<div class="row">
+	<!-- <div class="row">
 		    <input type="text"  class="col-sm-12"   id="searchbox"  placeholder="Enter email to share with.."  ng-model="$parent.shareWith.email" >
-	</div>
+	</div> -->
+	<label>  
+ <input ng-click="getEmailList" type="text"   list="getEmailUserlist" placeholder="Enter email to share with.." ng-model="$parent.shareWith.email"  >  
+	<datalist id="getEmailUserlist"> 
+	 <option  ng-repeat="user in userList" value={{user}}>
+	 </option>
+	 </datalist>
+	 </label>
+	 
+	
+	
+	
 	</div>
 	
-	<div class="modal-footer">
-	
+	<div class="modal-footer">	
 	    <div role="button" ng-click="collborate(note,user)"
 				class="btn btn-done pull-right inline" data-dismiss="modal">DONE</div>
 	</div>

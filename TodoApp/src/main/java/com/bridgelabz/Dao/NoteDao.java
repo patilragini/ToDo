@@ -28,11 +28,12 @@ public interface NoteDao {
 	 
 	public int saveCollborator(Collaborator collborate);
 	
-	public List<UserDetails> getListOfUser(int noteId);
 	
 	public Set<Notes> getCollboratedNotes(int userId);
 	
 	public int removeCollborator(int shareWith,int noteId );
+	
+	public List<UserDetails> getListOfUser(int noteId);
 
 	
 }

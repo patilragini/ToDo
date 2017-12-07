@@ -246,8 +246,7 @@ public class UserControler {
 		}
 
 	}
-	
-	
+/*		
 	@RequestMapping(value = "/addLabel", method = RequestMethod.POST)
 	public ResponseEntity<CustomResponse> addLabel(@RequestBody Label label,HttpServletRequest request){
 		CustomResponse response=new CustomResponse();
@@ -259,24 +258,10 @@ public class UserControler {
 			
 			Set<Label> labels=userService.getAllLabels(user.getId());
 			if(labels!=null){
-		    	Iterator<Label> itr = labels.iterator();
 			    while(itr.hasNext())
 			     {
 			    	System.out.println("inside");
-			      	Label oldLabel=(Label) itr.next();
-		         	if(oldLabel.getLabelName().equals(label.getLabelName())){
-		     	    	response.setMessage("label already exist");
-					   return ResponseEntity.ok(response); 
-		         	}
-			     }
-				}
-			
-			label.setUser(user);
-			int id=userService.addLabel(label);
-			if(id>0){
-				response.setMessage("Label added");
-				return ResponseEntity.ok(response);
-			}else{
+			     {
 				 response.setMessage("Problem occured");
 				 return ResponseEntity.ok(response);
 			}
@@ -315,7 +300,7 @@ public class UserControler {
 		}
 		response.setMessage("Token Issue !!!");
 		 return ResponseEntity.ok(response);		
-	}
+	}*/
 	
 	
 	

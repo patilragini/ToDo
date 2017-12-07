@@ -79,7 +79,7 @@
 					
 					<div class="tooltipshow">
 						<div style="background-color: {{note.color}}" class="right">
-							<img ng-click="unpinNote(note)" src="images/pinblue.svg"
+							<img ng-click="pin(note,false)" src="images/pinblue.svg"
 								style="background-color: {{note.color}}">
 						</div>
 						</div>
@@ -152,12 +152,12 @@
 							
 				
 								 <img
-									ng-click="ArchiveNote(note)" src="images/archive.svg">
+									ng-click="archive(note,true)" src="images/archive.svg">
 
 								<div style="float: right">
 									<span class="btn dropdown-toggle" id="menu1"
 										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 19px; height: 32px;"></span>
+											src="images/more.svg" style="width: 20px;height: 40px; padding-bottom: 20px"></span>
 									</span>
 									<!-- <li ng-repeat="label in user.labels">
 										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
@@ -213,7 +213,7 @@
 					<div class="tooltip2">
 										<div class="tooltipshow">					
 						<div class="right" >
-							<img ng-click="pinNote(note)" src="images/pin.svg"
+							<img  ng-click="pin(note,true)" src="images/pin.svg"
 								style="background: transparent; background-color: {{note.color}}">
 						</div>
 						</div>
@@ -236,79 +236,6 @@
 					{{label.labelName}}<span class="closebtn" ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
 					 </div>
 					</div> 
-						<!-- <div class="tooltipshow">
-							<div class="dropdown" class="left">
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="true"> </a>
-									
-								<a class="dropdown">
-							<img src="images/remainder.svg">
-					
-						<ul class="dropdown-menu">
-							<div class="input-group date"
-								data-datetimepicker="datetimepicker"
-								data-date-format="MM/DD/YYYY hh:mm A/PM">
-								<input id="mypicker" class="form-control" type="text"
-									placeholder="click here" ng-click="datetimepicker()" /> <span
-									class="input-group-addon"> <span id="mypicker"
-									class="glyphicon glyphicon-calendar"
-									ng-click="datetimepicker()"> </span>
-								</span>
-							</div>
-						</ul>
-						</a>	
-		
-									<a ng-click="openCollboarate(note,user)">									
-										<img src="images/collaborate.svg">
-										</a>
-										
-										
-								<a class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle
-										height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-											ng-click="note.color=color.color;updateNote(note)"
-											ng-src="{{color.path}}" height="40px"
-											style="border: 2px; border-color: black">
-										</a>
-									</ul>
-								</a>
-								
-								
-						<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />					<div class="note-icons">
-						
-						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
-							
-								 <img
-									ng-click="ArchiveNote(note)" src="images/archive.svg">
-
-								<div style="float: right">
-									<span class="btn dropdown-toggle" id="menu1"
-										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 19px; height: 32px;"></span>
-									</span>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-										<li></li>
-									
-										<li><a ng-click="deleteNote(note)">DELETE</a></li>
-
-										<li><a ng-click="updateNote(note)">UPDATE</a></li>
-											<li><a ng-click="fbShare(note)">fbShare</a></li>
-										<li><a ng-click="copy(note)">Make a copy</a></li>
-											
-
-									</ul>
-								</div>
-
-							</div>
-						</div>
-
-					</div> -->
 					<div class="tooltipshow">
 							<div class="dropdown" class="left">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -354,13 +281,12 @@
 						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
 							
 				
-								 <img
-									ng-click="ArchiveNote(note)" src="images/archive.svg">
+								 <img ng-click="archive(note,true)" src="images/archive.svg">
 
 								<div style="float: right">
 									<span class="btn dropdown-toggle" id="menu1"
 										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 19px; height: 32px;"></span>
+											src="images/more.svg" style="width: 20px;height: 40px; padding-bottom: 20px"></span>
 									</span>
 									<!-- <li ng-repeat="label in user.labels">
 										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
@@ -370,12 +296,8 @@
 										
 <!-- 										<li ng-if="note.owner.id==note.user.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
  -->										 
-<!-- 										<li ng-if="note.owner.id!=note.shareWithId.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
- -->										
+									
 										<li ng-if="note.owner.id==note.user.id""><a ng-click="deleteNote(note)">DELETE</a></li>
-									
-									
-									
 										<li><a ng-click="updateNote(note)">UPDATE</a></li>
 											<li><a ng-click="fbShare(note)">fbShare</a></li>
 											<li><a ng-click="copy(note)">Make a copy</a></li> 

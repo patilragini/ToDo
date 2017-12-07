@@ -1,23 +1,25 @@
 var todoApp = angular.module('TodoApp');
 
-todoApp.filterLabel('labelFilter', function() {
-	return function(notes, labelName) {
-		var filteredNotes = [];
+todoApp.filter('filterLabel', function() {
+	return function(note, labelName) {
+		var filteredLabelNotes = [];
 		
-		if (labelName == '') {
-			return notes;
-		}
-		console.log(notes);
-		for (var i = 0; i < notes.length; i++) {
-			var note = notes[i];
-			var lbl = note.labels;
-			for (var j = 0; j < lbl.length; j++) {
-				if (labelName === lbl[j].labelName) {
-					filteredNotes.push(note);
+		console.log(note);
+		
+		for (var i = 0; i < note.length; i++) {
+			var notel = note[i];
+			console.log("for"+notel);
+
+			var labelsNote = notel.labels;
+			console.log(labelsNote.length);
+			for (var j = 0; j < labelsNote.length; j++) {
+				if (labelName === labelsNote[j].labelName) {
+					console.log(filteredLabelNotes);
+					filteredLabelNotes.push(notel);
 				}
 			}
 		}
 
-		return filteredNotes;
+		return filteredLabelNotes;
 	}
 });

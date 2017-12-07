@@ -88,14 +88,18 @@ public class NotesDaoImpl implements NoteDao {
 		// TODO Auto-generated method stub
 		Session session = sessionFactory.openSession();
 		Notes note = session.get(Notes.class, noteId);
+		session.close();
 		return note;
 	}
 
+	
 	@Override
 	public boolean deleteNote(int deleteNodeId) {
 		Session session = sessionFactory.openSession();
 		Transaction transaction = session.beginTransaction();
 		if (deleteNodeId > 0) {
+			System.out.println("note del be::");
+			System.out.println(":::::"+getNoteById(deleteNodeId));
 			session.delete(getNoteById(deleteNodeId));
 			try {
 				transaction.commit();
@@ -108,6 +112,8 @@ public class NotesDaoImpl implements NoteDao {
 		}
 		return false;
 	}
+	
+	
 
 	@Override
 	public int updateNotes(Notes note) {

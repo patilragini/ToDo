@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bridgelabz.Model.Collaborator;
+import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.Notes;
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.Service.NotesService;
@@ -77,9 +79,7 @@ public class NoteController {
 				Set<Notes> notes = notesService.getNotes(user.getId());
 				Set<Notes> collborated =notesService.getCollboratedNotes(user.getId());
 				notes.addAll(collborated);
-				
-				
-				if (!notes.isEmpty()) {
+					if (!notes.isEmpty()) {
 					return ResponseEntity.ok(notes);
 				} else {
 					return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
@@ -90,19 +90,26 @@ public class NoteController {
 		return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 	}
 		
+	
+	
+	
+	
 	@RequestMapping(value = "/deleteForeverNote/{noteId}", method = RequestMethod.POST)
 	public ResponseEntity<Set<Notes>> deleteForeverNote(@PathVariable("noteId") int noteId,HttpServletRequest request, @RequestBody Notes note) {
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
 		Notes notedelete = notesService.getNoteById(noteId);
+		System.out.println("1");
+		System.out.println(noteId);
+		
 		if (user != null) {
 			System.out.println("token id:"+id);			
 			System.out.println("note user"+notedelete.getUserDetails());			
 			System.out.println("note id"+notedelete.getUserDetails().getId());
 				if (notedelete.getUserDetails().getId() == id) {							
-				System.out.println("NOTE DELETED");
-				notesService.deleteNote(noteId);
+				System.out.println("note user login user are same::");
+					notesService.deleteNote(noteId);
 				return new ResponseEntity<Set<Notes>>(HttpStatus.OK);				
 			}			
 			
@@ -110,6 +117,10 @@ public class NoteController {
 		}
 		return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
 	}
+	
+	
+	
+	
 	
 	@RequestMapping(value = "/updateNote/{updateId}", method = RequestMethod.POST)
 	public ResponseEntity<String> updateNote(HttpSession session, HttpServletRequest request, @RequestBody Notes note,
@@ -250,8 +261,115 @@ public class NoteController {
 	    }
 	}
 	
+@RequestMapping(value = "/addLabel", method = RequestMethod.POST)
+public ResponseEntity<CustomResponse> addLabel(@RequestBody Label label,HttpServletRequest request){
+	CustomResponse response=new CustomResponse();
+	String token =request.getHeader("login");
+
+	System.out.println("in add label"+token);
+	UserDetails user=userService.getUserById(Token.verify(token));
+	if(user!=null){
+		
+		Set<Label> labels=userService.getAllLabels(user.getId());
+		if(labels!=null){
+	    	Iterator<Label> itr = labels.iterator();
+		    while(itr.hasNext())
+		     {
+		    	System.out.println("inside");
+		      	Label oldLabel=(Label) itr.next();
+	         	if(oldLabel.getLabelName().equals(label.getLabelName())){
+	     	    	response.setMessage("label already exist");
+				   return ResponseEntity.ok(response); 
+	         	}
+		     }
+			}
+		
+		label.setUser(user);
+		int id=userService.addLabel(label);
+		if(id>0){
+			response.setMessage("Label added");
+			return ResponseEntity.ok(response);
+		}else{
+			 response.setMessage("Problem occured");
+			 return ResponseEntity.ok(response);
+		}
+	}else{
+		response.setMessage("Token expired");
+		 return ResponseEntity.ok(response);
+	  
+	}
+}
+//deleteLable
+
+@RequestMapping(value = "/deletelabel", method = RequestMethod.POST)
+public ResponseEntity<CustomResponse> 	deleteLabel(@RequestBody Label label,HttpServletRequest request){
+	CustomResponse response=new CustomResponse();
+	String token =request.getHeader("login");
+System.out.println("in delete label"+label);
+	UserDetails user=userService.getUserById(Token.verify(token));
+	if(user!=null){			
+		Set<Label> labels=userService.getAllLabels(user.getId());
+		if(labels!=null){
+		
+			boolean id=userService.deleteLable(label);
+			
+			if(id){
+				response.setMessage("Label removed !!!");
+				return ResponseEntity.ok(response);
+			}else{
+				 response.setMessage("ERROR");
+				 return ResponseEntity.ok(response);
+			}
+			}
+	}else{
+		response.setMessage("Token expired !!!");
+		 return ResponseEntity.ok(response);
+	  
+	}
+	response.setMessage("Token Issue !!!");
+	 return ResponseEntity.ok(response);		
+}
+@RequestMapping(value = "/updateLabel", method = RequestMethod.POST)
+public ResponseEntity<CustomResponse> 	updateLabel(@RequestBody Label label,HttpServletRequest request){
+	CustomResponse response=new CustomResponse();
+	String token =request.getHeader("login");
+System.out.println("in delete label"+label);
+	UserDetails user=userService.getUserById(Token.verify(token));
+	if(user!=null){			
+		Set<Label> labels=userService.getAllLabels(user.getId());
+		if(labels!=null){
+		
+			boolean id=userService.updateLable(label);
+			
+			if(id){
+				response.setMessage("Label updated !!!");
+				return ResponseEntity.ok(response);
+			}else{
+				 response.setMessage("ERROR in label updation ");
+				 return ResponseEntity.ok(response);
+			}
+			}
+	}else{
+		response.setMessage("Token expired !!!");
+		 return ResponseEntity.ok(response);
+	  
+	}
+	response.setMessage("Token Issue !!!");
+	 return ResponseEntity.ok(response);		
+}
 	
-	
+@RequestMapping(value = "/getEmailUserlist", method = RequestMethod.GET)
+public ResponseEntity<List<UserDetails>> getUserList(HttpServletRequest request){
+	String token =request.getHeader("login");
+	UserDetails user=userService.getUserById(Token.verify(token));
+	if(user!=null){
+		List<UserDetails> emailUserlist=userService.getUserList();
+		System.out.println("in get user list "+emailUserlist);
+		return ResponseEntity.ok(emailUserlist);
+	}else{
+		return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+	}
+}
 	
 	
 	

@@ -51,12 +51,15 @@ public class Notes {
 	
 	
 	@ManyToMany(fetch=FetchType.EAGER)
-	@Column
+	@Column(name = "label_id")
 	private Set<Label> labels;
 	
 	public Set<Label> getLabels() {
 		return labels;
 	}
+	
+	
+	
 	public void setLabels(Set<Label> labels) {
 		this.labels = labels;
 	}

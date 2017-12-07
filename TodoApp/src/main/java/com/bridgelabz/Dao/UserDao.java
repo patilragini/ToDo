@@ -49,4 +49,6 @@ public interface UserDao {
 	public boolean deleteLable(Label label);
 	public boolean updateLable(Label label);
 	public Set<Label> getAllLabels(int userId);
+
+	public List<UserDetails> getUserList();
 }

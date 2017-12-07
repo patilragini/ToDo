@@ -4,12 +4,15 @@
 <a href="#!/home">Notes</a>
 <a href="#!/home">Remainder</a>
 <hr>
+<div class="row">
 <a href="#!/home">Lables</a>
-<a  ng-click="Labelmodal()">Edit</a>
+<a  ng-click="Labelmodal()" style="font-size: 15px">Edit</a>
+
+</div>
 <div ng-repeat="label in user.labels">
-<img ng-src="images/label.svg" >{{label.labelName}}<a ng-click="deletelabel(label)">&#10006</a>
-<a ui-sref="labels({labelName:label.labelName})">{{label.labelName}}</a></div>
-<!-- deletelabel -->
+
+<a ui-sref="labels({labelName:label.labelName})"><img ng-src="images/label.svg" >{{label.labelName}}</a></div>
+
 <hr color="black">
 <a href="#!/archive">Archive</a>
 <a href="#!/trash">Trash</a>

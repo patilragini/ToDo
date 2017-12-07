@@ -89,10 +89,10 @@ public class UserServiceImpl implements UserService {
 		return userDao.getAllLabels(userId);
 	}
 
-	@Override
+
 	public List<UserDetails> getUserList() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return userDao.getUserList();
 	}
 
 }

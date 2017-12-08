@@ -14,6 +14,17 @@ todoApp.factory('noteService', function($http, $location) {
 		});
 	}
 	
+	
+	noteList.getUrl=function(urlToSend){
+		return $http({
+		    method: 'POST',
+		    url: 'getUrlData',
+		    headers: {
+		        'url': urlToSend
+		    }
+		
+		});
+	}
 
 /*	noteList.service = function(token, note,url) {
 		console.log("inservice++"+note);

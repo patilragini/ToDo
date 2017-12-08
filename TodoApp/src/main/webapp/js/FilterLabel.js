@@ -23,3 +23,14 @@ todoApp.filter('filterLabel', function() {
 		return filteredLabelNotes;
 	}
 });
+todoApp.filter('urlFilter', function () {
+
+    var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+
+    return function (text, target) {
+    	console.log("in filter");
+        return text.replace(urlPattern, '<a target="' + target + '" href="$&">$&</a>');
+        
+    };
+
+});

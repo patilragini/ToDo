@@ -2,7 +2,8 @@ var todoApp = angular.module('TodoApp');
 
 todoApp.controller('homeController', function($scope, toastr, $interval,
 		loginService, registerService, noteService, $uibModal, $location,
-		$state, $http) {
+		$state, $http, $timeout) {
+	
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
 		result.then(function(response) {
@@ -11,6 +12,55 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			alert("Wrong user name password");
 		});
 	}
+	
+	
+	urls = [];
+	
+	
+	$scope.checkUrlList = function(note) {
+		var urlPattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+		var url = note.description.match(urlPattern);
+		var link = [];
+		var j = 0;
+		note.url = [];
+		note.link = [];
+		console.log(url);
+		if (url != null || url != undefined) {
+			for (var i = 0; i < url.length; i++) {
+				console.log("url length");
+				console.log(url.length);
+				note.url[i] = url[i];
+				addlabel = noteService.getUrl(url[i]);
+				addlabel.then(function(response) {
+					j++;
+					if (note.size == undefined) {
+						note.size = 0;
+					}
+					console.log(note.size); 
+					var responseData = response.data;
+					link[note.size] = {
+						title : responseData.title,
+						url : note.url[note.size],
+						imageUrl : responseData.imageUrl,
+						domain : responseData.domain
+					} 
+					note.link[note.size] = link[note.size];
+					note.size = note.size + 1;
+					console.log(note.link);
+				}, function(response) {
+				});
+			}
+		}
+	}
+	
+	
+	     $scope.note = {
+	    		 title: 'Enter Titlel'
+	    			 };
+	     $scope.note = {
+	    		 description: 'Enter Description'
+	    			 };
+	
 
 	$scope.addlabel = function() {
 		console.log($scope.newLabel);

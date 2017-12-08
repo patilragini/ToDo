@@ -10,9 +10,9 @@
 					<div class="right" style="background-color:{{note.color}}">
 						<img ng-click="unpinNote(note)" src="images/pinblue.svg">
 					</div>
-					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					<div style="background-color:{{note.color}}" contenteditable="true" ng-bind-html="note.title|urlFilter">{{note.title}}</div>
 					</br>
-					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
+					<div style="background-color:{{note.color}}"  contenteditable="true" ng-bind-html="note.description|urlFilter">{{note.description}}</div>
 					<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
 					
 					<div>

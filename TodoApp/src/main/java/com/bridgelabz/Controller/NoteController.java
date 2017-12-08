@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -24,10 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgelabz.Model.Collaborator;
 import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.Notes;
+import com.bridgelabz.Model.UrlData;
 import com.bridgelabz.Model.UserDetails;
 import com.bridgelabz.Service.NotesService;
 import com.bridgelabz.Service.UserService;
 import com.bridgelabz.utility.CustomResponse;
+import com.bridgelabz.utility.LinkScrapper;
 import com.bridgelabz.utility.Token;
 
 @RestController
@@ -371,6 +374,18 @@ public ResponseEntity<List<UserDetails>> getUserList(HttpServletRequest request)
 	}
 }
 	
+@RequestMapping(value = "/getUrlData", method = RequestMethod.POST)
+public ResponseEntity<?> getUrlData(HttpServletRequest request){
+	String url=request.getHeader("url");
+	LinkScrapper link=new LinkScrapper();
+	UrlData data=null;
+	try {
+		data = link.getUrlMetaData(url);
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+	return ResponseEntity.ok(data);
+}
 	
 	
 }

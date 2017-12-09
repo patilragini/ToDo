@@ -10,18 +10,18 @@
 
 		<div class="col-lg-10 col-md-10">
 
-			<!-----------------------Take note  ------------------------>
+			<!-----------------------Take noteNew  ------------------------>
 			<div class="row">
 				<div class="col-lg-3 col-md-3"></div>
 				<div id="note" class=" col-sm-12 col-md-7 col-xs-12 col-lg-4"
 					ng-click="show()" ng-blur="hide()"
 					style="padding-bottom: 20px; width: 600px">
 
-					<div ng-model="note.title" ng-bind="note.title"
-						contenteditable="true" data-text="Title" ng-show="showDiv"></div>
+					<div ng-model="noteNew.title" ng-bind="noteNew.title"
+						contenteditable="true" data-text="Title" ng-show="showDiv">{{noteNew.title}}</div>
 					</br> 
-					<div ng-bind="note.description" ng-model="note.description"
-						contenteditable="true" data-text="Take a note" ></div>
+					<div ng-bind="noteNew.description" ng-model="noteNew.description"
+						contenteditable="true" data-text="Take a note" >{{noteNew.description}}</div>
 					</br>
 					<div ng-show="showDiv">
 					
@@ -51,16 +51,16 @@
 								aria-labelledby="btn-append-to-body"
 								style="background-color: #f9fbff">
 								<a ng-repeat="color in colors" role="menuitem"> <img
-									ng-click="note.color=color.color;updateNote(note)"
+									ng-click="noteNew.color=color.color;updateNote(noteNew)"
 									ng-src="{{color.path}}" height="40px">
 								</a>
 							</ul>
 						</a>
 <!-- 						<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />					<div class="note-icons">
  -->						
-						 <img ng-src="images/image.svg" ng-click="openImageUploader(note)" width="22" height="22">
+						 <img ng-src="images/image.svg" ng-click="openImageUploader(noteNew)" width="22" height="22">
 					     <img src="images/archive.svg">
-						<button class="right" ng-click="saveNote(note)">DONE</button>
+						<button class="right" ng-click="saveNote(noteNew)">DONE</button>
 					</div>
 				</div>
 			</div>
@@ -73,7 +73,7 @@
 				<a ng-init="showNotes()"></a>
 				<div
 					ng-repeat='note in notes|filter:{pinned:true,archive:false,inTrash:false}'
-					id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-3"
+					id="note" class="{{widthOfNote}}"
 					style="margin: 10px; background-color: {{note.color}}">
 					<div class="tooltip2">
 					
@@ -90,7 +90,7 @@
 								style="background-color: {{note.color}}">{{note.title}}</div>
 							</br>
 							<div contenteditable="true" ng-model="note.description"
-								style="background-color: {{note.color}}">{{note.description}}</div>
+								style="background-color: {{note.color}}" >{{note.description}}</div>
 						</div>
 						
 						<!--  -->
@@ -156,8 +156,8 @@
 
 								<div style="float: right">
 									<span class="btn dropdown-toggle" id="menu1"
-										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 20px;height: 40px; padding-bottom: 20px"></span>
+										data-toggle="dropdown" > <span> <img
+											src="images/more.svg" style="width: 20px;height: 20px"></span>
 									</span>
 									<!-- <li ng-repeat="label in user.labels">
 										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
@@ -187,28 +187,52 @@
 									
 									</ul>
 								</div>	
+								
+								
+								
+								
 									</div>
-
-
 					</div>
-				</div>
+					
+
+					
+			<span ng-init="checkUrlList(note)">
+			<div ng-repeat="urlData in note.link">
+			<div ng-if="urlData.title"  >
+			
+			<a ng-href="{{urlData.url}}" target="_blank">
+			<div class="row" style="border:1px solid grey">
+			<div class="col-sm-4" style="padding: 0px">
+			<img ng-src="{{urlData.imageUrl}}" height="90" width="90">
 			</div>
-	
+			<div class="col-sm-8"  >
+			<div ng-bind="urlData.title"></div>
+			<div ng-bind="urlData.domain" style="font-size: 10px; color:black;"></div>
+			</div>
+			</div>
+			</a>
+			</div>
+			</div>
+			</span>
+			</div>
+
 			<br>
 			</div>
+			</div>
 			
+			<!---------------------------------------------------------------------->
 			<!--------------------------- show other  ------------------------------>
-
-			<h4>Others::</h4>
-
 			
-
+			
+<div><div class="row" class="col-md-12 col-sm-12 col-xs-12 col-lg-12"></div></div>
+		
+	<h4>Others::</h4>
 			<div class="row">
+			
 				<a ng-init="showNotes()"></a>
 				<div style="background-color: {{note.color}}"
 					ng-repeat='note in notes|filter:{inTrash:false,pinned:false,archive:false}'
-					id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-3"
-					style="margin: 10px">
+					id="note" class="{{widthOfNote}}">
 
 					<div class="tooltip2">
 										<div class="tooltipshow">					
@@ -222,7 +246,7 @@
 								style="background-color: {{note.color}}">{{note.title}}</div>
 							</br>
 							<div contenteditable="true" ng-model="note.description"
-								style="background-color: {{note.color}}">{{note.description}}</div>
+								style="background-color: {{note.color}}" >{{note.description}}</div>
 						</div>
 						
 						<br>
@@ -286,7 +310,7 @@
 								<div style="float: right">
 									<span class="btn dropdown-toggle" id="menu1"
 										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 20px;height: 40px; padding-bottom: 20px"></span>
+											src="images/more.svg" style="width: 20px;height: 20px"></span>
 									</span>
 									<!-- <li ng-repeat="label in user.labels">
 										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
@@ -316,6 +340,25 @@
 													</div>
 					</div>
 				</div>
+				
+			<span ng-init="checkUrlList(note)">
+			<div ng-repeat="urlData in note.link">
+			<div ng-if="urlData.title"  >
+			
+			<a ng-href="{{urlData.url}}" target="_blank">
+			<div class="row" style="border:1px solid grey">
+			<div class="col-sm-4" style="padding: 0px">
+			<img ng-src="{{urlData.imageUrl}}"  height="90" width="90">
+			</div>
+			<div class="col-sm-8"  >
+			<div ng-bind="urlData.title"></div>
+			<div ng-bind="urlData.domain" style="font-size: 10px; color:black;"></div>
+			</div>
+			</div>
+			</a>
+			</div>
+			</div>
+			</span>
 			</div>
 </div>
 			<div class="col-md-6"></div>

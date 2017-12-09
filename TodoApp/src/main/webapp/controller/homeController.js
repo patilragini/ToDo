@@ -14,6 +14,30 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	}
 	
 	
+	
+	$scope.viewImage=localStorage.getItem('View');
+	if($scope.viewImage=="list"){
+		$scope.widthOfNote="col-md-12 col-sm-12 col-xs-12 col-lg-12";
+		console.log("in list");
+	}else{
+		console.log("in grid");
+		$scope.widthOfNote="col-md-6 col-sm-10 col-xs-12 col-lg-3";
+	}
+	
+
+	$scope.changeContainerView=function(){
+		if($scope.viewType=="images/list1.png"){
+		$scope.viewType="images/gridePxart.png";
+		localStorage.setItem('View',"grid");
+		$scope.widthOfNote="col-md-6 col-sm-10 col-xs-12 col-lg-3";
+
+	}else{
+		$scope.viewType="images/list1.png";
+		$scope.widthOfNote="col-md-12 col-sm-12 col-xs-12 col-lg-12";
+		localStorage.setItem('View',"list");
+	}
+	}
+	
 	urls = [];
 	
 	
@@ -54,14 +78,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	}
 	
 	
-	     $scope.note = {
-	    		 title: 'Enter Titlel'
-	    			 };
-	     $scope.note = {
-	    		 description: 'Enter Description'
-	    			 };
-	
-
 	$scope.addlabel = function() {
 		console.log($scope.newLabel);
 		console.log("LABEL NAME ::" + $scope.newLabel.labelName);
@@ -292,10 +308,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	getEmailList();
 	
 	
-
-	
-	
-	
 	
 	// COLABORATOR
 	$scope.openCollboarate = function(note, user) {
@@ -430,20 +442,23 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 
 	/* save Notes */
 
-	$scope.saveNote = function(note) {
+	$scope.saveNote = function(noteNew) {
 		var token = localStorage.getItem('login');
 		console.log("in create notes ");
-		note.pinned = false;
-		note.archived = false;
-		note.archive = false;
-		var notes = noteService.saveNote(token, note);
+		noteNew.pinned = false;
+		noteNew.archived = false;
+		noteNew.archive = false;
+		var notes = noteService.saveNote(token, noteNew);
 
 		notes.then(function(response) {
-			$scope.note.title = "";
-			$scope.note.description = "";
+			$scope.noteNew.title = "";
+			$scope.noteNew.description = "";
 			$scope.showNotes();
 			$scope.showDiv = false;
 		}, function(response) {
+			$scope.noteNew.title = "";
+			$scope.noteNew.description = "";
+			$scope.showNotes();
 			console.log("ERROR IN SAVING NOTE");
 		});
 	}

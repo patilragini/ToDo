@@ -1,23 +1,28 @@
-<div class="modal-content" style="background-color:{{note.color}}">
+
    
-    <div id="note" class="model-body" style="background-color:{{note.color}}">
+    <div class="model-body">
+ <div class="col-md-6 col-sm-10 col-xs-12 col-lg-12"><br><br></div>
  
  
-		  		  <div	  class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
+		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
 					style="margin: 10px ;background-color:{{note.color}}">										
 					
-					<div  style="float: right;background-color:{{note.color}}">
-<img style="background-color:{{note.color}}" ng-click="pinNote(note)" src="images/pin.svg">					</div>
-					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title">{{note.title}}</div>
+					<div class="right" style="background-color:{{note.color}}">						
+						<img style="background-color:{{note.color}}" ng-click="pin(note,true)" src="images/pin.svg">	
+					</div>
+					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title" >{{note.title}}</div>
 					</br>
 					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
-					</br>
-				
-				<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
+					<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
 					
-									</br>
-					<div class="modal-footer" style="float: left;background-color:{{note.color}}">
-						<li class="dropdown" ><a 
+					<div>
+					<span>Reminder:{{mypicker}}</span>
+					</div>
+					
+					<div></div>
+					</br>
+					<div>
+						<li class="dropdown" class="right"><a 
 							class="dropdown-toggle" data-toggle="dropdown" role="button"
 							aria-haspopup="true" aria-expanded="false"> 
 						</a>
@@ -41,12 +46,11 @@
 							
 						</ul>
 						</a>
-						
 					<a ng-click="openCollboarate(note,user)">
 										<img src="images/collaborate.svg">
 										</a>
-										
-					<div class="btn-group dropup colorDiv" uib-dropdown>
+															
+						<div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
 										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
@@ -58,15 +62,14 @@
 										</a>
 									</ul>
 								</div>
-								<!--  -->
 							<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />					
 							
 						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
 							
-							
 							<img
-								ng-click="ArchiveNote(note)" src="images/archive.svg">
-
+								ng-click="archive(note,true)" src="images/archive.svg">
+<!-- 									
+ -->
 							<div style="float: right">
 								<span class="btn dropdown-toggle" id="menu1"
 									data-toggle="dropdown">
@@ -75,142 +78,38 @@
 								</span>
 								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 									<li></li>
-									<li>
+									<li>f
+									
 									<li><a ng-click="deleteNote(note)">DELETE</a></li>
-
 									<li><a ng-click="updateNote(note)">UPDATE</a></li>
 									<li><a ng-click="fbShare(note)">fbShare</a></li>
 								 <li><a ng-click="copy(note)">Make a copy</a></li>
-								
+											
 
 								</ul>
+								<a ng-click="updateNote(note)" type="button">DONE</a>
 							</div>
-					
-					</li>
+							
 					</div>
-					</div>
-							
-					
-		</div>
-</div>
-</div>
-
-<!-- <div class="modal-content" style="background-color:{{note.color}}">
-   
-    <div id="note" class="model-body" style="background-color:{{note.color}}">
- 
- 
-		  		  <div	  class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
-					style="margin: 10px ;background-color:{{note.color}}">										
-					
-					<div  style="float: right;background-color:{{note.color}}">
-<img style="background-color:{{note.color}}" ng-click="pinNote(note)" src="images/pin.svg">					</div>
-					<div style="background-color:{{note.color}}" contenteditable="true"  ng-bind-html="note.title|urlFilter">{{note.title}}</div>
-					</br>
-					<div style="background-color:{{note.color}}"  contenteditable="true"  ng-bind-html="note.description|urlFilter">{{note.description}}</div>
-					</br>
-					</br>
-	
-				<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
-					
-									</br>
-					<div class="modal-footer" style="float: left;border-top: transparent;background-color:{{note.color}}">
-						<li class="dropdown" ><a 
-							class="dropdown-toggle" data-toggle="dropdown" role="button"
-							aria-haspopup="true" aria-expanded="false"> 
-						</a>
-						<a class="dropdown">
-							<img src="images/remainder.svg" data-toggle="dropdown">
-					
-						<ul class="dropdown-menu">
-						     <li>Later 8am</li>
-						
-							<div class="input-group date"
-								data-datetimepicker="datetimepicker"
-								data-date-format="YYYY/MM/DD hh:mm AM/PM"  >
-								<input id="mypicker" class="form-control" type="text"
-									placeholder="" ng-model="note.remainder"/> <span
-									class="input-group-addon"> <span id="mypicker"
-									class="glyphicon glyphicon-calendar" ng-click="datetimepicker(note)" > </span>
-								</span>
-							</div>
-							
-							
-							
-						</ul>
-						</a>
-						
-					<a ng-click="openCollboarate(note,user)">
-										<img src="images/collaborate.svg">
-										</a>
-										
-					<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-										ng-click="note.color=color.color; updateNote(note)"	ng-src="{{color.path}}" height="40px">
-										</a>
-									</ul>
-								</div>
-								
-							<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />					
-							
-						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
-							
-							
-							<img
-								ng-click="ArchiveNote(note)" src="images/archive.svg">
-
-							<div style="float: right">
-								<span class="btn dropdown-toggle" id="menu1"
-									data-toggle="dropdown">
-									 <span > 
-									 <img src="images/more.svg" style="width: 20px;height: 40px; padding-bottom: 20px"></span>
-								</span>
-								<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-									<li></li>
-									<li>
-									<li><a ng-click="deleteNote(note)">DELETE</a></li>
-
-									<li><a ng-click="updateNote(note)">UPDATE</a></li>
-									<li><a ng-click="fbShare(note)">fbShare</a></li>
-								 <li><a ng-click="copy(note)">Make a copy</a></li>
-								
-
-								</ul>
-							</div>
-					
-					</li>
-					<span ng-init="checkUrlList(note)">
+					<br>
+	<span ng-init="checkUrlList(note)">
 			<div ng-repeat="urlData in note.link">
-			<div ng-if="urlData.title"  >
-			
-			<a ng-href="{{urlData.url}}" target="_blank">
+			<div ng-if="urlData.title">	
+			<hr>		
+			<a ng-href="{{urlData.url}}" >
 			<div class="row" >
-			<div  style="padding: 0px">
-			<img ng-src="{{urlData.imageUrl}}" height="70" width="80">
-			</div>
-			<div class="col-sm-8"  >
-			<div ng-bind="urlData.title"></div>
-			<div ng-bind="urlData.domain"></div>
-			</div>
+			<div>
+			<img ng-src="{{urlData.imageUrl}}" height="80" width="80">		
+			<a ng-bind="urlData.title" >
+			<a ng-bind="urlData.domain">
 			</div>
 			</a>
 			</div>
 			</div>
 			</span>
-					</div>
-					
-		
-					</div>
-							
+				
 					
 		</div>
 </div>
-</div>
 
- -->
+

@@ -46,7 +46,7 @@
 }
 
 .navbar-default {
-	padding: 7px;
+padding: 7px;
 font-style: normal;
 }
 
@@ -60,7 +60,7 @@ font-style: normal;
 
 .container-fluid {
 	background: #e8e8e8;
-	    height:100%;
+height: 100%
 }
 
 @media screen and (max-width: 640px) {

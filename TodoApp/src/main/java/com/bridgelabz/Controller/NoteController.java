@@ -55,6 +55,7 @@ public class NoteController {
 					note.setCreateDate(date);
 					note.setLastUpdated(date);
 					notesService.saveNotes(note);
+					System.out.println(note);
 					return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 					// return new ResponseEntity<String>("Note Updated !!! " +
 					// user, HttpStatus.OK);
@@ -122,13 +123,12 @@ public class NoteController {
 	}
 	
 	
-	
-	
-	
 	@RequestMapping(value = "/updateNote/{updateId}", method = RequestMethod.POST)
 	public ResponseEntity<String> updateNote(HttpSession session, HttpServletRequest request, @RequestBody Notes note,
 			@PathVariable("updateId") int updateId) {
 		Date date = new Date();
+		System.out.println("in update note::");
+		System.out.println();
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);

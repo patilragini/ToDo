@@ -1,17 +1,9 @@
 package com.bridgelabz.utility;
 
-import java.security.Key;
 import java.util.Date;
-
-import javax.crypto.spec.SecretKeySpec;
-import javax.xml.bind.DatatypeConverter;
-
-import com.bridgelabz.Model.UserDetails;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MissingClaimException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +21,7 @@ public class Token {
 
 		token = Jwts.builder().setId(String.valueOf(id)).setIssuedAt(date).signWith(SignatureAlgorithm.HS256, Key)
 				.setExpiration(expireDate).compact();
-		System.out.println("Token :: " + token);
+//		System.out.println("Token :: " + token);
 		return token;
 
 	}
@@ -47,7 +39,7 @@ public class Token {
 			}
 
 		} catch (ExpiredJwtException e) {
-			System.out.println("Token expired!!!");
+			System.out.println("!!!!!! Token expired !!!!!!!!!!");
 			return 0;
 		}catch (MissingClaimException e) {
 			e.printStackTrace();

@@ -84,7 +84,6 @@
 						</div>
 						</div>
 						
-						
 						<div ng-click="showModalPin(note)">
 							<div contenteditable="true" ng-model="note.title"
 								style="background-color: {{note.color}}">{{note.title}}</div>
@@ -92,8 +91,6 @@
 							<div contenteditable="true" ng-model="note.description"
 								style="background-color: {{note.color}}" >{{note.description}}</div>
 						</div>
-						
-						<!--  -->
 						<br>
 						<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
 						
@@ -101,10 +98,17 @@
 						
 						
 						<div ng-repeat="label in note.labels">
-						<div id="reminder" ng-if="label.labelName!=null">
+						<div  ng-if="label.labelName!=null">
 					{{label.labelName}}<span class="closebtn" ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
 					 </div>
 					</div> 
+					
+					<div ng-if="note.remainder">&#x1F551;{{note.remainder|date:'MMM dd hh:mm'}}
+<img src="images/trash.png" style="
+    width: 20px;
+    height: 20px;"
+ ng-click="editReminder(note,false)" >
+</div>
 
 					<div class="tooltipshow">
 							<div class="dropdown" class="left">
@@ -256,10 +260,17 @@
 						
 						
 						<div ng-repeat="label in note.labels">
-						<div id="reminder" ng-if="label.labelName!=null">
+						<div ng-if="label.labelName!=null">
 					{{label.labelName}}<span class="closebtn" ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
 					 </div>
 					</div> 
+										<div ng-if="note.remainder">&#x1F551;{{note.remainder|date:'MMM dd hh:mm'}}
+<img src="images/trash.png" style="
+    width: 20px;
+    height: 20px;"
+ ng-click="editReminder(note,false)" >
+</div>
+					
 					<div class="tooltipshow">
 							<div class="dropdown" class="left">
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -328,7 +339,7 @@
 											<li class="dropdown-submenu"><a  tabindex="-1" ng-click="Labelmodal()">Add Label</a>
 											
 									<ul class="dropdown-submenu">
-									<li ><a  ng-click="Labelmodal()">&#10133</a>
+<input  ng-click="Labelmodal()" placeholder="create new label">
 																		
 									<li ng-repeat="label in user.labels">
 										<input type="checkbox"  ng-checked="checked(note,label)" ng-click="toggleLabelOfNote(note,label)">{{label.labelName}}

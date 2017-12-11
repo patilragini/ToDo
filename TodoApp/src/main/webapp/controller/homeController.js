@@ -2,7 +2,7 @@ var todoApp = angular.module('TodoApp');
 
 todoApp.controller('homeController', function($scope, toastr, $interval,
 		loginService, registerService, noteService, $uibModal, $location,
-		$state, $http, $timeout) {
+		$state, $http, $timeout,$filter) {
 	
 	$scope.loginUser = function() {
 		var result = loginService.loginUser($scope.user, $scope.error);
@@ -293,20 +293,6 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	
 	
 	
-	var getEmailList=function(){
-		var token = localStorage.getItem('login');
-		var url = "getEmailUserlist";
-		var users = noteService.service(url, 'GET',token);
-		users.then(function(response) {
-			$scope.userList=response.data;
-		}, function(response) {
-			console.log(response.data);
-			console.log("HERE");			
-		});
-	}
-	
-	getEmailList();
-	
 	
 	
 	// COLABORATOR
@@ -346,19 +332,20 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		});
 	}
 
-	// make copy of note
-	$scope.copy = function(note) {
-		note.pinned = false;
-		note.archived = false;
-		note.archive = false;
-		note.remainder = "";
+	var getEmailList=function(){
 		var token = localStorage.getItem('login');
-		var a = noteService.saveNote(token, note);
-		a.then(function(response) {
-			$scope.showNotes();
+		var url = "getEmailUserlist";
+		var users = noteService.service(url, 'GET',token);
+		users.then(function(response) {
+			$scope.userList=response.data;
 		}, function(response) {
+			console.log(response.data);
+			console.log("HERE");			
 		});
 	}
+	
+	getEmailList();
+
 
 	//get list of collaborated users
 	var collborators = [];
@@ -431,12 +418,24 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		var users = noteService.service(url, 'POST', token, obj);
 		users.then(function(response) {
 			$scope.collborate(note, $scope.owner);
-
 			console.log(response.data);
-
 		}, function(response) {
 			console.log(response.data);
 
+		});
+	}
+	
+	// make copy of note
+	$scope.copy = function(note) {
+		note.pinned = false;
+		note.archived = false;
+		note.archive = false;
+		note.remainder = "";
+		var token = localStorage.getItem('login');
+		var a = noteService.saveNote(token, note);
+		a.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
 		});
 	}
 
@@ -522,6 +521,19 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 			$scope.showNotes();
 		});
 	};
+	/* Notes reminder edit */
+	$scope.editReminder = function(note, reminder) {
+		var token = localStorage.getItem('login');
+		note.reminderStatus = reminder;
+		note.remainder=null;
+		var notes = noteService.updateNote(token, note);
+		notes.then(function(response) {
+			$scope.showNotes();
+		}, function(response) {
+			$scope.showNotes();
+		});
+	};
+	
 
 	$scope.archive = function(note, archived) {
 		var token = localStorage.getItem('login');
@@ -530,34 +542,8 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		noteService.updateNote(token, note);
 	}
 
-	/*
-	 * note pin $scope.pinNote = function(note) { var token =
-	 * localStorage.getItem('login'); console.log("pin note"); note.pinned =
-	 * true; var notes = noteService.updateNote(token, note);
-	 * notes.then(function(response) { console.log("pin note");
-	 * $scope.showNotes(); }, function(response) { $scope.showNotes(); }); }
-	 * 
-	 * note Un pin
-	 * 
-	 * $scope.unpinNote = function(note) { var token =
-	 * localStorage.getItem('login'); console.log("Un pin note"); note.pinned =
-	 * false; var notes = noteService.updateNote(token, note);
-	 * notes.then(function(response) { $scope.showNotes(); }, function(response) {
-	 * $scope.showNotes(); }); }
-	 * 
-	 * note Archive $scope.ArchiveNote = function(note) { var token =
-	 * localStorage.getItem('login'); console.log('archive note'); note.archive =
-	 * true; var notes = noteService.updateNote(token, note);
-	 * notes.then(function(response) { console.log(note); $scope.showNotes(); },
-	 * function(response) { $scope.showNotes(); }); }
-	 * 
-	 * 
-	 * note Archive $scope.unArchiveNote = function(note) { var token =
-	 * localStorage.getItem('login'); note.archive = false; var notes =
-	 * noteService.updateNote(token, note); notes.then(function(response) {
-	 * $scope.showNotes(); }, function(response) { $scope.showNotes(); }); }
-	 */
 
+	
 	$scope.colors = [ {
 		"color" : '#f26f75',
 		"path" : 'images/Red.png'
@@ -607,7 +593,8 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 		$scope.navColor = "#000057";
 		$scope.navBrand = "ToDo App";
 		$scope.navBrandColor = "white";
-	} else {
+	}
+	else {
 		$scope.navLabel = $location.path().substr(1);
 		$scope.navColor = "#517a82";
 		$scope.navBrandColor = "white";
@@ -616,43 +603,63 @@ todoApp.controller('homeController', function($scope, toastr, $interval,
 	}
 
 	// remainder functions
+	$scope.tomorrowReminder=function(note){
+		var currentDateTime=$filter('date')(new Date().getTime() + 24 * 60 * 60 * 1000,'MM/dd/yyyy');
+	console.log("currentDateTime tommorow"+currentDateTime);
+		note.remainder=currentDateTime+" 8:00 AM";
+		console.log("currentDateTime tommorow"+note.remainder);
+		$scope.editReminder(note,note.remainder);
+		var token = localStorage.getItem('login');
+		var notes = noteService.updateNote(token, note);
+	}
+	
 
+	$scope.nextWeekReminder=function(note){
+		$scope.currentDateTime=$filter('date')(new Date().getTime() + 7 * 24 * 60 * 60 * 1000,'MM/dd/yyyy h:mm a');
+		note.remainder=$scope.currentDateTime+" 8:00 AM";
+		
+		var token = localStorage.getItem('login');
+		var notes = noteService.updateNote(token, note);
+	}
+	
+	
+	
 	$scope.datetimepicker = function(note) {
 		console.log("in date time picker");
 		$('#mypicker').datetimepicker();
 		var remainder = $('#mypicker').val();
 		note.remainder = new Date(remainder);
+		//		note.remainder = $filter('date')(new Date(remainder),'MM/dd/yyyy h:mm a');
+
 		$scope.updateNote(note);
-		console.log(remainder);
+		console.log("mypicker ::::"+remainder);
 	}
+	
 
 	function remainderCheck() {
 		$interval(function() {
+			var currentDate=$filter('date')(new Date(),'MM/dd/yyyy h:mm a');
+			console.log("currentDate::::"+currentDate);
 			var i = 0;
-			for (i; i < $scope.notes.length; i++) {
-				var currentDate = moment().format('YYYY-MM-DD HH:mm');
-				// console.log("currentDate" + currentDate);
-				// console.log($scope.notes[i].title);
-				var dateString = (new Date($scope.notes[i].remainder));
-				// console.log(dateString);
-				var dateString2 = new Date(dateString).toISOString().slice(0,
-						19).replace('T', ' ');
-
-				// console.log("database date::"+dateString2);
-				if (dateString2 === currentDate) {
+			for (i; i < $scope.notes.length; i++) {		
+				console.log($scope.notes);
+				var dateString2 = (new Date($scope.notes[i].remainder));
+//				 console.log("database date 1::"+dateString2);
+				 var dateString3=$filter('date')(new Date(dateString2),'MM/dd/yyyy h:mm a');
+				if (dateString3 === currentDate) {
 					$scope.mypicker = dateString2;
-					// console.log($scope.notes[i].description);
-					// console.log("reminder !!!!! " +dateString2);
-
-					toastr.success('Remainder check notes!!!');
-					dateString2 = null;
-					$scope.updateNote(note);
-
+					 console.log("reminder !!!!! " );
+					toastr.success('Remainder check notes!!!');	
+					$scope.notes[i].reminderStatus=true;
+					var token = localStorage.getItem('login');
+					var notes1 = noteService.updateNote(token, $scope.notes[i]);
 				}
-				// console.log("dskjhdjkh");
+				else{
+				 console.log("no remainder");
+					}
 
 			}
-		}, 10000);
+		}, 20000);
 	}
 	remainderCheck();
 

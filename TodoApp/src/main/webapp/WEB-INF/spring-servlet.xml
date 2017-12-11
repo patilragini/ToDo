@@ -62,7 +62,7 @@
 
 	<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
 	<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl" />
-
+<bean id="noteTrashSchedular" class="com.bridgelabz.utility.DeleteTrashScheduler"/>
 
 	<mvc:resources location="/pages/" mapping="/pages/**" />
 	<mvc:resources location="/script/" mapping="/script/**" />

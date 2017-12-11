@@ -56,6 +56,10 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				url : '/{labelName}',
 				templateUrl : 'pages/Labels.html',
 				controller : 'homeController'
+			}).state('remainder', {
+				url : '/remainder',
+				templateUrl : 'pages/remainder.html',
+				controller : 'homeController'
 			});
 			
 			

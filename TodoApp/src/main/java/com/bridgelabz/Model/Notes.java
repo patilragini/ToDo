@@ -32,6 +32,8 @@ public class Notes {
 	
 	private String color;
 	
+	
+
 	private Date createDate;
 	
 	private Date lastUpdated;
@@ -47,6 +49,8 @@ public class Notes {
 	@Column(columnDefinition = "LONGBLOB")
 	private String image;
 	
+
+	private boolean reminderStatus;
 	
 	
 	
@@ -58,14 +62,18 @@ public class Notes {
 		return labels;
 	}
 	
-	
-	
 	public void setLabels(Set<Label> labels) {
 		this.labels = labels;
 	}
 	
 	
-	
+	public boolean isReminderStatus() {
+		return reminderStatus;
+	}
+
+	public void setReminderStatus(boolean reminderStatus) {
+		this.reminderStatus = reminderStatus;
+	}
 	
 	public String getImage() {
 		return image;

@@ -14,12 +14,22 @@
 					</br>
 					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
 					<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
+						
+						</br>
+						<div ng-repeat="label in note.labels">
+						<div  ng-if="label.labelName!=null">
+					{{label.labelName}}<span class="closebtn" ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
+					 </div>
+					</div> 
+					<div ng-if="note.remainder">&#x1F551;{{note.remainder|date:'MMM dd hh:mm'}}
+<img src="images/trash.png" style="
+    width: 20px;
+    height: 20px;"
+ ng-click="editReminder(note,false)" >
+</div>
+					<div class="pull-right " style="font-style: italic"> Edited:{{note.lastUpdated|date:'MMM dd hh:mm'}}</div>
 					
-					<div>
-					<span>Reminder:{{mypicker}}</span>
-					</div>
-					
-					<div></div>
+
 					</br>
 					<div>
 						<li class="dropdown" class="right"><a 
@@ -30,7 +40,10 @@
 							<img src="images/remainder.svg" data-toggle="dropdown">
 					
 						<ul class="dropdown-menu">
-						     <li>Later 8am</li>
+						     <li class="button" ng-click="tomorrowReminder(note)">Later today to 8.00 PM</li>
+						     <li class="button" ng-click="tomorrowReminder(note)">Tommorow 8.00 PM</li>
+						     <li class="button" ng-click="nextWeekReminder(note)">Next week</li>						     
+						     
 						
 							<div class="input-group date"
 								data-datetimepicker="datetimepicker"
@@ -41,11 +54,10 @@
 									class="glyphicon glyphicon-calendar" ng-click="datetimepicker(note)" > </span>
 								</span>
 							</div>
-							
-							
-							
 						</ul>
+
 						</a>
+						
 					<a ng-click="openCollboarate(note,user)">
 										<img src="images/collaborate.svg">
 										</a>

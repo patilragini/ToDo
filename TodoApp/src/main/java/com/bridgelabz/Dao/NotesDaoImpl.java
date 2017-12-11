@@ -4,15 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.TypedQuery;
-
-import org.bouncycastle.LICENSE;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -82,7 +77,15 @@ public class NotesDaoImpl implements NoteDao {
 		}
 		return null;
 	}*/
-
+	public List<Notes> getNotesInTrash() {
+		Session session = sessionFactory.openSession();
+		Query query = session.createQuery("From Notes where inTrash=true");
+		
+		List<Notes> notes = query.list();		
+		System.out.println(notes);
+		session.close();
+		return notes;
+	}
 	@Override
 	public Notes getNoteById(int noteId) {
 		// TODO Auto-generated method stub

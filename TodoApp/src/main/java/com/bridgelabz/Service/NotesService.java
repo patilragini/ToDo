@@ -17,6 +17,7 @@ public interface NotesService {
 /*	public Set<Notes> getNotesTrash(int id,int inTrash);
 */
 
+	public List<Notes> getNotesInTrash();
 
 	public boolean deleteNote(int deleteNodeId);
 

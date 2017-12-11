@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="background-color: #e8e8e8;height: 100%">
 <head>
 
 <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />

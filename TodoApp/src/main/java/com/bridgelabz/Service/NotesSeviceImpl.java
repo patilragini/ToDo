@@ -53,6 +53,7 @@ public class NotesSeviceImpl implements NotesService{
 		// TODO Auto-generated method stub
 		return noteDao.getNotesTrash(id,inTrash);
 	}*/
+	
 	public int saveCollborator(Collaborator collborate) {
 		// TODO Auto-generated method stub
 		return noteDao.saveCollborator(collborate);
@@ -71,7 +72,13 @@ public class NotesSeviceImpl implements NotesService{
 		// TODO Auto-generated method stub
 		return noteDao.removeCollborator(shareWith, noteId);
 	}
-	
+	@Override
+	public List<Notes> getNotesInTrash() {
+		// TODO Auto-generated method stub
+			// TODO Auto-generated method stub
+			return noteDao.getNotesInTrash();
+		}
+		
 	
 
 }

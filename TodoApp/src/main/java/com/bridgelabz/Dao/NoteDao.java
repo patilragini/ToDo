@@ -19,7 +19,8 @@ public interface NoteDao {
 	
 /*	public Set<Notes> getNotesTrash(int id,boolean inTrash);
 */
-	
+	public List<Notes> getNotesInTrash();
+
 	public Notes getNoteById(int id);
 	
 	public boolean deleteNote(int deleteNodeId);

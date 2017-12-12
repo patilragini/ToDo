@@ -3,7 +3,11 @@
 	background: white;
 	border: white;
 }
-
+#note-container{
+	
+	display: inline-block;
+/* 	width:100%;
+ */}
 #sidebarbtn {
 	font-size: 25px;
 	padding: 8px;

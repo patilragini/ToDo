@@ -5,15 +5,17 @@
  
  
 		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
-					style="margin: 10px ;background-color:{{note.color}}">										
-					
+					style="margin: 10px ;background-color:{{note.color}}">	
+				<div>
+		
+			<img  ng-if="note.image" ng-src="{{note.image}}" height="100%" width="100%">
+			<img ng-if="note.image" id="pinOnimg" class="tooltipshow" ng-click="removeImage(note)" src="images/trash.png"style="width: 20px;height: 20px">
+			</div>	
 					<div class="right" style="background-color:{{note.color}}">						
-						<img style="background-color:{{note.color}}" ng-click="pin(note,true)" src="images/pin.svg">	
 					</div>
 					<div style="background-color:{{note.color}}" contenteditable="true" ng-model="note.title" >{{note.title}}</div>
 					</br>
 					<div style="background-color:{{note.color}}"  contenteditable="true" ng-model="note.description">{{note.description}}</div>
-					<div ng-if="note.image"><img ng-src="{{note.image}}" height="100%" width="100%"></div>
 						
 						</br>
 						<div ng-repeat="label in note.labels">

@@ -6,6 +6,7 @@ todoApp.directive('topNavBar', function() {
 
 	
 });
+
 /*app.directive('autolinker',['$interpolate', function($interpolate) {
 
     //var lastCharIsSpace = customHelpers.lastCharIsSpace;
@@ -109,7 +110,7 @@ todoApp.directive('contenteditable', ['$sce', function($sce) {
 	  };
 
 	}]);
-//your directive
+/*//your directive
 todoApp.directive("fileread", [
   function() {
     return {
@@ -199,7 +200,7 @@ toDo.factory("fileReader", function($q, $log) {
 		readAsDataUrl : readAsDataURL
 	};
 });
-/*
+
 todoApp.directive('datetimepicker', function() {
     return {
         restrict: 'A',

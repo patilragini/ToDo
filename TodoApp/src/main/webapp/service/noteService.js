@@ -66,7 +66,7 @@ todoApp.factory('noteService', function($http, $location) {
 	}
 	
 	noteList.updateNote = function(token, note) {
-		console.log(note);
+		console.log("IN SERVICE"+note+" ::"+note.id);
 		return $http({
 			method : 'POST',
 			url : 'updateNote/'+note.id,

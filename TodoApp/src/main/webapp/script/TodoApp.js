@@ -1,4 +1,4 @@
-var app = angular.module('TodoApp', ['ui.router','ui.bootstrap', 'ngSanitize','ui.bootstrap.datepicker','toastr'/*,'interval'*/]);
+var app = angular.module('TodoApp', ['ui.router','ui.bootstrap', 'ngSanitize','ui.bootstrap.datepicker','toastr','angular-img-cropper']);
 
 app.config([ '$stateProvider', '$urlRouterProvider',
 		function($stateProvider, $urlRouterProvider) {
@@ -38,8 +38,8 @@ app.config([ '$stateProvider', '$urlRouterProvider',
 				templateUrl : 'pages/archive.html',
 				controller : 'homeController'
 			})
-			.state('search', {
-				url : '/archive',
+			.state('Search', {
+				url : '/Search',
 				templateUrl : 'pages/Search.html',
 				controller : 'homeController'
 			})

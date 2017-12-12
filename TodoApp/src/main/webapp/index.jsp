@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html style="background-color: #e8e8e8;height: 100%">
 <head>
+<!-------------------------   css  .css ---------------------------->
+
+<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/forgetpassword.css">
+<link rel="stylesheet" href="css/resetpassword.css">
+<link rel="stylesheet" href="css/Cards.css">
+<link rel="stylesheet" href="css/registrationPage.css">
+
+<link rel="stylesheet" type="text/css" href="css/sidenav.css">
 
 <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
 
@@ -9,6 +19,7 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js"></script>
+<script src="bower_components/bower_components/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
 
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
@@ -88,16 +99,7 @@
 <script type="text/javascript" src="service/dummyservice.js"></script>
 
 
-<!-------------------------   css  .css ---------------------------->
 
-<link rel="stylesheet" href="css/login.css">
-<link rel="stylesheet" href="css/home.css">
-<link rel="stylesheet" href="css/forgetpassword.css">
-<link rel="stylesheet" href="css/resetpassword.css">
-<link rel="stylesheet" href="css/Cards.css">
-<link rel="stylesheet" href="css/registrationPage.css">
-
-<link rel="stylesheet" type="text/css" href="css/sidenav.css">
 
 
 <!-------------------------   custom Directives ---------------------------->

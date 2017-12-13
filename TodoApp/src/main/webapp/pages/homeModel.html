@@ -5,11 +5,11 @@
  
  
 		  		  <div	 id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-12"
-					style="margin: 10px ;background-color:{{note.color}}">	
+					style="padding: 10px ;background-color:{{note.color}}">	
 				<div>
 		
 			<img  ng-if="note.image" ng-src="{{note.image}}" height="100%" width="100%">
-			<img ng-if="note.image" id="pinOnimg" class="tooltipshow" ng-click="removeImage(note)" src="images/trash.png"style="width: 20px;height: 20px">
+			<img ng-if="note.image" id="pinOnimg" class="tooltipshow" ng-click="removeImage(note)" src="images/trash.png" style="width: 20px;height: 20px">
 			</div>	
 					<div class="right" style="background-color:{{note.color}}">						
 					</div>
@@ -107,11 +107,11 @@
 					</div>
 					<br>
 	<span ng-init="checkUrlList(note)">
-			<div ng-repeat="urlData in note.link">
+			<div ng-repeat="urlData in note.link" >
 			<div ng-if="urlData.title">	
 			<hr>		
 			<a ng-href="{{urlData.url}}" >
-			<div class="row" >
+			<div class="row" style="padding:10px ">
 			<div>
 			<img ng-src="{{urlData.imageUrl}}" height="80" width="80">		
 			<a ng-bind="urlData.title" >

@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="css/resetpassword.css">
 <link rel="stylesheet" href="css/Cards.css">
 <link rel="stylesheet" href="css/registrationPage.css">
-
+<link rel="stylesheet" href="https://cdn.rawgit.com/alexk111/ngImgCrop/master/compile/minified/ng-img-crop.css">
 <link rel="stylesheet" type="text/css" href="css/sidenav.css">
 
 <link rel="stylesheet" href="https://unpkg.com/angular-toastr/dist/angular-toastr.css" />
@@ -19,7 +19,6 @@
 	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.js"></script>
-<script src="bower_components/bower_components/angular-img-cropper/dist/angular-img-cropper.min.js"></script>
 
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/1.0.3/angular-ui-router.min.js"></script>
@@ -44,7 +43,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
 	
 	
-	
+	<script src="https://cdn.rawgit.com/alexk111/ngImgCrop/master/compile/minified/ng-img-crop.js"></script>
 	
 	<script src="https://unpkg.com/angular-toastr/dist/angular-toastr.tpls.js"></script>
 	

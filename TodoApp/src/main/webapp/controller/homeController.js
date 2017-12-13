@@ -17,6 +17,25 @@ todoApp
 						});
 					}
 
+					$scope.showImageUploader = function(user) {
+						$scope.user = user;
+						modalInstance = $uibModal.open({
+							templateUrl : 'pages/imageuploadmodel.html',
+							scope : $scope,
+							size : 'lg'
+						});
+					};
+
+					$scope.triggerImageUploadUI = function(object, typeOfObject) {
+						$timeout(function() {
+							$scope.type = object;
+							$scope.typeOfObject = typeOfObject;
+							$('#imageUploadUI').trigger('click');
+						}, 0);
+					}
+
+					$scope.viewType = "images/gridePxart.png";
+
 					$scope.viewImage = localStorage.getItem('View');
 					if ($scope.viewImage == "list") {
 						$scope.widthOfNote = "col-md-12 col-sm-12 col-xs-12 col-lg-12";
@@ -30,11 +49,13 @@ todoApp
 						if ($scope.viewType == "images/list1.png") {
 							$scope.viewType = "images/gridePxart.png";
 							localStorage.setItem('View', "grid");
-							$scope.widthOfNote = "col-md-6 col-sm-10 col-xs-12 col-lg-3";
+							console.log("done grid");
+							$scope.widthOfNote = " col-lg-3 col-md-3";
 
 						} else {
 							$scope.viewType = "images/list1.png";
-							$scope.widthOfNote = "col-md-12 col-sm-12 col-xs-12 col-lg-12";
+							$scope.widthOfNote = "col-md-11 col-sm-12 col-xs-12 col-lg-10";
+							console.log("done list");
 							localStorage.setItem('View', "list");
 						}
 					}
@@ -177,7 +198,6 @@ todoApp
 					};
 
 					$scope.uploadme;
-					
 
 					$scope.uploadImage = function(note) {
 						var fd = new FormData();
@@ -195,15 +215,14 @@ todoApp
 
 						}
 					}
-					
 
 					$scope.removeImage = function(note) {
 						if (note.image != null) {
-							note.image=null;
+							note.image = null;
 							$scope.updateNote(note);
 						}
 					}
-					
+
 					function dataURItoBlob(dataURI) {
 						console.log("data uri **********");
 						var binary = atob(dataURI.split(',')[1]);
@@ -217,7 +236,7 @@ todoApp
 							type : mimeString
 						});
 					}
-
+					// image trigger
 					$scope.openImageUploader = function(type, typeOfImage) {
 						$scope.type = type;
 						$scope.typeOfImage = typeOfImage;
@@ -238,42 +257,57 @@ todoApp
 					$scope.imageIsLoaded = function(e) {
 						$scope.$apply(function() {
 							$scope.stepsModel.push(e.target.result);
-							console.log(e.target.result);
 							var imageSrc = e.target.result;
 
 							if ($scope.typeOfImage == 'user') {
-								console.log("User pic");
+								console.log("User pic is loding and update");
 								$scope.type.profileUrl = imageSrc;
-								updateUser($scope.type);
+								$scope.myImage = imageSrc;
+								updateNote($scope.type);
 
 							} else {
 								$scope.type.image = imageSrc;
-								console.log(e.target.result);
-								console.log("here note " + imageSrc);
-								$scope.updateNote($scope.type);
+								updateNote($scope.type);
 							}
 						});
 					};
+//function to update croped image only
+					$scope.updateUserpic = function(user, img) {
+						console.log("before:::::::");
 
-					var updateUser = function(user) {
+						console.log(user.profileUrl);
+						user.profileUrl = img;
+						console.log("After ::");
+						console.log(user.profileUrl);
+
+						$scope.updateUser(user);
+						modalInstance.close();
+
+					}
+
+					$scope.myImage = '';
+
+					$scope.myCroppedImage = '';
+					$scope.closeModal = function() {
+						$scope.myImage = '';
+						$scope.myCroppedImage = '';
+					}
+
+					/*
+					 * $scope.crop = function(){ $scope.cropper = {};
+					 * $scope.cropper.imageSrc = null;
+					 * $scope.cropper.croppedimageSrc= null; $scope.bounds = {};
+					 * $scope.bounds.left = 0; $scope.bounds.right = 0;
+					 * $scope.bounds.top = 0; $scope.bounds.bottom = 0; }
+					 */
+
+					$scope.updateUser = function(user) {
 						var url = 'changeUsreProfilePic';
-						console.log("update user::" + user.name);
-						console.log(user);
 						var token = localStorage.getItem('login');
-
 						var userDetails = registerService.service(url, 'POST',
 								user, token);
-						console.log("645:: ");
 						console.log(userDetails);
-
-						/*
-						 * userDetails.then(function(response) { getUser(); },
-						 * function(response) { getUser(); $scope.error =
-						 * response.data.message;
-						 * 
-						 * });
-						 */
-
+						toastr.success('User Profile Updated');
 					}
 
 					$scope.$on("fileProgress", function(e, progress) {
@@ -474,6 +508,8 @@ todoApp
 							$scope.noteNew.description = "";
 							$scope.showNotes();
 							console.log("ERROR IN SAVING NOTE");
+							$scope.showDiv = false;
+
 						});
 					}
 					/* update Notes */
@@ -536,7 +572,7 @@ todoApp
 							$scope.showNotes();
 						});
 					};
-					
+
 					$scope.archive = function(note, archived) {
 						var token = localStorage.getItem('login');
 						note.archive = archived;
@@ -602,7 +638,7 @@ todoApp
 					}
 
 					// remainder functions
-					
+
 					/* Notes reminder Delete */
 					$scope.editReminder = function(note, reminder) {
 						var token = localStorage.getItem('login');

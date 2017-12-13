@@ -13,7 +13,7 @@
 		<h4></h4><!--  unArchiveNote(note); note in notes|filter:{archive:true,inTrash:false} -->
 	<div class="row">
 				<a ng-init="showNotes()"></a>
-				<div
+				<div ng-if="searchText.length >1"
 					ng-repeat='note in notes|filter:searchText'
 					id="note" class="{{widthOfNote}}"
 					style="margin: 10px; background-color: {{note.color}}">

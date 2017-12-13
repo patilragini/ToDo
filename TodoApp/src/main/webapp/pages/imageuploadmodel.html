@@ -1,0 +1,27 @@
+<div class="modal-content">
+	<div class="modal-header">
+		<font size="4px;"><b>User Image</b></font>
+	</div>
+<!-- 	<div class="modal-body" style="padding-left: 100px;width: 500px;height: 500px">
+ -->		<div class="modal-body" style="padding-left: 100px;">
+ 	<div class="cropArea">
+			<img-crop  image="myImage" result-image="myCroppedImage" class="cropArea"></img-crop>
+			<img ng-src="{{myCroppedImage}}" />
+		</div>
+  <div><img ng-src="{{myCroppedImage}}" />.</div>
+	
+	
+	<div class="modal-footer">
+		<button type="button" class="btn" 
+			ng-click="openImageUploader(user,'user')">
+			<b>Open photo from comp</b></font>
+		</button>
+		
+		
+		<button type="button"  ng-click="updateUserpic(user,myCroppedImage)"
+		>Set as profile
+			</button>
+			
+	</div>
+	</div>
+	

@@ -8,6 +8,14 @@
     border-color: red;
 	
 } */
+
+       
+.cropArea {
+  background: #f3f3f3;
+  overflow: hidden;
+  width:500px;
+  height:350px;
+}
 [contenteditable] {
 	background-color: white;
 }

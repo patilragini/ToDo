@@ -232,7 +232,7 @@ public class UserControler {
 		if (user.getId() == userLogin.getId()) {
 			boolean status = userService.updateUser(user);
 			if (status) {
-				System.out.println("User updated");
+				System.out.println("User updated !!!");
 				customResponse.setMessage("User updated !!!");
 				return customResponse;
 			}

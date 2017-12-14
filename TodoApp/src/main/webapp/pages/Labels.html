@@ -13,17 +13,17 @@
 		
 			<!------------------- Pinned notes:: ----------------------->
 
-			<h4>Pinned notes::</h4>
+			<h4 ng-show="pinnedNote.length">Pinned notes::</h4>
 			<div class="row">
 				<a ng-init="showNotes()"></a>
 				<div
-					ng-repeat="note in notes|filter:{pinned:true,archive:false,inTrash:false}|filterLabel:navLabel"
+					ng-repeat="note in notes|filter:{pinned:true,archive:false,inTrash:false}|filterLabel:navLabel as pinnedNote"
 					id="note" class="col-md-6 col-sm-10 col-xs-12 col-lg-3"
 					style="margin: 10px; background-color: {{note.color}}">
 					<div class="tooltip2">					
 					<div class="tooltipshow">
 						<div style="background-color: {{note.color}}" class="right">
-							<img ng-click="unpinNote(note)" src="images/pinblue.svg"
+							<img ng-click="pin(note,false)" src="images/pinblue.svg"
 								style="background-color: {{note.color}}">
 						</div>
 						</div>
@@ -148,7 +148,7 @@
 					<div class="tooltip2">
 										<div class="tooltipshow">					
 						<div class="right" >
-							<img ng-click="pinNote(note)" src="images/pin.svg"
+							<img ng-click="pin(note,true)" src="images/pin.svg"
 								style="background: transparent; background-color: {{note.color}}">
 						</div>
 						</div>

@@ -1,0 +1,11 @@
+<div class="remDiv" ng-if="note.remainder">
+	&#x1F551;{{note.remainder|date:'MMM dd hh:mm'}} <img
+		src="images/trash.png" style="width: 20px; height: 20px;"
+		ng-click="editReminder(note,false)" class="remImg">
+</div>
+<div ng-repeat="label in note.labels">
+	<div ng-if="label.labelName!=null">
+		{{label.labelName}}<span class="closebtn"
+			ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
+	</div>
+</div>

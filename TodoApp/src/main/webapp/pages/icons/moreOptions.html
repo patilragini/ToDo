@@ -1,0 +1,33 @@
+<div style="float: right">
+									<span class="btn dropdown-toggle" id="menu1"
+										data-toggle="dropdown" > <span> <img
+											src="images/more.svg" style="width: 20px;height: 20px"></span>
+									</span>
+									<!-- <li ng-repeat="label in user.labels">
+										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
+									</li>
+ -->									
+									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										
+<!-- 										<li ng-if="note.owner.id==note.user.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
+ -->										 
+<!-- 										<li ng-if="note.owner.id!=note.shareWithId.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
+ -->										
+										<li ng-if="note.owner.id==note.user.id""><a ng-click="deleteNote(note)">DELETE</a></li>
+									
+									
+									
+										<li><a ng-click="updateNote(note)">UPDATE</a></li>
+											<li><a ng-click="fbShare(note)">fbShare</a></li>
+											<li><a ng-click="copy(note)">Make a copy</a></li>
+											<li class="dropdown-submenu"><a  tabindex="-1">Add Label</a>
+											
+									<ul class="dropdown-submenu">									
+									<li ng-repeat="label in user.labels">
+										<input type="checkbox"  ng-checked="checked(note,label)" ng-click="toggleLabelOfNote(note,label)">{{label.labelName}}
+									</li>
+									</ul>									
+								</li>
+									
+									</ul>
+								</div>	

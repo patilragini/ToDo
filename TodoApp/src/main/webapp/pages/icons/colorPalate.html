@@ -1,0 +1,12 @@
+<div class="btn-group dropup colorDiv" uib-dropdown>
+	<img id="dropdown" class="dropdown-toggle" data-toggle="dropdown"
+		alt="color" src="images/colourPalate.svg" uib-dropdown-toggle
+		height="20px">
+	<ul class="dropdown-menu" uib-dropdown-menu role="menu"
+		aria-labelledby="btn-append-to-body" style="background-color: #f9fbff">
+		<a ng-repeat="color in colors" role="menuitem"> <img
+			ng-click="note.color=color.color; updateNote(note)"
+			ng-src="{{color.path}}" height="40px">
+		</a>
+	</ul>
+</div>

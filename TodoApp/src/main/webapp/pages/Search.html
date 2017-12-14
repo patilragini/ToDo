@@ -68,8 +68,9 @@
 										</a>
 									
 									
+													<color-Palate></color-Palate>
 														
-						<div class="btn-group dropup colorDiv" uib-dropdown>
+						<!-- <div class="btn-group dropup colorDiv" uib-dropdown>
 									<img id="dropdown" class="dropdown-toggle"
 										data-toggle="dropdown" alt="color"
 										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
@@ -80,7 +81,7 @@
 										ng-click="note.color=color.color; updateNote(note)"	ng-src="{{color.path}}" height="40px">
 										</a>
 									</ul>
-								</div>
+								</div> -->
 								
 								<!--  -->
 							<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />
@@ -89,22 +90,23 @@
 				
 								 <img
 									ng-click="archive(note,true)" src="images/archive.svg">
+							<more-Options></more-Options>
 
-								<div style="float: right">
+							<!-- 	<div style="float: right">
 									<span class="btn dropdown-toggle" id="menu1"
 										data-toggle="dropdown" > <span> <img
 											src="images/more.svg" style="width: 20px;height: 20px"></span>
 									</span>
-									<!-- <li ng-repeat="label in user.labels">
+									<li ng-repeat="label in user.labels">
 										<input type="checkbox" ng-click="toggleLabelOfNote(note,label)" ng-checked="checked(note,label)">{{label.labelName}}
 									</li>
- -->									
+									
 									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
 										
-<!-- 										<li ng-if="note.owner.id==note.user.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
- -->										 
-<!-- 										<li ng-if="note.owner.id!=note.shareWithId.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
- -->										
+										<li ng-if="note.owner.id==note.user.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
+										 
+										<li ng-if="note.owner.id!=note.shareWithId.id"><a ng-click="removeCollborator(note,user)">Remove Myself</a></li>
+										
 										<li ng-if="note.owner.id==note.user.id""><a ng-click="deleteNote(note)">DELETE</a></li>
 									
 									
@@ -122,7 +124,7 @@
 								</li>
 									
 									</ul>
-								</div>	
+								</div>	 -->
 								
 								
 								

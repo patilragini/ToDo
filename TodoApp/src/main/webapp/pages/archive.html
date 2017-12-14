@@ -6,139 +6,62 @@
 <!-- ARCHIVE-->
 <div class="container-fluid">
 	<div class="main" id="main" style="margin-left: {{leftmargin}}">
-	<br>
+		<br>
 		<div class="col-lg-1"></div>
 		<div class="col-lg-10 col-md-10">
-		<h4>IN ARCHIVE</h4><!--  unArchiveNote(note); note in notes|filter:{archive:true,inTrash:false} -->
-<div class="row">
-			
+			<h4 ng-show="archiveNotes.length">IN ARCHIVE</h4>
+			<!--  unArchiveNote(note); note in notes|filter:{archive:true,inTrash:false} -->
+			<div class="row">
+
 				<a ng-init="showNotes()"></a>
 				<div style="background-color: {{note.color}}"
-					ng-repeat='note in notes|filter:{archive:true,inTrash:false}'
+					ng-repeat='note in notes|filter:{archive:true,inTrash:false} as archiveNotes'
 					id="note" class="{{widthOfNote}}">
-<div class="tooltip2">
-				<div>
-				<img id="pinOnimg" class="tooltipshow" ng-click="pin(note,false)" src="images/pinblue.svg"
-								 >
-			<img  ng-if="note.image" ng-src="{{note.image}}" height="100%" width="100%">
-			</div>	
-			<div style="margin: 5px">
-						<div ng-click="showModel(note)">
-							<div contenteditable="true" ng-model="note.title"
-								style="background-color: {{note.color}}">{{note.title}}</div>
-							</br>
-							<div contenteditable="true" ng-model="note.description"
-								style="background-color: {{note.color}}" >{{note.description}}</div>
-						</div><div ng-repeat="label in note.labels">
-						<div ng-if="label.labelName!=null">
-					{{label.labelName}}<span class="closebtn" ng-click="toggleLabelOfNote(note,label)">&#x274C;</span>
-					 </div>
-					</div> 
-										<div ng-if="note.remainder">&#x1F551;{{note.remainder|date:'MMM dd hh:mm'}}
-<img src="images/trash.png" style="
-    width: 20px;
-    height: 20px;"
- ng-click="editReminder(note,false)" >
-</div>
-					
-					<div class="tooltipshow">
-							<div class="dropdown" class="left">
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button"
-									aria-haspopup="true" aria-expanded="false"> </a>
-									
-									
-									<a class="dropdown">
-							<img src="images/remainder.svg" ng-click="showModel(note)">					
-						<ul class="dropdown-menu">
-							<div class="input-group date"
-								data-datetimepicker="datetimepicker"
-								data-date-format="MM/DD/YYYY hh:mm A/PM">
-								<input id="mypicker" class="form-control" type="text"
-									placeholder="click here" ng-click="datetimepicker()"/> <span
-									class="input-group-addon"> <span id="mypicker"
-									class="glyphicon glyphicon-calendar"> </span>
-								</span>
+					<div class="tooltip2">
+						<div>
+							<img id="pinOnimg" class="tooltipshow" ng-click="pin(note,false)"
+								src="images/pinblue.svg"> <img
+								ng-if="note.image" ng-src="{{note.image}}" height="100%"
+								width="100%" ng-click="showModel(note)">
+						</div>
+						<div style="margin: 5px">
+							<div ng-click="showModel(note)">
+								<div contenteditable="true" ng-model="note.title"
+									style="background-color: {{note.color}}">{{note.title}}</div>
+								</br>
+								<div contenteditable="true" ng-model="note.description"
+									style="background-color: {{note.color}}">{{note.description}}</div>
 							</div>
-						</ul>
-						</a>
-							
-						<a ng-click="openCollboarate(note,user)">
-										<img src="images/collaborate.svg">
-										</a>
-									
-									
-														
-						<div class="btn-group dropup colorDiv" uib-dropdown>
-									<img id="dropdown" class="dropdown-toggle"
-										data-toggle="dropdown" alt="color"
-										src="images/colourPalate.svg" uib-dropdown-toggle height="20px">
-									<ul class="dropdown-menu" uib-dropdown-menu role="menu"
-										aria-labelledby="btn-append-to-body"
-										style="background-color: #f9fbff">
-										<a ng-repeat="color in colors" role="menuitem"> <img
-										ng-click="note.color=color.color; updateNote(note)"	ng-src="{{color.path}}" height="40px">
-										</a>
-									</ul>
-								</div>
-								
-				
-							<input ng-show="false" id="image" type='file' ng-model-instant ng-model="file" onchange="angular.element(this).scope().imageUpload(this)" />
-						 <img ng-src="images/image.svg" ng-click="openImageUploader(note,'note')" width="22" height="22">
-							
-				
-								 <img ng-click="archive(note,false)" src="images/archive.svg">
+							<remainder-Label-Content></remainder-Label-Content>
 
-								<div style="float: right">
-									<span class="btn dropdown-toggle" id="menu1"
-										data-toggle="dropdown"> <span> <img
-											src="images/more.svg" style="width: 20px;height: 20px"></span>
-									</span>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
-										<li ng-if="note.owner.id==note.user.id""><a ng-click="deleteNote(note)">DELETE</a></li>
-										<li><a ng-click="updateNote(note)">UPDATE</a></li>
-											<li><a ng-click="fbShare(note)">fbShare</a></li>
-											<li><a ng-click="copy(note)">Make a copy</a></li> 
-											<li class="dropdown-submenu"><a  tabindex="-1" ng-click="Labelmodal()">Add Label</a>
-											
-									<ul class="dropdown-submenu">
-<input  ng-click="Labelmodal()" placeholder="create new label">
-																		
-									<li ng-repeat="label in user.labels">
-										<input type="checkbox"  ng-checked="checked(note,label)" ng-click="toggleLabelOfNote(note,label)">{{label.labelName}}
-									</li>
-									</ul>									
-								</li>
-									</ul>
-								</div>	
-													</div>
+							<div class="tooltipshow">
+								<div class="dropdown" class="left">
+									<a class="dropdown-toggle" data-toggle="dropdown" role="button"
+										aria-haspopup="true" aria-expanded="false"> </a> <a
+										class="dropdown"> <img src="images/remainder.svg"
+										ng-click="showModel(note)">
+										
+									</a> <a ng-click="openCollboarate(note,user)"> <img
+										src="images/collaborate.svg">
+									</a>
+
+									<color-Palate></color-Palate>
+									<note-Img></note-Img>
+									<img ng-click="archive(note,false)" src="images/archive.svg">
+									<more-Options></more-Options>
+
+								</div>
+							</div>
+						</div>
+
+						<link-Span></link-Span>
+
 					</div>
 				</div>
-				
-			<span ng-init="checkUrlList(note)">
-			<div ng-repeat="urlData in note.link">
-			<div ng-if="urlData.title"  >
-			
-			<a ng-href="{{urlData.url}}" target="_blank">
-			<div class="row" style="border:1px solid grey">
-			<div class="col-sm-4" style="padding: 0px">
-			<img ng-src="{{urlData.imageUrl}}"  height="90" width="90">
 			</div>
-			<div class="col-sm-8"  >
-			<div ng-bind="urlData.title"></div>
-			<div ng-bind="urlData.domain" style="font-size: 10px; color:black;"></div>
-			</div>
-			</div>
-			</a>
-			</div>
-			</div>
-			</div>
-			</span>
-			</div>
-</div>
-</div>
-</div>
+		</div>
+	</div>
 </div>
 
-		
-		
-	
+
+

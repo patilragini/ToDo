@@ -613,7 +613,7 @@ todoApp
 
 					if ($state.current.name == "home") {
 						$scope.navColor = "#ffbb00";
-						$scope.navBrand = "ToDo App";
+						$scope.navBrand = "ToDo";
 						$scope.navBrandColor = "black";
 					} else if ($state.current.name == "trash") {
 						$scope.navColor = "#636363"

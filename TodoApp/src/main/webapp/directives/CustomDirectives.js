@@ -3,59 +3,43 @@ todoApp.directive('topNavBar', function() {
 		return{
 			templateUrl : 'pages/TopNavBar.html'
 		}
-
 	
 });
-
-/*app.directive('autolinker',['$interpolate', function($interpolate) {
-
-    //var lastCharIsSpace = customHelpers.lastCharIsSpace;
-
-    return {
-      restrict: 'A',
-      require: ['ngModel'],
-      priority: 1000, // to ensure that the ngModel has been edited by the ta-bind first
-      link: function(scope, element, attrs, controllers) {
-        var ngModel = controllers[0];
-
-        // Applied when the model changes through user input
-        var linker = function(raw) {
-          
-          var check_text = element.text();
-          var lastChar = check_text.substr(check_text.length - 1);
-          if(/\s+$/.test(lastChar)){}else{
-            return raw;
-          }
-
-          var content = Autolinker.link(raw);
-
-          // only update when we have actually autolinked something
-          if(raw !== content) {
-            ngModel.$viewValue = content;
-
-            
-            element.innerHTML= content;
-            scope.htmlcontent = $interpolate(content)(scope)
-            //taSelection.setSelectionToElementEnd(element[0]);
-
-            //ngModel.$updateHTML(content);
-          }
-
-          return content;
-        }
-
-        // unshift to be first parser
-        ngModel.$parsers.unshift(linker);
-      }
-    };
-    
-  }]);
-*/
 todoApp.directive('sideNavBar', function() {
 	return{
 		templateUrl : 'pages/SideNavBar.html'
 	}
 });
+
+todoApp.directive('colorPalate', function() {
+	return{
+		templateUrl : 'pages/icons/colorPalate.html'
+	}
+});
+
+todoApp.directive('noteImg', function() {
+	return{
+		templateUrl : 'pages/icons/noteImg.html'
+	}
+});
+todoApp.directive('linkSpan', function() {
+	return{
+		templateUrl : 'pages/icons/linkSpan.html'
+	}
+});
+todoApp.directive('remainderLabelContent', function() {
+	return{
+		templateUrl : 'pages/icons/remainderLabelContent.html'
+	}
+});
+
+todoApp.directive('moreOptions', function() {
+	return{
+		templateUrl : 'pages/icons/moreOptions.html'
+	}
+});
+
+
 todoApp.directive('contenteditable', ['$sce', function($sce) {
 
 	  return {

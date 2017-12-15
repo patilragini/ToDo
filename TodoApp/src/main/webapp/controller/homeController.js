@@ -170,14 +170,25 @@ todoApp
 					}
 
 					$scope.showSidebar = function() {
-						if ($scope.width == '0px') {
-							$scope.width = '300px';
+						if ($scope.width123 == '0px') {
+							$scope.width123 = '300px';
 							$scope.leftmargin = "150px";
 						} else {
-							$scope.width = '0px';
+							$scope.width123 = '0px';
 							$scope.leftmargin = "0px";
 						}
 					}
+					$scope.width123 = ''
+					$(document).mouseup(function (e) {
+						if(screen.width<=1264 && !$('#sidenav').is(e.target) ){
+							$scope.showSidebar();
+							$scope.width123 = '0px'
+						   $scope.leftmargin = "0px";
+							$state.go("home");
+
+						}
+					});
+					
 
 					$scope.showModalPin = function(note) {
 						$scope.note = note;

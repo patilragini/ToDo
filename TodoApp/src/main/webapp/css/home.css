@@ -55,7 +55,7 @@ font-style: normal;
 background: #e8e8e8;
 height: 100%
 }
-
+/* 
 @media screen and (max-width: 640px) {
 	#searchbtn, .profile-pic, #searchbox {
 		visibility: hidden;
@@ -72,7 +72,7 @@ height: 100%
 		border-radius: none;
 		background-clip: none;
 	}
-}
+} */
 .collaboratorImg{
 	    height: 45px;
     width: 45px;

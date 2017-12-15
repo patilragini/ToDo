@@ -1,5 +1,52 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid" style="background-color: {{navColor}}">
+		<div class="navbar-header" style="background-color: {{navColor}}">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="sidebarbtn"
+				style="cursor: pointer; margin-left: 5px; margin-top: 5px; color: {{navBrandColor}}"
+				ng-click="showSidebar()">&#9776;</a> <a class="navbar-brand" style="color:{{navBrandColor}}"">{{navBrand}}</a>
+		</div>
+		
+		<div class="collapse navbar-collapse" id="myNavbar">
+			<ul class="nav navbar-nav">
+				<li class="active"><input type="text" id="searchbox"
+					placeholder="search ..."
+					ui-sref="Search" ng-model="searchText"></li>
+				
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a >  
+				<img ng-src="{{viewType}}" class="hidden-sm hidden-md "width="40" height="40" ng-click="changeContainerView()" >
+				</span>
+						</a></li>
+				<li><a ><li class="dropdown"><a class="dropdown-toggle"
+					data-toggle="dropdown"><img ng-src="{{user.profileUrl}}"
+						class="img-circle profile-pic" alt="profile"> </a>
+					<ul class="dropdown-menu">
+						<li role="separator" class="divider"></li>
 
-<nav class="navbar navbar-default navbar-fixed-top" style="background-color:{{navColor}}" >
+						<img ng-src="{{user.profileUrl}}"
+							data-ng-click="showImageUploader(user)"
+							style="height: 100px; width: 100px;" class="img-circle ">
+						<a>&emsp;{{user.name}}</a>
+						<hr>
+						<a>&emsp;{{user.email}}</a>
+						<hr>
+						<a href="#!/login" style="color: black"> <span
+								class="glyphicon glyphicon-log-out"> </span>Logout
+						</a>
+						<li></li>
+					</ul></li></a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+<!-- <nav class="navbar navbar-default navbar-fixed-top" style="background-color:{{navColor}}" >
 	<div class="row">
 
 		<div class="col-sm-3 md-3 ">
@@ -22,14 +69,13 @@
 			</div>
 		</div>
 		<div id="navbar" class="navbar-collapse  collapse">
-		<div >
                <input type="text" id="searchbox" placeholder="search ..."
-				class="nav navbar-nav col-lg-5 col-sm-2 col-md-6 " ui-sref="Search"   ng-model="searchText" >
-				&emsp;&emsp;
+				class="nav navbar-nav col-lg-5 hidden-sm hidden-md " ui-sref="Search"   ng-model="searchText" >
 				
-                   <img ng-src="{{viewType}}" width="40" height="40" ng-click="changeContainerView()" >
+                   <img ng-src="{{viewType}}" class="hidden-sm hidden-md "width="40" height="40" ng-click="changeContainerView()" >
+               
                <ul class="nav navbar-nav navbar-right">
-			<div class="col-sm-2">
+			<div class="col-sm-1 col-xs-1">
 			<li class="dropdown"><a class="dropdown-toggle"
 						data-toggle="dropdown" role="button" style="background-color: white">
 													
@@ -40,8 +86,7 @@
 							<li role="separator" class="divider"></li>
 						
 						<img ng-src="{{user.profileUrl}}" data-ng-click="showImageUploader(user)"  style="height: 100px;
-  						  width: 100px;"
-							class="img-circle "><a>&emsp;{{user.name}}</a>
+  						  width: 100px;"class="img-circle "><a>&emsp;{{user.name}}</a>
 							<hr><a>&emsp;{{user.email}}</a>
 						<hr>
 				<li><a  href="#!/login" style="color: black">
@@ -52,9 +97,8 @@
 						</ul></li>
 				</div>
 			</ul>
-		</div>
-
+	
 	</div>
 	</div>
 	  </div>
-</nav>
+</nav> -->

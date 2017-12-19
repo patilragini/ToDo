@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +22,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import java.awt.image.BufferedImage;  
+import java.io.ByteArrayInputStream;  
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;  
+import java.util.Scanner;  
+import javax.imageio.ImageIO;  
+import org.apache.commons.codec.binary.Base64; 
+
+
 
 import com.bridgelabz.Model.Collaborator;
+import com.bridgelabz.Model.Images;
 import com.bridgelabz.Model.Label;
 import com.bridgelabz.Model.Notes;
 import com.bridgelabz.Model.UrlData;
 import com.bridgelabz.Model.UserDetails;
+import com.bridgelabz.Service.ImageService;
 import com.bridgelabz.Service.NotesService;
 import com.bridgelabz.Service.UserService;
 import com.bridgelabz.utility.CustomResponse;
@@ -35,6 +48,8 @@ import com.bridgelabz.utility.Token;
 
 @RestController
 public class NoteController {
+	@Autowired
+	ImageService  imageService;
 	@Autowired
 	NotesService notesService;
 	@Autowired
@@ -83,7 +98,9 @@ public class NoteController {
 				Set<Notes> notes = notesService.getNotes(user.getId());
 				Set<Notes> collborated =notesService.getCollboratedNotes(user.getId());
 				notes.addAll(collborated);
-					if (!notes.isEmpty()) {
+				System.out.println(notes.size());
+				
+					if (!notes.isEmpty()) {						
 					return ResponseEntity.ok(notes);
 				} else {
 					return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
@@ -93,11 +110,7 @@ public class NoteController {
 		}
 		return new ResponseEntity<Set<Notes>>(HttpStatus.OK);
 	}
-		
-	
-	
-	
-	
+			
 	@RequestMapping(value = "/deleteForeverNote/{noteId}", method = RequestMethod.POST)
 	public ResponseEntity<Set<Notes>> deleteForeverNote(@PathVariable("noteId") int noteId,HttpServletRequest request, @RequestBody Notes note) {
 		String token = request.getHeader("login");
@@ -121,21 +134,17 @@ public class NoteController {
 		}
 		return new ResponseEntity<Set<Notes>>(HttpStatus.CONFLICT);
 	}
-	
-	
+		
 	@RequestMapping(value = "/updateNote/{updateId}", method = RequestMethod.POST)
 	public ResponseEntity<String> updateNote(HttpSession session, HttpServletRequest request, @RequestBody Notes note,
-			@PathVariable("updateId") int updateId) {
+			@PathVariable("updateId") int updateId) throws IOException {
 		Date date = new Date();
-		System.out.println("in update note::");
-		System.out.println();
 		String token = request.getHeader("login");
 		int id = Token.verify(token);
 		UserDetails user = userService.getUserById(id);
 		Notes noteUpdate = notesService.getNoteById(updateId);
 		if (user != null && noteUpdate != null) {
 			if (id > 0) {
-				System.out.println("in updation");
 				//check token user id and note user
 				if (noteUpdate.getUserDetails().getId() == id) {
 					note.setUserDetails(user);					
@@ -144,54 +153,89 @@ public class NoteController {
 					if (updateStatus == 1)
 						return new ResponseEntity<String>("Note updated", HttpStatus.OK);
 					else{
-						System.out.println("error in updation1");
 						return new ResponseEntity<String>("Note not updated", HttpStatus.OK);
 					}
 				}
 				else{
-				System.out.println("error in updation2");
 				List<UserDetails> users=notesService.getListOfUser(note.getId());
 				int i=0;
 				int flag=0;
 				while(users.size()>i) {
-					System.out.println("updation2");
 					if(users.get(i).getId()==user.getId()) {
 						flag=1;
-						System.out.println("2up");
 					}
 					i++;
 				}if(flag==1){
-					System.out.println("2up");
 					note.setUserDetails(noteUpdate.getUserDetails());
 					notesService.updateNotes(note);
 				}
 				return new ResponseEntity<String>("Note do not exist", HttpStatus.OK);
 				}
 			} else{
-				System.out.println("error in updation3");
-
 				return new ResponseEntity<String>("Token issue", HttpStatus.CONFLICT);
 			}
 			} else
 			return new ResponseEntity<String>("Invalid!!!", HttpStatus.OK);
 	}
 	
+	@RequestMapping(value="/uploadImageInFile/{imgName}", method = RequestMethod.POST)
+	public ResponseEntity<String> uploadImage(HttpSession session, HttpServletRequest request, @RequestBody Notes note
+			,@PathVariable("imgName") String imgName ) throws IOException{
+		//BASE 64 IMAGE
+		String token = request.getHeader("login");
+		int id = Token.verify(token);
+		UserDetails user = userService.getUserById(id);
+		Notes noteUpdate = notesService.getNoteById(note.getId());
+		 String base64=note.getImage();
+		 int start = base64.indexOf(",");
+		 base64 = base64.substring(start + 1);
+		 byte[] base64Val=convertToImg(base64);
+	     String loactionImg="/home/bridgeit/test/"+imgName;
+		 FileOutputStream fos = new FileOutputStream(new File(loactionImg)); 
+		 fos.write(base64Val); 
+		 fos.close();
+		 //Image class to set location and image name
+		 Images image=new Images();
+		 image.setLocation(loactionImg);
+		 image.setImageName(imgName);
+		 imageService.addImage(image);
+		 System.out.println(image);
+		 
+		 /* STORING IMAGE IN DATABSE AND RETRIVAL*/
+		 
+		 //String i=note.getImage();
+		// noteUpdate.setImage(i);
+		 
+		 
+		/* STRORING IMAGE IN FILE SYSTEM AND RETRIVAL*/
+		      noteUpdate.setImages(image);
+			  notesService.updateNotes(noteUpdate);
+			  String base64Img=note.getImage();
+			  noteUpdate.setImage(base64Img);
+			  notesService.updateNotes(noteUpdate);
+              System.out.println("get image from link Image"+noteUpdate.getImage());
+			return new ResponseEntity<String>("done", HttpStatus.OK);
+	}
 	
+	
+	
+	 
+public static byte[] convertToImg(String base64) throws IOException  
+     {  System.out.println("decode");
+		 byte[] img=Base64.decodeBase64(base64); 
+		 System.out.println(img);
+          return img;  
+     }  
+
 	@RequestMapping(value = "/collaborate", method = RequestMethod.POST)
 	public ResponseEntity<List<UserDetails>> getNotes(@RequestBody Collaborator collborator, HttpServletRequest request){
 		List<UserDetails> users=new ArrayList<UserDetails>();
 		Collaborator collaborate =new Collaborator();
-//		System.out.println(collaborate);
 		Notes note= (Notes) collborator.getNote();
-//		System.out.println(note);
 		UserDetails shareWith= (UserDetails) collborator.getShareWithId();
-//		System.out.println(shareWith);
 		shareWith=userService.getUserByEmail(shareWith.getEmail());
 		UserDetails owner= (UserDetails) collborator.getOwnerId();
-//		System.out.println("owner  backend "+owner);
 		String token=request.getHeader("login");
-//		System.out.println("token ::"+token);
-		
 		users=	notesService.getListOfUser(note.getId());
 		UserDetails user=userService.getUserById(Token.verify(token));
 		if(user!=null) {
@@ -223,7 +267,6 @@ public class NoteController {
 	@RequestMapping(value = "/getOwner", method = RequestMethod.POST)
 	public ResponseEntity<UserDetails> getOwner(@RequestBody Notes note, HttpServletRequest request){
 		String token=request.getHeader("login");
-//		System.out.println("in get owner !!!!!!!!!!!!!!!!!!1");
 		UserDetails user=userService.getUserById(Token.verify(token));
 		if(user!=null) {
 			Notes noteComplete=notesService.getNoteById(note.getId());
@@ -268,8 +311,6 @@ public class NoteController {
 public ResponseEntity<CustomResponse> addLabel(@RequestBody Label label,HttpServletRequest request){
 	CustomResponse response=new CustomResponse();
 	String token =request.getHeader("login");
-
-	System.out.println("in add label"+token);
 	UserDetails user=userService.getUserById(Token.verify(token));
 	if(user!=null){
 		

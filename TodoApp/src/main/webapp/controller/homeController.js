@@ -16,7 +16,7 @@ todoApp
 							alert("Wrong user name password");
 						});
 					}
-
+/*IMAGE UPLOADER FOR PROFILE PIC CROP*/	
 					$scope.showImageUploader = function(user) {
 						$scope.user = user;
 						modalInstance = $uibModal.open({
@@ -69,11 +69,8 @@ todoApp
 						var j = 0;
 						note.url = [];
 						note.link = [];
-						console.log(url);
 						if (url != null || url != undefined) {
 							for (var i = 0; i < url.length; i++) {
-								console.log("url length");
-								console.log(url.length);
 								note.url[i] = url[i];
 								addlabel = noteService.getUrl(url[i]);
 								addlabel.then(function(response) {
@@ -81,7 +78,6 @@ todoApp
 									if (note.size == undefined) {
 										note.size = 0;
 									}
-									console.log(note.size);
 									var responseData = response.data;
 									link[note.size] = {
 										title : responseData.title,
@@ -91,18 +87,23 @@ todoApp
 									}
 									note.link[note.size] = link[note.size];
 									note.size = note.size + 1;
-									console.log(note.link);
 								}, function(response) {
 								});
 							}
 						}
 					}
-
-					$scope.addlabel = function() {
-						console.log($scope.newLabel);
-						console
-								.log("LABEL NAME ::"
-										+ $scope.newLabel.labelName);
+					
+					/*------label--------*/
+					
+					$scope.Labelmodal = function() {
+						modalInstance = $uibModal.open({
+							templateUrl : 'pages/ModalLabel.html',
+							scope : $scope,
+							size : 'md'
+						});
+					};
+			
+					$scope.addlabel = function() {						
 						if ($scope.newLabel != null) {
 							var url = 'addLabel';
 							var token = localStorage.getItem('login');
@@ -141,14 +142,6 @@ todoApp
 							});
 						}
 					}
-
-					$scope.Labelmodal = function() {
-						modalInstance = $uibModal.open({
-							templateUrl : 'pages/ModalLabel.html',
-							scope : $scope,
-							size : 'md'
-						});
-					};
 
 					$scope.toggleLabelOfNote = function(note, label) {
 						var token = localStorage.getItem('login');
@@ -211,6 +204,7 @@ todoApp
 					$scope.uploadme;
 
 					$scope.uploadImage = function(note) {
+						
 						var fd = new FormData();
 						var imgBlob = dataURItoBlob($scope.uploadme);
 						console.log("uploadme:: " + $scope.uploadme);
@@ -247,10 +241,14 @@ todoApp
 							type : mimeString
 						});
 					}
+				
 					// image trigger
 					$scope.openImageUploader = function(type, typeOfImage) {
+						console.log("trigger");
+						console.log(type);
 						$scope.type = type;
 						$scope.typeOfImage = typeOfImage;
+						console.log(typeOfImage);
 						$('#image').trigger('click');
 						return false;
 					}
@@ -263,34 +261,58 @@ todoApp
 						reader.onload = $scope.imageIsLoaded;
 						reader.readAsDataURL(element.files[0]);
 						console.log(element.files[0]);
-					}
+						$scope.imgFileName=element.files[0].name;
+						}
 
-					$scope.imageIsLoaded = function(e) {
+					$scope.imageIsLoaded = function(e,Images) {
 						$scope.$apply(function() {
 							$scope.stepsModel.push(e.target.result);
 							var imageSrc = e.target.result;
-
 							if ($scope.typeOfImage == 'user') {
 								console.log("User pic is loding and update");
 								$scope.type.profileUrl = imageSrc;
 								$scope.myImage = imageSrc;
-								updateNote($scope.type);
-
+								$scope.updateNote($scope.type);
 							} else {
 								$scope.type.image = imageSrc;
-								updateNote($scope.type);
-							}
+								var fileName=$scope.imgFileName;
+								$scope.uploadImageInFile($scope.type,fileName);
+								$scope.showNotes();
+								console.log($scope.type);
+								
+								}
 						});
 					};
+					$scope.uploadImageInFile = function(note,imageName) {
+						console.log("in up img"+note.user_id);
+						var token = localStorage.getItem('login');
+/*						note.Images.imageName=image;
+*/						note.Images=image;
+						var url = 'uploadImageInFile/'+imageName;
+						var action = noteService.uploadImageInFile(url, 'POST', token,
+								note);
+					}
+					
+					/* update Notes */
+					$scope.updateNote = function(note) {
+						var token = localStorage.getItem('login');
+						var notes = noteService.updateNote(token, note);
+						if(note.image!=null){
+							console.log("update note image found ");
+							var fileName=$scope.imgFileName;
+							$scope.uploadImageInFile(note,fileName);	
+						}
+						notes.then(function(response) {
+							$scope.showNotes();
+						}, function(response) {
+							$scope.showNotes();
+						});
+					}
+					
+			
 //function to update croped image only
 					$scope.updateUserpic = function(user, img) {
-						console.log("before:::::::");
-
-						console.log(user.profileUrl);
 						user.profileUrl = img;
-						console.log("After ::");
-						console.log(user.profileUrl);
-
 						$scope.updateUser(user);
 						modalInstance.close();
 
@@ -303,14 +325,6 @@ todoApp
 						$scope.myImage = '';
 						$scope.myCroppedImage = '';
 					}
-
-					/*
-					 * $scope.crop = function(){ $scope.cropper = {};
-					 * $scope.cropper.imageSrc = null;
-					 * $scope.cropper.croppedimageSrc= null; $scope.bounds = {};
-					 * $scope.bounds.left = 0; $scope.bounds.right = 0;
-					 * $scope.bounds.top = 0; $scope.bounds.bottom = 0; }
-					 */
 
 					$scope.updateUser = function(user) {
 						var url = 'changeUsreProfilePic';
@@ -523,16 +537,27 @@ todoApp
 
 						});
 					}
-					/* update Notes */
+				/*	 update Notes 
 					$scope.updateNote = function(note) {
 						var token = localStorage.getItem('login');
 						var notes = noteService.updateNote(token, note);
+						if(note.image!=null){
+							console.log("update note image found ");
+							$scope.uploadImageInFile(note);
+						}
 						notes.then(function(response) {
 							$scope.showNotes();
 						}, function(response) {
 							$scope.showNotes();
 						});
 					}
+					
+					$scope.uploadImageInFile = function(note) {
+						console.log("in up img");
+						var token = localStorage.getItem('login');
+						var url = 'uploadImageInFile';
+						var action = noteService.service(url, 'POST', token,note);
+					}*/
 
 					/* delete Note and add to trash */
 					$scope.deleteNote = function(note) {
@@ -667,12 +692,9 @@ todoApp
 						var currentDateTime = $filter('date')(
 								new Date().getTime() + 24 * 60 * 60 * 1000,
 								'MM/dd/yyyy');
-						console.log("currentDateTime tommorow"
-								+ currentDateTime);
+					
 						note.remainder = currentDateTime + " 8:00 AM";
-						console
-								.log("currentDateTime tommorow"
-										+ note.remainder);
+						
 						var token = localStorage.getItem('login');
 						var notes = noteService.updateNote(token, note);
 					}
@@ -698,18 +720,14 @@ todoApp
 						if (note.remainder != null) {
 							$scope.updateNote(token, note);
 						}
-						console.log("mypicker ::::" + remainder);
-
 					}
 
 					function remainderCheck() {
 						$interval(function() {
 							var currentDate = $filter('date')(new Date(),
 									'MM/dd/yyyy h:mm a');
-							console.log("currentDate::::" + currentDate);
 							var i = 0;
 							for (i; i < $scope.notes.length; i++) {
-								console.log($scope.notes);
 								var dateString2 = (new Date(
 										$scope.notes[i].remainder));
 								// console.log("database date 1::"+dateString2);
@@ -718,30 +736,16 @@ todoApp
 										'MM/dd/yyyy h:mm a');
 								if (dateString3 === currentDate) {
 									$scope.mypicker = dateString2;
-									console.log("reminder !!!!! ");
 									toastr.success('Remainder check notes!!!');
 									$scope.notes[i].reminderStatus = true;
 									var token = localStorage.getItem('login');
 									var notes1 = noteService.updateNote(token,
 											$scope.notes[i]);
-								} else {
-									console.log("no remainder");
 								}
-
 							}
 						}, 20000);
 					}
 					remainderCheck();
-
-					/*
-					 * $scope.remainderCheck=function() { $interval(function(){
-					 * var i=0; for(i;i<$scope.notes.length;i++){ var
-					 * currentDate=$filter('date')(new Date(),'MM/dd/yyyy hh:mm
-					 * '); console.log(currentDate);
-					 * console.log(scope.notes[i].remainder);
-					 * if($scope.notes[i].remainder == currentDate){
-					 * toastr.success('Remainder ', 'check note'); } } },1000); }
-					 */
 
 					$scope.fbShare = function(note) {
 						FB.init({

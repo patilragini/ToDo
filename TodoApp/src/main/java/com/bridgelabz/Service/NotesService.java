@@ -8,11 +8,11 @@ import com.bridgelabz.Model.Notes;
 import com.bridgelabz.Model.UserDetails;
 
 public interface NotesService {
-	public int saveNotes(Notes note);
+	public int saveNotes(Notes note) ;
 
-	public Notes getNoteById(int noteId);
+	public Notes getNoteById(int noteId)  ;
 
-	public Set<Notes> getNotes(int id);
+	public Set<Notes> getNotes(int id)  ; 
 	
 /*	public Set<Notes> getNotesTrash(int id,int inTrash);
 */

@@ -60,9 +60,6 @@ public class GoogleController {
 		/*System.out.println("TOKEN googleaccessToken " + googleaccessToken);
 		System.out.println("ACCESS TOKEN COPY THIS TO GET DATA!!!\n" + googleaccessToken);*/
 		JsonNode profileData = googleConnection.getUserProfile(googleaccessToken);
-
-		System.out.println(profileData);
-
 		String googleEmail = profileData.get("emails").get(0).get("value").asText();
 		String googleName = profileData.get("displayName").asText();
 		UserDetails userExist = userService.getUserByEmail(googleEmail);
@@ -85,7 +82,6 @@ public class GoogleController {
 			String token = Token.generateToken(id);
 			response.setHeader("login", token);
 			session.setAttribute("login", token);
-			System.out.println("********USER IS REGISTERED EXISTING!!!****************");
 			response.sendRedirect("http://localhost:8082/TodoApp/#!/dummy");
 			return;
 			// ADD REDIRECCT TO LOGIN PAGE i.e TODO LOGIN PAGE *******

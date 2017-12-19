@@ -116,8 +116,6 @@ public class NotesDaoImpl implements NoteDao {
 		return false;
 	}
 	
-	
-
 	@Override
 	public int updateNotes(Notes note) {
 		Session session = sessionFactory.openSession();
@@ -132,6 +130,7 @@ public class NotesDaoImpl implements NoteDao {
 			return 0;
 		} finally {
 			session.close();
+
 		}
 		return 1;
 	}

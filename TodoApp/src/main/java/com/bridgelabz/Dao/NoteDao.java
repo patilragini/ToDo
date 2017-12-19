@@ -13,17 +13,17 @@ import com.bridgelabz.Model.UserDetails;
  *       
  */
 public interface NoteDao {
-	public int saveNotes(Notes note);
+	public int saveNotes(Notes note) ;
 	
-	public Set<Notes> getNotes(int id);
+	public Set<Notes> getNotes(int id)  ;
 	
 /*	public Set<Notes> getNotesTrash(int id,boolean inTrash);
 */
-	public List<Notes> getNotesInTrash();
+	public List<Notes> getNotesInTrash()  ;
 
-	public Notes getNoteById(int id);
+	public Notes getNoteById(int id) ;
 	
-	public boolean deleteNote(int deleteNodeId);
+	public boolean deleteNote(int deleteNodeId)   ;
 	
 	public int updateNotes(Notes note);
 	 

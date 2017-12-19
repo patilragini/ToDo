@@ -103,9 +103,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public boolean updateActivation(int id) {
 		// TODO Auto-generated method stub
-		System.out.println("id:" + id);
 		if (id > 0) {
-			System.out.println("id found");
 			Session session = sessionFactory.openSession();
 			Transaction transaction = null;
 			transaction = session.beginTransaction();			
@@ -126,16 +124,12 @@ public class UserDaoImpl implements UserDao {
 		Transaction transaction = null;
 		int id;
 		try {
-			System.out.println(user);
-
 			transaction = session.beginTransaction();
 			// System.out.println("in transaction");
 			session.saveOrUpdate(user);
-			System.out.println(user);
 			transaction.commit();
 			return true;
 		} catch (Exception e) {
-			System.out.println("CANNOT UPDATE USER");
 			return false;
 		} finally {
 			if (session != null)
@@ -167,14 +161,12 @@ public int addLabel(Label label) {
 		Session session=sessionFactory.openSession();
 		Transaction transaction=session.beginTransaction();
 		try{
-			System.out.println("in update label");
 			Label completlabel=	session.get(Label.class, label.getId());
 			completlabel.setLabelName(label.getLabelName());
 		 session.update(completlabel);
 		 transaction.commit();
 		 status=true;
 		}catch(HibernateException e){
-			System.out.println("Label not updated");
 			e.printStackTrace();
 			transaction.rollback();
 		}finally{
@@ -206,7 +198,6 @@ public int addLabel(Label label) {
 		Session session=sessionFactory.openSession();
 		UserDetails user=session.get(UserDetails.class,userId);
 		Set<Label> label=user.getLabels();
-		System.out.println(label);
 		session.close();
 		return label;
 	}
@@ -218,8 +209,7 @@ public int addLabel(Label label) {
        Criteria criteria = session.createCriteria(UserDetails.class);
        criteria.setProjection(Projections.property("email"));
         List<UserDetails> userEmailList=criteria.list();
-        System.out.println("USER Email List");
-        System.out.println(userEmailList);
+    
 		return userEmailList;
 	}
 	

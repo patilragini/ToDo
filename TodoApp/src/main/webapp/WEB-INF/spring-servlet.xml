@@ -27,6 +27,8 @@
 				<value>com.bridgelabz.Model.Notes</value>
 				<value>com.bridgelabz.Model.Collaborator</value>
 				<value>com.bridgelabz.Model.Label</value>
+<value>com.bridgelabz.Model.Images</value>
+				
 				</list>
 		</property>
 
@@ -62,6 +64,10 @@
 
 	<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
 	<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl" />
+		
+	<bean id="imageService" class="com.bridgelabz.Service.ImagesImpl"/>
+	<bean id="imageDao" class="com.bridgelabz.Dao.ImageDaoImpl"/>
+	
 <bean id="noteTrashSchedular" class="com.bridgelabz.utility.DeleteTrashScheduler"/>
 
 	<mvc:resources location="/pages/" mapping="/pages/**" />

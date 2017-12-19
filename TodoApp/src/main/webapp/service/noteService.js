@@ -4,6 +4,19 @@ todoApp.factory('noteService', function($http, $location) {
 	var noteList = {};
 	
 	
+	noteList.uploadImageInFile=function(url,method,token,note){
+		
+		return $http({
+			method : 'POST',
+			url : url,
+			data:note,
+			headers : {
+				'login' : token
+			}
+		
+		});
+	}
+	
 	noteList.showNotes = function(token) {
 		return $http({
 			method : 'POST',
@@ -13,7 +26,18 @@ todoApp.factory('noteService', function($http, $location) {
 			}
 		});
 	}
-	
+	noteList.service=function(url,method,token,note){
+		return $http({
+		    method: method,
+		    url: url,
+		    data:note,
+		    headers: {
+		        'login': token
+		    }
+		
+		});
+		
+	}
 	
 	noteList.getUrl=function(urlToSend){
 		return $http({
@@ -38,21 +62,7 @@ todoApp.factory('noteService', function($http, $location) {
 		});
 	}*/
 	
-	noteList.service=function(url,method,token,note){
-		return $http({
-		    method: method,
-		    url: url,
-		    data:note,
-		    headers: {
-		        'login': token
-		    }
-		
-		});
-	}
 	
-	
-	
-
 	noteList.saveNote = function(token, note) {
 		console.log(note);
 		return $http({

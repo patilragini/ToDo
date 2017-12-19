@@ -6,7 +6,7 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
-
+	
 	<context:component-scan base-package="com.bridgelabz" />
 	<mvc:annotation-driven />
 
@@ -25,11 +25,7 @@
 			<list>
 				<value>com.bridgelabz.Model.UserDetails</value>
 				<value>com.bridgelabz.Model.Notes</value>
-				<value>com.bridgelabz.Model.Collaborator</value>
-				<value>com.bridgelabz.Model.Label</value>
-<value>com.bridgelabz.Model.Images</value>
-				
-				</list>
+			</list>
 		</property>
 
 		<property name="hibernateProperties">
@@ -45,7 +41,7 @@
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
 		<property name="username" value="tryjava2110@gmail.com" />
-		<property name="password" value="intel1994" />
+		<property name="password" value="intel1994@" />
 		<property name="javaMailProperties">
 			<props>
 				<!-- <prop key="mail.transport.protocol">smtp</prop> -->
@@ -58,26 +54,11 @@
 	<bean id="sendMail" class="com.bridgelabz.utility.SendMail">
 		<property name="mailSender" ref="mailSender"></property>
 	</bean>
-
-	<bean id="userService" class="com.bridgelabz.Service.UserServiceImpl" />
-	<bean id="userDao" class="com.bridgelabz.Dao.UserDaoImpl" />
-
-	<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
-	<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl" />
-		
-	<bean id="imageService" class="com.bridgelabz.Service.ImagesImpl"/>
-	<bean id="imageDao" class="com.bridgelabz.Dao.ImageDaoImpl"/>
 	
-<bean id="noteTrashSchedular" class="com.bridgelabz.utility.DeleteTrashScheduler"/>
+		<bean id="userService" class="com.bridgelabz.Service.UserServiceImpl" />
+		<bean id="userDao" class="com.bridgelabz.Dao.UserDaoImpl" />
+		
+		<bean id="notesService" class="com.bridgelabz.Service.NotesSeviceImpl" />
+		<bean id="noteDao" class="com.bridgelabz.Dao.NotesDaoImpl"/>
 
-	<mvc:resources location="/pages/" mapping="/pages/**" />
-	<mvc:resources location="/script/" mapping="/script/**" />
-	<mvc:resources location="/controller/" mapping="/controller/**" />
-	<mvc:resources location="/service/" mapping="/service/**" />
-	<mvc:resources location="/css/" mapping="/css/**" />
-	<mvc:resources location="/directives/" mapping="/directives/**" />
-	<mvc:resources location="/images/" mapping="/images/**" />
-	<mvc:resources location="/js/" mapping="/js/**" />
-	<mvc:resources location="/bower_components/" mapping="/bower_components/**"></mvc:resources>
-
-</beans>
+ </beans>
